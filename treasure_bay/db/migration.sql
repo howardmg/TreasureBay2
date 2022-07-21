@@ -1,14 +1,14 @@
 DROP DATABASE IF EXISTS treasure_bay;
 
 CREATE DATABASE treasure_bay;
-\c adventure_wise
+\c treasure_bay
 
-DROP TABLE IF EXISTS user CASCADE;
-DROP TABLE IF EXISTS product CASCADE;
-DROP TABLE IF EXISTS message CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
+DROP TABLE IF EXISTS messages CASCADE;
 
 
-CREATE TABLE user(
+CREATE TABLE users(
     user_id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(150) NOT NULL,
@@ -18,23 +18,23 @@ CREATE TABLE user(
     password VARCHAR(16) NOT NULL
 );
 
-CREATE TABLE product(
+CREATE TABLE products(
     product_id SERIAL PRIMARY KEY,
     name VARCHAR(256),
-    price NUMERIC NOT NULL,
+    price MONEY NOT NULL,
     description TEXT NOT NULL,
     details TEXT,
     picture TEXT,
-    user_id INT REFERENCES user(user_id) ON DELETE CASCADE
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE message(
+CREATE TABLE messages(
     message_id SERIAL PRIMARY KEY,
-    conversation_id INT
+    conversation_id INT,
     message text,
-    time TIMESTAMP,
-    sender_id INT REFERENCES user(user_id) ON DELETE CASCADE,
-    receiver_id INT REFERENCES user(user_id) ON DELETE CASCADE
+    time TIMESTAMP DEFAULT current_timestamp,
+    sender_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    receiver_id INT REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 \i seed.sql
