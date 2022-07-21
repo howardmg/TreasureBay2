@@ -2,7 +2,10 @@ import React from 'react'
 
 function PostItemPage() {
   return (
-    <div className='postitem'>PostItemPage</div>
+    <>
+        <div className='postitem'>PostItemPage</div>
+        <div >PostItemPage</div>
+    </>
   )
 }
 
