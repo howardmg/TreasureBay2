@@ -1,6 +1,6 @@
 import React from 'react'
 import PostItem from './Postitem.css'
-import Upload from './upload.png'
+import Dropzone, { useDropzone } from 'react-dropzone';
 
 function PostItemPage() {
   return (
@@ -10,43 +10,43 @@ function PostItemPage() {
         <form action="/action_page.php">
             <div class="row">
                 <div class="col-25">
-                      <label >Product Name</label>
+                      <label className="pn" >Product Name</label>
                 </div>
                 <div class="col-75">
-                      <input type="text" id="pname" name="pname" ></input>
+                      <input type="text" id="pname" className="pi" ></input>
                 </div>
             </div>
             <div class="row">
                 <div class="col-25">
-                      <label >Product Price</label>
+                      <label className="pn">Product Price</label>
                 </div>
                 <div class="col-75">
-                      <input type="text" id="lname" name="pprice"></input>
+                      <input type="text" id="lname" className="pi"></input>
         
                 </div>
             </div>
             <div class="row">
                       <div class="col-25">
-                      <label >Product Details</label>
+                      <label className="pn">Product Details</label>
             </div>
             <div class="col-75">
-                      <textarea id="subject" name="subject" rows="10" cols="50"></textarea>
+                      <textarea id="detail" className="pi" rows="10" cols="50"></textarea>
        
             </div>
             </div> 
             <div class="row">
             <div class="col-25">
-                  <label >Product Description</label>
+                  <label className="pn">Product Description</label>
             </div>
             <div class="col-75">
-                  <textarea id="description" name="Description" rows="10" cols="50"></textarea>
+                  <textarea id="description" className="pi" rows="10" cols="50"></textarea>
             </div>
       </div> 
   
       
       <div class="row">
       <div class="col-25">
-              <label >Product image</label>
+              <label className="pn" >Product image</label>
       </div>
       
       </div>
@@ -54,7 +54,7 @@ function PostItemPage() {
           {/* <img src="upload.png" alt="upload file" width="100px" height="100px"></img> */}
           
           <form class="box" method="post" action="" enctype="multipart/form-data"  >
-           
+          {/* <Dropzone/> */}
           <div class="box__input"  >
           
                 <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
@@ -69,7 +69,7 @@ function PostItemPage() {
       </div>
 
       <div class="row">
-          <input type="submit" value="Submit"></input>
+          <button className="btn">Submit</button>
       </div>
       </form>
      
