@@ -1,0 +1,11 @@
+.messaging-container {
+    display: flex;
+}
+
+.conversations {
+    width: 20rem;
+}
+
+.messaging {
+    width: calc(100vw - 20rem);
+}
