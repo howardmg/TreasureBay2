@@ -12,7 +12,7 @@ const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
 const pool = require("./db/conn");
 
-const PORT = process.env.PORT;
+const API_PORT = process.env.API_PORT;
 
 app.use(credentials);
 
@@ -43,6 +43,7 @@ app.get("/users", async (req, res) => {
   }
 });
 
+//=================get/post product info==============================//
 // Get product info
 app.get("/products", async (req, res) => {
   try {
@@ -52,6 +53,25 @@ app.get("/products", async (req, res) => {
     res.status(400).json(error.message);
   }
 });
+
+
+// Post product info
+app.post("/createproducts", async (req, res) => {
+  const { name, price, description, details, picture, user_id} = req.body;
+  try {
+       await pool.connect()
+       const addProduct = await pool.query('INSERT INTO products (name, price, description, details, picture,user_id) VALUES ($1, $2, $3, $4, $5, $6);',
+       [name,price,description, details, picture,user_id])
+        res.status(200).json(addProduct.rows);
+     
+     
+      } 
+      catch (error) {
+        res.status(400).json(error.message);
+      }
+    });
+    
+//=========================End Post Product ===================================//
 
 // Get message info
 app.get("/messages", async (req, res) => {
@@ -63,8 +83,8 @@ app.get("/messages", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is listening on port: ${PORT}`);
+app.listen(API_PORT, () => {
+  console.log(`Server is listening on port: ${API_PORT}`);
 });
 
 // //Error handling
