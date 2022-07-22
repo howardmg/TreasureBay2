@@ -2,6 +2,7 @@ import { React, useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import styled from 'styled-components';
+import axios from 'axios';
 
 // password requires at least one lowercase letter, one uppercase letter, one digit
 // and one special character and it can be anywhere from 8-24 characters
@@ -11,13 +12,52 @@ function SignUpPage() {
 
   //hooks
   // const { user, setUser } = useContext(UserContext);
-  const { success, setSuccess } = useState(true);
   const { firstName, setFirstName } = useState('');
   const { lastName, setLastName } = useState('');
-  const { zipCode, setZipCode } = useState('');
+  const { city, setCity } = useState('');
+  const { state, setState } = useState('');
   const { email, setEmail } = useState('');
   const { password, setPassword } = useState('');
 
+  //state for error and success messages
+  const [errMsg, setErrMsg] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  const signUp = async (firstName, lastName, city, state, email, password) => {
+    try {
+      const response = await axios.get(`http://localhost:3025/login/${email}`)
+      if (response.data.length === 0) {
+        const formData = new FormData();
+        formData.append("first_name", firstName);
+        formData.append("last_name", lastName);
+        formData.append("city", city);
+        formData.append("state", state);
+        formData.append("email", email);
+        formData.append("password", password);
+
+        try {
+          const response = await axios.post("http://localhost:3025/createprofile", formData, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+          });
+          setSuccess(true);
+          console.log('user created')
+        } catch (err) {
+          if (!err?.response) {
+            setErrMsg('No Server Response');
+          } else if (err.response?.status === 409) {
+            setErrMsg('That username is taken');
+          } else {
+            setErrMsg('Registration failed please try again.')
+          }
+        }
+      } else {
+        setErrMsg('That username is taken');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
 
   return (
@@ -54,11 +94,20 @@ function SignUpPage() {
                 />
               </InputContainer>
               <InputContainer>
-                <Label>Zip Code</Label>
+                <Label>City</Label>
                 <Input
                   type="text"
-                  onChange={(e) => setZipCode(e.target.value)}
-                  value={zipCode}
+                  onChange={(e) => setCity(e.target.value)}
+                  value={city}
+                  required
+                />
+              </InputContainer>
+              <InputContainer>
+                <Label>State</Label>
+                <Input
+                  type="text"
+                  onChange={(e) => setState(e.target.value)}
+                  value={state}
                   required
                 />
               </InputContainer>
@@ -90,7 +139,12 @@ function SignUpPage() {
                 />
               </InputContainer>
               <ButtonContainer>
-                <RegisterButton >Register</RegisterButton>
+                <RegisterButton
+                  // disabled={!validName || !validPwd || !validMatch || !newBio || !images ? true : false}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    signUp(firstName, lastName, city, state, email, password);
+                  }}>Register</RegisterButton>
               </ButtonContainer>
               <RegisterFooter>
                 <SignUpHeader>Already have an account? <Link to='/login'>Login</Link></SignUpHeader>
