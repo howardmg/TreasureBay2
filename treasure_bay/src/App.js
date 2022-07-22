@@ -16,22 +16,22 @@ import UserContext from './context/UserProvider';
 
 
 function App() {
-  const {user, setUser} = useContext(UserContext);
-  const {loading, setLoading} = useContext(LoadingContext);
+  const { user, setUser } = useContext(UserContext);
+  const { loading, setLoading } = useContext(LoadingContext);
 
   return (
     <div className="App">
       <Header />
-      <PostItemPage />
+      {/* <PostItemPage /> */}
       <Routes>
-        <Route path='/' element={<HomePage />}/>
-        <Route path='/signup' element={<SignUpPage />}/>
-        <Route path='/login' element={<LogInPage />}/>
-        <Route path='/profile' element={<ProfilePage />}/>
-        <Route path='/productitem' element={<ProductItemPage />}/>
-        <Route path='/postanitem' element={<PostItemPage />}/>
-        <Route path='/messages' element={<Messages />}/>
-        <Route path='/onlineshoppingtips' element={<OnlineShoppingTips />}/>
+        <Route path='/' element={<HomePage />} />
+        <Route path='/signup' element={<SignUpPage />} />
+        <Route path='/login' element={<LogInPage />} />
+        <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/productitem' element={<ProductItemPage />} />
+        <Route path='/postanitem' element={<PostItemPage />} />
+        <Route path='/messages' element={<Messages />} />
+        <Route path='/onlineshoppingtips' element={<OnlineShoppingTips />} />
       </Routes>
       <Footer />
 
