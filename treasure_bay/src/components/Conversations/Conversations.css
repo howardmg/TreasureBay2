@@ -1,0 +1,50 @@
+.conversations-container {
+    border-right: 2px solid grey;
+    max-width: 20rem;
+    height: calc(100vh - 120px);
+}
+
+.conversations-title {
+    color: #0D99FF;
+    font-size: 1.5rem;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    border-bottom: 1px solid grey;
+}
+
+.conversation {
+    display: flex;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: 1px solid grey;
+}
+
+.conversation:hover {
+    background-color: hsl(205, 100%, 53%, .5);
+    cursor: pointer;
+}
+
+.conversation-name {
+    align-self: flex-start;
+    width: fit-content;
+}
+
+.sender-profile {
+    display: flex;
+    gap: 5px;
+    width: 10rem;
+    position: absolute;
+}
+
+.message {
+    display: flex;
+    height: 1.5rem;
+    align-self: end;
+    justify-content: flex-end;
+    margin-top: 1.8rem;
+    margin-left: 3.4rem;
+    overflow: hidden;
+    position: relative;
+    opacity: .6;
+}
