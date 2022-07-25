@@ -20,7 +20,7 @@ function addNewProduct(){
             price: price,
             details: details,
             description: description,
-            picture: image,
+            image_url: image,
             user_id: 1
 
       }
@@ -83,6 +83,7 @@ function addNewProduct(){
       <div class="row">
       <div class="col-25">
               <label className="pn" >Product image</label>
+             
       </div>
       
       </div>

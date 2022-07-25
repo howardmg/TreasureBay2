@@ -57,11 +57,11 @@ app.get("/products", async (req, res) => {
 
 // Post product info
 app.post("/createproducts", async (req, res) => {
-  const { name, price, description, details, picture, user_id} = req.body;
+  const { name, price, description, details, image_url, user_id} = req.body;
   try {
        await pool.connect()
-       const addProduct = await pool.query('INSERT INTO products (name, price, description, details, picture,user_id) VALUES ($1, $2, $3, $4, $5, $6);',
-       [name,price,description, details, picture,user_id])
+       const addProduct = await pool.query('INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, $5, $6);',
+       [name,price,description, details, image_url,user_id])
         res.status(200).json(addProduct.rows);
      
      
