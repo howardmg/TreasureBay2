@@ -1,30 +1,47 @@
 import React from 'react'
 import PostItem from './Postitem.css'
 import Dropzone, { useDropzone } from 'react-dropzone';
+import { useState } from 'react';
 
 function PostItemPage() {
+     
+            const [name, setname]=useState('test')
+            const [price, setprice]=useState(100.00)
+            const [details, setdetails]=useState('test')
+            const [description, setdescription]=useState('test')
+            const [image, setimage]=useState('https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg')
 
 function addNewProduct(data){
-      console.log(data)
-      fetch("http://localhost:3255/users/products", {
-         method: "GET",
+
+      let obj={
+            name: name,
+            price: price,
+            details: details,
+            description: description,
+            image_url: image,
+            user_id: 1
+
+      }
+     
+      fetch("http://localhost:3025/createproducts",{
+         method: "POST",
          headers: {
             "Content-Type": "application/json",
          },
-         body: JSON.stringify(data),
+         body: JSON.stringify(obj),
       })
          .then((res) => res.json())
-         .then((response) => {
-            console.log(response);
-            
+         .then((data) => {
+            console.log(data);
+           
          });
-      
-}
+   };
+   
   return (
     <>
         
         <div class="container">
-        {/* <form> */}
+        
             <div class="row">
                 <div class="col-25">
                       <label className="pn" >Product Name</label>
@@ -88,7 +105,7 @@ function addNewProduct(data){
       <div class="row">
           <button className="btn" onClick={addNewProduct}>Submit</button>
       </div>
-      {/* </form> */}
+ 
      
 
       </div>
