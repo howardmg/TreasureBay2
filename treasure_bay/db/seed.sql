@@ -3,9 +3,9 @@ VALUES
 ('John', 'Smith', 'Austin', 'Texas', 'jsmith@test.com', 'test123'),
 ('Steve', 'Baker', 'Austin', 'Texas', 'sbaker@test.com', 'test321');
 
-INSERT INTO products (name, price, description, details, picture, user_id)
+INSERT INTO products (name, price, description, details, image_url, user_id)
 VALUES
-('Lawn Mower', 550.00, 'Cordless Electric Lawn Mower', 'Good condition. Powered by battery, this lightweight mower runs more quietly than other mowers and require little maintenance. Interchangeable batteries work with other tools and power equipment for convenience.', 'https://i5.walmartimages.com/asr/57b0e163-c483-46e8-be3f-3f2f13f5b7d5_3.873ad2b0b45fc584ce3afe23061f905e.jpeg', 1);
+('Lawn Mower', 550.00, 'Cordless Electric Lawn Mower', 'Good condition. Powered by battery, this lightweight mower runs more quietly than other mowers and require little maintenance. Interchangeable batteries work with other tools and power equipment for convenience.', ARRAY['https://i5.walmartimages.com/asr/57b0e163-c483-46e8-be3f-3f2f13f5b7d5_3.873ad2b0b45fc584ce3afe23061f905e.jpeg', 'https://i5.walmartimages.com/asr/57b0e163-c483-46e8-be3f-3f2f13f5b7d5_3.873ad2b0b45fc584ce3afe23061f905e.jpeg', 'https://i5.walmartimages.com/asr/57b0e163-c483-46e8-be3f-3f2f13f5b7d5_3.873ad2b0b45fc584ce3afe23061f905e.jpeg', 'https://i5.walmartimages.com/asr/57b0e163-c483-46e8-be3f-3f2f13f5b7d5_3.873ad2b0b45fc584ce3afe23061f905e.jpeg'], 1);
 
 INSERT INTO messages (conversation_id, message, sender_id, receiver_id)
 VALUES 
