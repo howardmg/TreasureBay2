@@ -80,6 +80,7 @@ app.get("/messages", async (req, res) => {
     res.status(400).json(error.message);
   }
 });
+
 app.listen(process.env.API_PORT, () => {
      console.log(`Server is listening on port: ${process.env.API_PORT}`);
    });
