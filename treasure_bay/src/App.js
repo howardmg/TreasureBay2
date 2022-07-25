@@ -9,7 +9,7 @@ import LogInPage from './components/LogInSignUp/LogInPage';
 import SignUpPage from './components/LogInSignUp/SignUpPage';
 import MessagingPage from './components/MessagingPage/MessagingPage';
 import PostItemPage from './components/ProductItem/PostItemPage';
-import ProductItemPage from './components/ProductItem/ProductItemPage';
+import ProductPage from './components/ProductItem/ProductPage';
 import ProfilePage from './components/ProfilePage/ProfilePage';
 import LoadingContext from './context/LoadingProvider';
 import UserContext from './context/UserProvider';
@@ -29,7 +29,7 @@ function App() {
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/login' element={<LogInPage />} />
         <Route path='/profile' element={<ProfilePage />} />
-        <Route path='/productitem' element={<ProductItemPage />} />
+        <Route path='/productitem' element={<ProductPage />} />
         <Route path='/postanitem' element={<PostItemPage />} />
         <Route path='/messages' element={<MessagingPage />} />
         <Route path='/onlineshoppingtips' element={<OnlineShoppingTips />} />
