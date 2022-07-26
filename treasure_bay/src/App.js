@@ -18,11 +18,11 @@ import UserContext from './context/UserProvider';
 function App() {
   const { user, setUser } = useContext(UserContext);
   const { loading, setLoading } = useContext(LoadingContext);
+ 
 
   return (
     <div className="App">
       <Header />
-      {/* <PostItemPage /> */}
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/signup' element={<SignUpPage />} />

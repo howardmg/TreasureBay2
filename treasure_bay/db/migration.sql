@@ -24,7 +24,7 @@ CREATE TABLE products(
     price MONEY NOT NULL,
     description TEXT NOT NULL,
     details TEXT,
-    picture TEXT,
+    image_url VARCHAR[],
     user_id INT REFERENCES users(user_id) ON DELETE CASCADE
 );
 
