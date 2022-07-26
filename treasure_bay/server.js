@@ -76,19 +76,23 @@ app.post("/createproducts", async (req, res) => {
      
      
       } 
-      catch (error) {
-        res.status(400).json(error.message);
+      catch (error) {app.post("/api/createcommunity", upload.single("file"), async function (req, res, next) {
+        try {
+          const fileName = `banner${Math.floor(Math.random() * 100000)}${req.file.originalname}`
+          req.file.originalname = fileName;
+          const parsedUserId = parseInt(req.body.users_id)
+          uploadFile(req.file.originalname, req.file.buffer);
+          const returnedURL = `https://teamketchupv2.s3.amazonaws.com/${req.file.originalname}`
+          console.log(req.body)
+          await db.query(`INSERT INTO community (name, category, banner, users_id) VALUES ('${req.body.name}', '${req.body.category}', '${returnedURL}', '${parsedUserId}');`);
+          res.json('Success')
+        } catch (error) {
+          if (error) {
+            res.json(error)
+          }
+        }
       }
-    });
-    
-//=========================End Post Product ===================================//
-
-// Get message info
-app.get("/messages", async (req, res) => {
-  try {
-    const messages = await pool.query("SELECT * FROM messages");
-    res.json(messages.rows);
-  } catch (error) {
+      );
     res.status(400).json(error.message);
   }
 });
