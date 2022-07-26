@@ -11,6 +11,19 @@ const multerS3 = require("multer-s3");
 const credentials = require('./middleware/credentials');
 const corsOptions = require("./config/corsOptions");
 const pool = require("./db/conn");
+const { uploadFile, getFileStream } = require("./s3");
+const upload = multer();
+
+// const fileStorageEngine=multer.diskStorage({
+//   destination: (req,file,cb)=>{
+//   cb(null,'./src/components/ProductItem/images')
+//  },
+//  filename:(req,file,cb)=>{
+//   cb(null,Date.now()+ "--"+file.originalname)
+//  }
+// });
+
+// const upload = multer({storage:fileStorageEngine});
 
 app.use(credentials);
 
@@ -54,20 +67,53 @@ app.get("/products", async (req, res) => {
 
 
 // Post product info
-app.post("/createproducts", async (req, res) => {
-  const { name, price, description, details, image_url, user_id} = req.body;
+
+app.post("/createproducts", upload.single("file"), async function (req, res, next) {
   try {
-       await pool.connect()
-       const addProduct = await pool.query('INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, ARRAY[$5], $6);',
-       [name,price,description, details, image_url,user_id])
-        res.status(200).json(addProduct.rows);
+   
+    // const fileName = `productimage${Math.floor(Math.random() * 100000)}${req.file.originalname}`
+    // req.file.originalname = fileName;
+    const parsedUserId = parseInt(req.body.user_id)
+    // uploadFile(req.file.originalname, req.file.buffer);
+    console.log(req.file)
+    console.log(req.body)
+
+   
+    const returnedURL = `https://treasure-bay-images.s3.amazonaws.com/${req.file.originalname}` 
+    console.log(req.file)
+    await db.query(`INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ('${req.body.name}', '${req.body.price}', '${req.body.description}', '${req.body.details}, '${returnedURL}', '${parsedUserId});`);
+    res.json('Success')
+    
+  } catch (error) {
+    if (error) {
+      res.json(error)
+    }
+  }
+}
+);
+
+
+
+// app.post("/createproducts", async (req, res) => {
+//   const { name, price, description, details, image_url, user_id} = req.body;
+//   try {
+//        await pool.connect()
+//        const addProduct = await pool.query('INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, ARRAY[$5], $6);',
+//        [name,price,description, details, image_url,user_id])
+//         res.status(200).json(addProduct.rows);
      
      
-      } 
-      catch (error) {
-        res.status(400).json(error.message);
-      }
-    });
+//       } 
+//       catch (error) {
+//         res.status(400).json(error.message);
+//       }
+//     });
+
+//     app.post("/images",upload.array('images',4),(req,res)=>{
+//       console.log(req.files)
+//       res.send("mulitple images uploaded")
+ 
+//    })
     
 //=========================End Post Product ===================================//
 

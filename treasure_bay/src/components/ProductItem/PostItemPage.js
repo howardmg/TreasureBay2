@@ -5,13 +5,14 @@ import axios from "axios";
 
 import { useState } from 'react';
 
+
 function PostItemPage() {
     
       const [name, setname]=useState('')
-      const [price, setprice]=useState()
+      const [price, setprice]=useState(0)
       const [details, setdetails]=useState('')
       const [description, setdescription]=useState('')
-      const [image, setimage]=useState([''])
+      const [image, setimage]=useState([])
       const [user_id,setuser_id]=useState(1)
 
       const addNewProduct = async (name,price,details,description,file,user_id) => {
@@ -22,8 +23,18 @@ function PostItemPage() {
             formData.append("description", description);
             formData.append("file", file);
             formData.append("user_id", user_id);
-            await axios.post("http://localhost:3025/createproducts", formData);
-            console.log('Product created')
+            try{
+                  const response=await axios.post("http://localhost:3025/createproducts", formData)
+                  console.log(response)
+                  console.log('Product created')
+                  for (const value of formData.values()) {
+                        console.log(value);
+                      }
+            } catch(err){
+                  console.log(err)
+            }
+            
+            
         }
 
 
@@ -57,7 +68,8 @@ function PostItemPage() {
    
       return (
       <>
-        
+      <form>
+      
         <div class="container">
        
             <div class="row">
@@ -112,21 +124,22 @@ function PostItemPage() {
       </div>
 
       <div class="row">
-          <form action="/images" method="POST"
-           encType="multipart/form-data">
-            <input type="file" name="images"  onChange={(e) => setimage(e.target.value )} images /> 
+          {/* <form action="/images" method="POST"
+           encType="multipart/form-data"> */}
+           
+            <input type="file" name="image"  onChange={(e) => setimage(e.target.value )} /> 
             
-            <button type="submit" className="btn" onClick={(e) => {
+            <button type="submit" className="btn" onClick={(e) => { 
                             e.preventDefault(); addNewProduct(name,price,details,description,image,user_id)}} >Submit</button>
            
                            
-          </form> 
+         
       </div>
      
      
 
       </div>
-
+      </form> 
     </>
   )
 }
