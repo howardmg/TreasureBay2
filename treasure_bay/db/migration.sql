@@ -15,7 +15,7 @@ CREATE TABLE users(
     city TEXT NOT NULL,
     state VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL,
-    password VARCHAR(16) NOT NULL
+    password TEXT NOT NULL
 );
 
 CREATE TABLE products(
