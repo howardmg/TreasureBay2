@@ -45,7 +45,7 @@ app.get("/users", async (req, res) => {
 // Get product info
 app.get("/products", async (req, res) => {
   try {
-    const products = await pool.query("SELECT * FROM products");
+    const products = await pool.query("SELECT * FROM products INNER JOIN users ON products.user_id = users.user_id");
     res.json(products.rows);
   } catch (error) {
     res.status(400).json(error.message);
