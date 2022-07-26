@@ -10,6 +10,7 @@ function PostItemPage() {
             const [details, setdetails]=useState('american flag')
             const [description, setdescription]=useState('blue and white')
             const [image, setimage]=useState(['https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg',
+            'https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg','https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg',
             'https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg'])
             
                                                                   
