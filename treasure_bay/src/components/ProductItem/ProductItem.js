@@ -22,11 +22,11 @@ function ProductItem({
       <div>Description</div>
       {description}</ProductDescription>
     </ProductEach>
-    <ProductAction>Action
+    <ProductAction>
       <ProductName>{product_name}</ProductName>
       <ProductPrice>{price}</ProductPrice>
-      <BuyButton>BuyButton</BuyButton>
-      <Message>message</Message>
+      <BuyButton>Buy Now</BuyButton>
+      <Message>Message Seller</Message>
       <UserProfile>UserProfile</UserProfile>
     </ProductAction>
     </ProductItemContainer>
@@ -82,7 +82,24 @@ const ProductName = styled.div`
 font-size: 35px;
 font-weight: 500px
 `
-const ProductPrice = styled.div``
-const BuyButton = styled.div``
-const Message = styled.div``
+const ProductPrice = styled.div`
+font-size: 35px;
+font-weight: 500px
+`
+const BuyButton = styled.button`
+width: 100px;
+background-color: #0D99FF;
+border-radius: 10px;
+padding: 5px;
+color: white;
+margin-bottom: 10px;
+`
+const Message = styled.button`
+width: 150px;
+background-color: #fff;
+border-radius: 10px;
+padding: 5px;
+color: #0d99ff;
+border-color: #0d99ff;
+`
 const UserProfile = styled.div``
