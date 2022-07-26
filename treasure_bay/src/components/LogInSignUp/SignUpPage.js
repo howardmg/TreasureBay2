@@ -1,29 +1,74 @@
-import { React, useContext, useState, useEffect } from 'react';
+import { React, useContext, useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import styled from 'styled-components';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import Check from './images/checkmark.png';
+import Xmark from './images/xmark.png';
+import Info from "./images/info.svg.png"
 
+
+// const EMAIL_REGEX = /^[a-z0-9.]{1,64}@[a-z0-9.]{1,64}$/i;
 // password requires at least one lowercase letter, one uppercase letter, one digit
 // and one special character and it can be anywhere from 8-24 characters
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 function SignUpPage() {
 
+  // set the focus on user input when component loads
+  const userRef = useRef();
+  // announces error in validation to user  
+  const errRef = useRef();
+
   //hooks
   // const { user, setUser } = useContext(UserContext);
-  const { firstName, setFirstName } = useState('');
-  const { lastName, setLastName } = useState('');
-  const { city, setCity } = useState('');
-  const { state, setState } = useState('');
-  const { email, setEmail } = useState('');
-  const { password, setPassword } = useState('');
-
+  //state for user input
+  const [userFocus, setUserFocus] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  //email hooks
+  const [email, setEmail] = useState('');
+  const [validEmail, setValidEmail] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
+  //password input
+  const [password, setPassword] = useState('');
+  const [validPassword, setValidPassword] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
+  //password verification
+  const [matchPassword, setMatchPassword] = useState('');
+  const [validMatch, setValidMatch] = useState(false);
+  const [matchFocus, setMatchFocus] = useState(false);
   //state for error and success messages
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
 
+  //focus on username input when component loads and only once
+  // useEffect(() => {
+  //   userRef.current.focus();
+  // }, [])
+  //checking to see if email field is valid
+  // useEffect(() => {
+  //   setValidEmail(EMAIL_REGEX.test(email));
+  // }, [email])
+
+  //checking to see if password field and the validate password field match
+  useEffect(() => {
+    setValidPassword(PWD_REGEX.test(password));
+    setValidMatch(password === matchPassword);
+  }, [password, matchPassword])
+
+  //error message 
+  //anytime user changes the state of email, password or match password
+  //it will clear the error message from displaying
+  useEffect(() => {
+    setErrMsg('');
+  }, [email, password, matchPassword])
+
+
   const signUp = async (firstName, lastName, city, state, email, password) => {
+    // console.log(firstName, lastName, city, state, email, password)
     try {
       const response = await axios.get(`http://localhost:3025/login/${email}`)
       if (response.data.length === 0) {
@@ -34,12 +79,13 @@ function SignUpPage() {
         formData.append("state", state);
         formData.append("email", email);
         formData.append("password", password);
-
+        console.log(formData)
         try {
           const response = await axios.post("http://localhost:3025/createprofile", formData, {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true
           });
+          console.log(response)
           setSuccess(true);
           console.log('user created')
         } catch (err) {
@@ -50,6 +96,7 @@ function SignUpPage() {
           } else {
             setErrMsg('Registration failed please try again.')
           }
+          errRef.current.focus();
         }
       } else {
         setErrMsg('That username is taken');
@@ -67,9 +114,12 @@ function SignUpPage() {
           <SuccessHeader>Welcome aboard Matey!</SuccessHeader>
           <Link to='/login'><Button>Return to Log In Page</Button></Link>
         </SignUpPageContainer>
-      ) :
+      ) : (
         <SignUpPageContainer>
           <RegisterContainer>
+            <P ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
+              {errMsg}
+            </P>
             <RegisterHeader>
               <WelcomeHeader>Welcome!</WelcomeHeader>
               <SignUpHeader>Sign-Up to continue</SignUpHeader>
@@ -112,38 +162,96 @@ function SignUpPage() {
                 />
               </InputContainer>
               <InputContainer>
-                <Label>Email</Label>
+                <Label>Email
+                  {/* <Span className={validEmail ? "valid" : "hide"}>
+                    <CheckMark src={Check}></CheckMark>
+                  </Span>
+                  <Span className={validEmail || !email ? "hide" : "invalid"}>
+                    <XMark src={Xmark}></XMark>
+                  </Span> */}
+                </Label>
                 <Input
                   type="text"
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                   required
+                // aria-invalid={validEmail ? "false" : "true"}
+                // aria-describedby="emailnote"
+                // onFocus={() => setEmailFocus(true)}
+                // onBlur={() => setEmailFocus(false)}
                 />
               </InputContainer>
+              <Div>
+                <P id="emailnote" className={emailFocus && email && !validEmail ? "instructions" : "hide"}>
+                  <InfoIcon src={Info}></InfoIcon> <br />
+                  Must be a valid email
+                </P>
+              </Div>
               <InputContainer>
-                <Label>Password</Label>
+                <Label>Password
+                  <Span className={validPassword ? "valid" : "hide"}>
+                    <CheckMark src={Check}></CheckMark>
+                  </Span>
+                  <Span className={validPassword || !password ? "hide" : "invalid"}>
+                    <XMark src={Xmark}></XMark>
+                  </Span>
+                </Label>
                 <Input
-                  type="text"
+                  type="password"
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
                   required
+                  aria-invalid={validPassword ? "false" : "true"}
+                  aria-describedby="pwdnote"
+                  onFocus={() => setPasswordFocus(true)}
+                  onBlur={() => setPasswordFocus(false)}
                 />
               </InputContainer>
+              <Div>
+                <P id="pwdnote" className={passwordFocus && !validPassword ? "instructions" : "hide"}>
+                  <InfoIcon src={Info}></InfoIcon> <br />
+                  8 to 24 characters.<br />
+                  Must include uppercase and lowercase letters, a number and a special character.<br />
+                  Allowed special characters: <span aria-label="exclamation mark">!</span>
+                  <span aria-label="at symbol">@</span>
+                  <span aria-label="hashtag">#</span>
+                  <span aria-label="dollar sign">$</span>
+                  <span aria-label="percent">%</span>
+                </P>
+              </Div>
               <InputContainer>
-                <Label>Confirm Password</Label>
+                <Label>Confirm PW
+                  <Span className={validMatch && matchPassword ? "valid" : "hide"}>
+                    <CheckMark src={Check}></CheckMark>
+                  </Span>
+                  <Span className={validMatch || !matchPassword ? "hide" : "invalid"}>
+                    <XMark src={Xmark}></XMark>
+                  </Span>
+                </Label>
                 <Input
-                  type="text"
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
+                  type="password"
+                  onChange={(e) => setMatchPassword(e.target.value)}
+                  value={matchPassword}
                   required
+                  aria-invalid={validMatch ? "false" : "true"}
+                  aria-describedby="confirmnote"
+                  onFocus={() => setMatchFocus(true)}
+                  onBlur={() => setMatchFocus(false)}
                 />
               </InputContainer>
+              <Div>
+                <P id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "hide"}>
+                  <InfoIcon src={Info}></InfoIcon> <br />
+                  Must match desired password above.
+                </P>
+              </Div>
               <ButtonContainer>
                 <RegisterButton
-                  // disabled={!validName || !validPwd || !validMatch || !newBio || !images ? true : false}
+                  disabled={!email || !validPassword || !validMatch || !firstName || !lastName || !city || !state ? true : false}
                   onClick={(e) => {
                     e.preventDefault();
                     signUp(firstName, lastName, city, state, email, password);
+                    // console.log('success');
                   }}>Register</RegisterButton>
               </ButtonContainer>
               <RegisterFooter>
@@ -152,7 +260,7 @@ function SignUpPage() {
             </RegisterForm>
           </RegisterContainer>
         </SignUpPageContainer>
-      }
+      )}
     </>
   )
 }
@@ -275,4 +383,37 @@ const RegisterButton = styled.button`
   align-items: center;
   justify-content: center;
   margin-right: 25px;
+`
+
+const P = styled.p`
+     font-family: 'Oswald', sans-serif;
+     font-size: 15px;
+     width: 350px;
+     margin-left: 15px;
+     margin-bottom: 10px;
+     margin-top: -5px;
+`
+
+const Span = styled.span`
+`
+
+const CheckMark = styled.img`
+     height: 30px;
+     margin-right: -5px;
+`
+
+const XMark = styled.img`
+     height: 20px;
+     margin-right: 3px;
+`
+
+const InfoIcon = styled.img`
+     height: 20px;
+`
+
+const Div = styled.div`
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background-color: white;
 `

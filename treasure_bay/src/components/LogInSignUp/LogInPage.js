@@ -2,13 +2,51 @@ import { React, useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import styled from 'styled-components';
+import axios from 'axios';
 
 
-function LogInPage() {
+function LogInPage({ user, setUser }) {
 
   //hooks
-  const { email, setEmail } = useState('');
-  const { password, setPassword } = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const logIn = async (e) => {
+    console.log(email, password)
+    e.preventDefault();
+    const data = {
+      email: email,
+      password: password,
+    }
+    try {
+      let returnedData = await axios.post("http://localhost:3025/login/", data);
+      console.log(returnedData)
+      if (!returnedData.data.email) {
+        alert("Invalid login. Please check your username or password.")
+      } else {
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify([returnedData.data])
+        );
+        setUser([returnedData.data]);
+        // setLoading(false);
+      }
+    } catch (error) {
+      if (error) {
+        alert("User does not exist. Please create an account")
+        console.error(error);
+        return undefined;
+      }
+    }
+  }
+
+  useEffect(() => {
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser !== null) {
+      setUser(JSON.parse(currentUser));
+    }
+
+  }, [])
 
 
   return (
@@ -36,7 +74,12 @@ function LogInPage() {
             />
           </InputContainer>
           <ButtonContainer>
-            <LoginButton>Login</LoginButton>
+            <LoginButton
+              onClick={(e) => {
+                e.preventDefault();
+                logIn(e);
+              }}
+            >Login</LoginButton>
           </ButtonContainer>
           <LoginFooter>
             <LogInHeader>Don't have an account? <Link to='/signup'>Sign-Up</Link></LogInHeader>

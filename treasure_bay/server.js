@@ -12,8 +12,7 @@ const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
 const pool = require("./db/conn");
 
-const PORT = process.env.PORT;
-
+const API_PORT = process.env.API_PORT;
 app.use(credentials);
 
 app.use(cors(corsOptions));
@@ -63,8 +62,8 @@ app.get("/messages", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is listening on port: ${PORT}`);
+app.listen(API_PORT, () => {
+  console.log(`Server is listening on port: ${API_PORT}`);
 });
 
 // //Error handling
