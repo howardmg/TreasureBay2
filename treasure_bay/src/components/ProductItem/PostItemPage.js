@@ -30,7 +30,7 @@ function PostItemPage() {
                       <label className="pn">Product Details</label>
             </div>
             <div class="col-75">
-                      <textarea id="detail" className="pi" rows="10" cols="50"></textarea>
+                      <textarea id="detail" className="pi" rows="7" cols="50"></textarea>
        
             </div>
             </div> 
@@ -39,7 +39,7 @@ function PostItemPage() {
                   <label className="pn">Product Description</label>
             </div>
             <div class="col-75">
-                  <textarea id="description" className="pi" rows="10" cols="50"></textarea>
+                  <textarea id="description" className="pi" rows="7" cols="50"></textarea>
             </div>
       </div> 
   

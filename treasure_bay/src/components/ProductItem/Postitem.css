@@ -1,14 +1,12 @@
 * {
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
   }
 
   .pi{
-    
     padding: 12px;
-    
+    width: 100%;
     border-radius: 4px;
     resize: vertical;
-    
     background: rgba(179, 179, 179, .3)
   }
 
@@ -17,6 +15,7 @@
   .pn {
     padding: 12px 12px 12px 0;
     display: inline-block;
+    width: 100%;
   }
   
   .btn {
@@ -37,17 +36,21 @@
   }
   
   .container {
+    display: flex;
+    justify-content: center;
     border-radius: 10px;
+    width: 100%;
+    height: 87vh;
     background-color:white;
-    padding: 150px;
+    padding: 20px;
     float: center;
   }
   
   .col-25 {
     float: left;
-    width: 15%;
+    width: 35%;
     margin-top: 12px;
-    margin-left: 100px;
+    /* margin-left: 100px; */
   }
   
   .col-75 {

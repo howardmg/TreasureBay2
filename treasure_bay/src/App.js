@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Footer from './components/Footer/Footer';
 import OnlineShoppingTips from './components/Footer/OnlineShoppingTips';
-import Header from './components/Header.js/Header';
+import Header from './components/Header/Header';
 import HomePage from './components/HomePage/HomePage';
 import LogInPage from './components/LogInSignUp/LogInPage';
 import SignUpPage from './components/LogInSignUp/SignUpPage';
@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <PostItemPage />
+      {/* <PostItemPage /> */}
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/signup' element={<SignUpPage />} />

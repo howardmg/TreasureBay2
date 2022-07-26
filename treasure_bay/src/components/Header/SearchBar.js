@@ -16,7 +16,7 @@ function Search() {
 export default Search;
 
 const SearchBar  = styled.input`
-     width: 500px;
+     width: 100%;
      height: 30px;
      border-radius: 999px;
      border-color: #0D99FF;
