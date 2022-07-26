@@ -34,7 +34,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "nodemon server.js",
-    "dev2":"nodemon localserver.js"
+    "dev2": "nodemon localserver.js"
   },
   "eslintConfig": {
     "extends": [

@@ -12,6 +12,18 @@ const credentials = require('./middleware/credentials');
 const corsOptions = require("./config/corsOptions");
 const pool = require("./db/conn");
 
+const fileStorageEngine=multer.diskStorage({
+    destination: (req,file,cb)=>{
+    cb(null,'./src/components/ProductItem/images')
+   },
+   filename:(req,file,cb)=>{
+    cb(null,Date.now()+ "--"+file.originalname)
+   }
+});
+
+const upload = multer({storage:fileStorageEngine});
+
+
 app.use(credentials);
 
 app.use(cors(corsOptions));
@@ -68,6 +80,12 @@ app.post("/createproducts", async (req, res) => {
         res.status(400).json(error.message);
       }
     });
+  
+  app.post("/images",upload.array('images',4),(req,res)=>{
+     console.log(req.files)
+     res.send("mulitple images uploaded")
+
+  })
     
 //=========================End Post Product ===================================//
 

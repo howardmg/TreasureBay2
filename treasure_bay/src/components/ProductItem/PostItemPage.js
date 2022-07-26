@@ -1,69 +1,62 @@
 import React from 'react'
 import PostItem from './Postitem.css'
 import Dropzone, { useDropzone } from 'react-dropzone';
+import axios from "axios";
 
 import { useState } from 'react';
 
 function PostItemPage() {
     
-      const [name, setname]=useState('test')
-      const [price, setprice]=useState(100.00)
-      const [details, setdetails]=useState('test')
-      const [description, setdescription]=useState('test')
-      const [image, setimage]=useState(['https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg',
-            'https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg','https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg',
-            'https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg'])
+      const [name, setname]=useState('')
+      const [price, setprice]=useState()
+      const [details, setdetails]=useState('')
+      const [description, setdescription]=useState('')
+      const [image, setimage]=useState([''])
+      const [user_id,setuser_id]=useState(1)
+
+      const addNewProduct = async (name,price,details,description,file,user_id) => {
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("price", price);
+            formData.append("details", details);
+            formData.append("description", description);
+            formData.append("file", file);
+            formData.append("user_id", user_id);
+            await axios.post("http://localhost:3025/createproducts", formData);
+            console.log('Product created')
+        }
 
 
-function addNewProduct(){
-      
-      let obj={
-            name: name,
-            price: price,
-            details: details,
-            description: description,
-            
-            user_id: 1
+      // function addNewProduct(event){
+      //       event.preventDefault()
+      //       const obj={
+      //                    name: name,
+      //                    price: price,
+      //                    details: details,
+      //                    description: description,
+      //                    image:image,
+      //                    user_id: 2
+      //               }
 
-      }
-
-      fetch("http://localhost:3025/createproducts",{
-         method: "POST",
-         headers: {
-            "Content-Type": "application/json",
-         },
-         body: JSON.stringify(obj),
-      })
-         .then((res) => res.json())
-         .then((data) => {
-            console.log(data);
+      //       console.log(obj)
+      //       fetch("http://localhost:3025/createproducts",{
+      //             method: "POST",
+      //             headers: {
+      //             "Content-Type": "application/json",
+      //             },
+      //             body: JSON.stringify(obj),
+      //       })
+      //       .then((res) => res.json())
+      //       .then((data) => {
+      //             console.log(data);
            
-         });
-   };
+      //       });
+      // };
 
-   function addNewImage(){
-
-      let img={ image_url: image}
-
-    
-      fetch("http://localhost:3025/images",{
-         method: "POST",
-         headers: {
-            "Content-Type": "application/json",
-         },
-         body: JSON.stringify(img),
-      })
-         .then((res) => res.json())
-         .then((data) => {
-            console.log(data);
-           
-         });
-
-
-   }
    
-  return (
-    <>
+   
+      return (
+      <>
         
         <div class="container">
        
@@ -72,7 +65,8 @@ function addNewProduct(){
                       <label className="pn" >Product Name</label>
                 </div>
                 <div class="col-75">
-                      <input type="text" name="name" className="pi" ></input>
+                      <input type="text" value={name} onChange={(e) => setname(e.target.value )} className="pi" 
+                      />
                 </div>
             </div>
             <div class="row">
@@ -80,7 +74,7 @@ function addNewProduct(){
                       <label className="pn">Product Price</label>
                 </div>
                 <div class="col-75">
-                      <input type="text" name="price" className="pi"></input>
+                      <input type="text" value={price} onChange={(e) => setprice(e.target.value )} className="pi" />
         
                 </div>
             </div>
@@ -89,7 +83,7 @@ function addNewProduct(){
                       <label className="pn">Product Details</label>
             </div>
             <div class="col-75">
-                      <textarea name="detail" className="pi" rows="10" cols="50"></textarea>
+                      <textarea value={details} onChange={(e) => setdetails(e.target.value )} className="pi" rows="10" cols="50"></textarea>
        
             </div>
             </div> 
@@ -98,7 +92,7 @@ function addNewProduct(){
                   <label className="pn">Product Description</label>
             </div>
             <div class="col-75">
-                  <textarea name="description" className="pi" rows="10" cols="50"></textarea>
+                  <textarea value={description} onChange={(e) => setdescription(e.target.value )} className="pi" rows="10" cols="50"></textarea>
             </div>
       </div> 
   
@@ -107,29 +101,26 @@ function addNewProduct(){
       <div class="col-25">
               <label className="pn" >Product image</label>
              
+             
       </div>
       
       </div>
       <div class="col-75">
-          {/* <img src="upload.png" alt="upload file" width="100px" height="100px"></img> */}
+        
           
-          <form class="box" method="post" action="" enctype="multipart/form-data"  >
-          {/* <Dropzone/> */}
-          <div class="box__input"  >
           
-                <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
-                
-                <span class="box__dragndrop"> or drag it here</span>
-                <button class="box__button" type="submit" onClick={addNewImage}>Upload</button>
-          </div>
-          <div class="box__uploading">Uploading…</div>
-          <div class="box__success">Done!</div>
-          <div class="box__error">Error! <span></span>.</div>
-          </form>  
       </div>
 
       <div class="row">
-          <button className="btn" onClick={addNewProduct}>Submit</button>
+          <form action="/images" method="POST"
+           encType="multipart/form-data">
+            <input type="file" name="images"  onChange={(e) => setimage(e.target.value )} images /> 
+            
+            <button type="submit" className="btn" onClick={(e) => {
+                            e.preventDefault(); addNewProduct(name,price,details,description,image,user_id)}} >Submit</button>
+           
+                           
+          </form> 
       </div>
      
      
