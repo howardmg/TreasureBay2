@@ -1,9 +1,9 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
 
-a{
+a {
   text-decoration: none;
 }
 
@@ -16,6 +16,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #F1F2F5;
   font-family: 'Kanit', sans-serif;
+  /* color: #0D99FF; */
 }
 
 code {
@@ -23,20 +24,20 @@ code {
     monospace;
 }
 
-.homepage{
+.homepage {
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
 
-.productcontent{
+.productcontent {
   width: 100%;
   height: 100vh;
   background-color: #F1F2F5;
   overflow: hidden;
 }
 
-.header{
+.header {
   display: flex;
   justify-content: space-between;
   font-size: 18px;
@@ -50,7 +51,7 @@ code {
   box-shadow: 0px 5px 8px -9px black;
 }
 
-.footer{
+.footer {
   display: flex;
   justify-content: space-between;
   position: fixed;
@@ -61,4 +62,33 @@ code {
   background-color: white;
   z-index: 100;
   box-shadow: 0px 5px 8px 0px black;
+}
+
+.hide {
+  display: none;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
+.instructions {
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: black;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+}
+
+.instructions>svg {
+  margin-right: 0.25rem;
+}
+
+.shoppingtips {
+  display: flex;
+  justify-content: center;
+  min-width: 1200px;
 }
