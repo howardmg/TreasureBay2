@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const path = require("path");
-//const db = require("./db/conn");
+const db = require("./db/conn");
 const cors = require("cors");
 //const AWS = require("aws-sdk");
 const fs = require("fs");
@@ -43,6 +43,8 @@ app.use(express.static(path.join(__dirname, "public")));
 /*===================================================
 Routes
 ===================================================*/
+
+//===================== Users Table ==============================//
 // Get user info
 app.get("/users", async (req, res) => {
   try {
@@ -53,46 +55,28 @@ app.get("/users", async (req, res) => {
   }
 });
 
-//=================get/post product info==============================//
+//=================== Products Table ==============================//
 // Get product info
-app.get("/products", async (req, res) => {
+app.get("/products", async (_, res) => {
   try {
-    const products = await pool.query("SELECT * FROM products");
-    res.json(products.rows);
+    await db.query("SELECT * FROM products", (error, results) => {
+      res.status(200).json(results.rows);
+    });
   } catch (error) {
-    res.status(400).json(error.message);
+    console.error(error.message);
   }
 });
 
-
 // Post product info
 app.post("/createproducts", async (req, res) => {
-  const { name, price, description, details, image_url, user_id} = req.body;
   try {
-       await pool.connect()
-       const addProduct = await pool.query('INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, $5, $6);',
-       [name,price,description, details, image_url,user_id])
-        res.status(200).json(addProduct.rows);
-     
-     
-      } 
-      catch (error) {app.post("/api/createcommunity", upload.single("file"), async function (req, res, next) {
-        try {
-          const fileName = `banner${Math.floor(Math.random() * 100000)}${req.file.originalname}`
-          req.file.originalname = fileName;
-          const parsedUserId = parseInt(req.body.users_id)
-          uploadFile(req.file.originalname, req.file.buffer);
-          const returnedURL = `https://teamketchupv2.s3.amazonaws.com/${req.file.originalname}`
-          console.log(req.body)
-          await db.query(`INSERT INTO community (name, category, banner, users_id) VALUES ('${req.body.name}', '${req.body.category}', '${returnedURL}', '${parsedUserId}');`);
-          res.json('Success')
-        } catch (error) {
-          if (error) {
-            res.json(error)
-          }
-        }
-      }
-      );
+    await pool.connect();
+    const addProduct = await pool.query(
+      "INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, $5, $6);",
+      [name, price, description, details, image_url, user_id]
+    );
+    res.status(200).json(addProduct.rows);
+  } catch (error) {
     res.status(400).json(error.message);
   }
 });
@@ -105,35 +89,30 @@ app.get("/images/:key", (req, res) => {
   readStream.pipe(res);
 });
 
-/****************** CREATE PRODUCT POST **********************/
-
-// Post product info
-app.post("/createproducts", async (req, res) => {
-  const { name, price, description, details, img_url, user_id } = req.body;
-  try {
-    await pool.connect();
-    const addProduct = await pool.query(
-      "INSERT INTO products (name, price, description, details, img_url,user_id) VALUES ($1, $2, $3, $4, $5, $6);",
-      [name, price, description, details, img_url, user_id]
-    );
-    res.status(200).json(addProduct.rows);
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
-});
-
-// Upload image to S3 bucket
+// Upload/post image to S3 bucket
 app.post("/images", upload.single("image"), async (req, res) => {
   const file = req.file;
   const result = await uploadFile(file);
   await unlinkFile(file.path);
   const description = req.body.description;
   console.log("result: ", result);
-  res.send("ok");
-  //res.send({imagePath: `/images/${result.Key}`})
+  // res.send("ok");
+  res.send({ imagePath: `/images/${result.Key}` });
 });
 
-/*************Listening on port **********************/
+//========================= Messages Table ===================================//
+
+// Get message info
+app.get("/messages", async (req, res) => {
+  try {
+    const messages = await pool.query("SELECT * FROM messages");
+    res.json(messages.rows);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+//========================= Listening on port ===================================//
 app.listen(PORT, () => {
   console.log(`Server is listening on port: ${PORT}`);
 });
