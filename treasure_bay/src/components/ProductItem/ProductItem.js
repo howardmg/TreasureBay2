@@ -7,7 +7,8 @@ function ProductItem({
     price,
     description,
     details,
-    image_url
+    image_url,
+    avatar
 }) {
   return (
     <ProductItemContainer>
@@ -27,7 +28,10 @@ function ProductItem({
       <ProductPrice>{price}</ProductPrice>
       <BuyButton>Buy Now</BuyButton>
       <Message>Message Seller</Message>
-      <UserProfile>UserProfile</UserProfile>
+      <UserProfile>UserProfile
+        <UserProfileImg src={avatar}/>
+        <UserInfo></UserInfo>
+      </UserProfile>
     </ProductAction>
     </ProductItemContainer>
   )
@@ -103,3 +107,5 @@ color: #0d99ff;
 border-color: #0d99ff;
 `
 const UserProfile = styled.div``
+const UserProfileImg = styled.img``
+const UserInfo = styled.div``

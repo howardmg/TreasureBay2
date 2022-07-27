@@ -22,6 +22,6 @@ function PicCarousel({image_url, key}) {
 export default PicCarousel
 
 const CaroPics = styled.div`
-width:250px;
+width:400px;
 height: auto;
 `

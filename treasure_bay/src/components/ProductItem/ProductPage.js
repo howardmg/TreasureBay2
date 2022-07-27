@@ -19,7 +19,7 @@ function ProductPage() {
 
   function getProducts (){
     setLoadingMessage('Products are loading')
-    fetch('http://localhost:3025/products')
+    fetch('http://localhost:3025/all')
     .then((response) => response.json())
     .then((data) => setProducts(data))
     setLoading(false)
@@ -39,6 +39,7 @@ function ProductPage() {
       description={data.description}
       details={data.details}
       image_url={data.image_url}
+      avatar={data.avatar}
       />
       
     ))}
