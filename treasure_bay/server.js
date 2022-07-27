@@ -69,7 +69,6 @@ app.get("/products", async (_, res) => {
 
 // Post product info
 app.post("/createproducts", async (req, res) => {
-  const { name, price, description, details, image_url, user_id } = req.body;
   try {
     await pool.connect();
     const addProduct = await pool.query(
