@@ -14,6 +14,7 @@ localserver.js
 /build
 
 # misc
+.localserver.js
 .DS_Store
 .env
 .env.local
@@ -24,3 +25,4 @@ localserver.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+localserver.js
