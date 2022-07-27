@@ -16,7 +16,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #F1F2F5;
   font-family: 'Kanit', sans-serif;
-  color: #0D99FF;
+  /* color: #0D99FF; */
 }
 
 code {
@@ -85,9 +85,10 @@ code {
 
 .instructions>svg {
   margin-right: 0.25rem;
+}
 
-  .shoppingtips {
-    display: flex;
-    justify-content: center;
-    min-width: 1200px;
-  }
+.shoppingtips {
+  display: flex;
+  justify-content: center;
+  min-width: 1200px;
+}

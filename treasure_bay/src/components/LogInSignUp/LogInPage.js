@@ -1,26 +1,28 @@
 import { React, useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from './UserContext';
 import styled from 'styled-components';
 import axios from 'axios';
+import UserContext from '../../context/UserProvider';
 
+function LogInPage() {
 
-function LogInPage({ user, setUser }) {
 
   //hooks
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { user, setUser } = useContext(UserContext);
 
   const logIn = async (e) => {
-    console.log(email, password)
+    // console.log(email, password)
     e.preventDefault();
     const data = {
-      email: email,
+      username: email,
       password: password,
     }
+    console.log(data)
     try {
       let returnedData = await axios.post("http://localhost:3025/login/", data);
-      console.log(returnedData)
+      console.log(returnedData.data)
       if (!returnedData.data.email) {
         alert("Invalid login. Please check your username or password.")
       } else {
@@ -29,7 +31,6 @@ function LogInPage({ user, setUser }) {
           JSON.stringify([returnedData.data])
         );
         setUser([returnedData.data]);
-        // setLoading(false);
       }
     } catch (error) {
       if (error) {
@@ -40,13 +41,7 @@ function LogInPage({ user, setUser }) {
     }
   }
 
-  useEffect(() => {
-    const currentUser = localStorage.getItem("currentUser");
-    if (currentUser !== null) {
-      setUser(JSON.parse(currentUser));
-    }
 
-  }, [])
 
 
   return (
@@ -54,7 +49,7 @@ function LogInPage({ user, setUser }) {
       <LogInContainer>
         <WelcomeHeader>Welcome Back!</WelcomeHeader>
         <LogInHeader>Login to continue</LogInHeader>
-        <LogInForm>
+        <LogInForm onSubmit={logIn}>
           <InputContainer>
             <Label>Email</Label>
             <Input
@@ -67,19 +62,14 @@ function LogInPage({ user, setUser }) {
           <InputContainer>
             <Label>Password</Label>
             <Input
-              type="text"
+              type="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               required
             />
           </InputContainer>
           <ButtonContainer>
-            <LoginButton
-              onClick={(e) => {
-                e.preventDefault();
-                logIn(e);
-              }}
-            >Login</LoginButton>
+            <LoginButton type='submit'>Login</LoginButton>
           </ButtonContainer>
           <LoginFooter>
             <LogInHeader>Don't have an account? <Link to='/signup'>Sign-Up</Link></LogInHeader>

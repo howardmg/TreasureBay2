@@ -14,9 +14,6 @@ const corsOptions = require("./config/corsOptions");
 const pool = require("./db/conn");
 const { uploadFile, getFileStream } = require("./s3");
 
-<<<<<<< HEAD
-const API_PORT = process.env.API_PORT;
-=======
 /************* Global variables **********************/
 
 const PORT = process.env.API_PORT;
@@ -27,7 +24,6 @@ const unlinkFile = util.promisify(fs.unlink);
 Middleware
 ===================================================*/
 
->>>>>>> ea87a1c3910c7383e16bf4b837df33ca5c11f66b
 app.use(credentials);
 
 app.use(cors(corsOptions));
@@ -116,14 +112,9 @@ app.get("/messages", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-app.listen(API_PORT, () => {
-  console.log(`Server is listening on port: ${API_PORT}`);
-=======
 //========================= Listening on port ===================================//
 app.listen(PORT, () => {
   console.log(`Server is listening on port: ${PORT}`);
->>>>>>> ea87a1c3910c7383e16bf4b837df33ca5c11f66b
 });
 
 // //Error handling

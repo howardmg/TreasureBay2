@@ -1,6 +1,5 @@
 import { React, useContext, useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from './UserContext';
 import styled from 'styled-components';
 import axios, { AxiosError } from 'axios';
 import Check from './images/checkmark.png';

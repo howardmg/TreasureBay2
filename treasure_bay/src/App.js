@@ -19,6 +19,14 @@ function App() {
   const { user, setUser } = useContext(UserContext);
   const { loading, setLoading } = useContext(LoadingContext);
 
+  useEffect(() => {
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser !== null) {
+      setUser(JSON.parse(currentUser));
+    }
+  }, [])
+
+
 
   return (
     <div className="App">
@@ -26,7 +34,7 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/signup' element={<SignUpPage />} />
-        <Route path='/login' element={<LogInPage setUser={setUser} />} />
+        <Route path='/login' element={<LogInPage />} />
         <Route path='/profile' element={<ProfilePage />} />
         <Route path='/productitem' element={<ProductPage />} />
         <Route path='/postanitem' element={<PostItemPage />} />
