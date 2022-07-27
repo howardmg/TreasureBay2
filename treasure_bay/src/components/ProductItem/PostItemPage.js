@@ -10,7 +10,9 @@ function PostItemPage() {
       const [price, setprice]=useState(100.00)
       const [details, setdetails]=useState('test')
       const [description, setdescription]=useState('test')
-      const [image, setimage]=useState('https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg')
+      const [image, setimage]=useState(['https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg',
+            'https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg','https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg',
+            'https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg'])
 
 
 function addNewProduct(){
