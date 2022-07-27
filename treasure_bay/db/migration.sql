@@ -12,10 +12,12 @@ CREATE TABLE users(
     user_id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(150) NOT NULL,
+    zipcode INT,
     city TEXT NOT NULL,
     state VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL,
-    password VARCHAR(16) NOT NULL
+    uuid TEXT,
+    password TEXT NOT NULL
 );
 
 CREATE TABLE products(
