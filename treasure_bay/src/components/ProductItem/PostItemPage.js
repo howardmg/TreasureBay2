@@ -45,7 +45,7 @@ function addNewProduct(){
     <>
         
         <div class="container">
-       
+            <form className='form'>
             <div class="row">
                 <div class="col-25">
                       <label className="pn" >Product Name</label>
@@ -92,8 +92,8 @@ function addNewProduct(){
       <div class="col-75">
           {/* <img src="upload.png" alt="upload file" width="100px" height="100px"></img> */}
           
-          <form class="box" method="post" action="" enctype="multipart/form-data"  >
-          {/* <Dropzone/> */}
+          <form class="box" method="post" action="" encType="multipart/form-data"  >
+          {/* <DropZone/> */}
           <div class="box__input"  >
           
                 <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
@@ -112,7 +112,7 @@ function addNewProduct(){
       </div>
      
      
-
+      </form>
       </div>
 
     </>
