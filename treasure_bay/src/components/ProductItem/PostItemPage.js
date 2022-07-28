@@ -1,146 +1,110 @@
 import React from 'react'
 import PostItem from './Postitem.css'
-import Dropzone, { useDropzone } from 'react-dropzone';
-import axios from "axios";
+
 
 import { useState } from 'react';
-
+import DropZone from '../DropZone/DropZone';
 
 function PostItemPage() {
-    
-      const [name, setname]=useState('')
-      const [price, setprice]=useState(0)
-      const [details, setdetails]=useState('')
-      const [description, setdescription]=useState('')
-      const [image, setimage]=useState([])
-      const [user_id,setuser_id]=useState(1)
 
-      const addNewProduct = async (name,price,details,description,file,user_id) => {
+      const [fileData, setFileData] = useState([])
+      const [productName, setProductName] = useState('')
+      const [price, setPrice] = useState(0)
+      const [details, setDetails] = useState('')
+      const [description, setDescription] = useState('')
+      const [user_id, setUser_id] = useState(1)
+      const [images, setImages] = useState([])
+
+      const postItem = async (productName, price, details, description, images, user_id) => {
+
             const formData = new FormData();
-            formData.append("name", name);
-            formData.append("price", price);
-            formData.append("details", details);
-            formData.append("description", description);
-            formData.append("file", file);
-            formData.append("user_id", user_id);
-            try{
-                  const response=await axios.post("http://localhost:3025/createproducts", formData)
-                  console.log(response)
-                  console.log('Product created')
-                  for (const value of formData.values()) {
-                        console.log(value);
-                      }
-            } catch(err){
-                  console.log(err)
-            }
+                  formData.append("productName", productName);
+                  formData.append("price", price);
+                  formData.append("details", details);
+                  formData.append("description", description);
+                  formData.append("images", images[0]);
+                  formData.append("user_id", user_id);
             
-            
-        }
+            console.log(JSON.stringify(formData))
+            console.log(images[0])
+            await fetch("http://localhost:3025/postitem", {
+                  method: 'POST',
+                  body: formData,
+            })
+            .then((result) => {
+                  console.log("File sent successfully")
+                  console.log(result)
+            })
+            .catch((err) => {
+                  console.log(err.message)
+            });
+          };
 
-
-      // function addNewProduct(event){
-      //       event.preventDefault()
-      //       const obj={
-      //                    name: name,
-      //                    price: price,
-      //                    details: details,
-      //                    description: description,
-      //                    image:image,
-      //                    user_id: 2
-      //               }
-
-      //       console.log(obj)
-      //       fetch("http://localhost:3025/createproducts",{
-      //             method: "POST",
-      //             headers: {
-      //             "Content-Type": "application/json",
-      //             },
-      //             body: JSON.stringify(obj),
-      //       })
-      //       .then((res) => res.json())
-      //       .then((data) => {
-      //             console.log(data);
-           
-      //       });
-      // };
-
-   
-   
-      return (
-      <>
-      <form>
-      
-        <div class="container">
-       
-            <div class="row">
-                <div class="col-25">
-                      <label className="pn" >Product Name</label>
-                </div>
-                <div class="col-75">
-                      <input type="text" value={name} onChange={(e) => setname(e.target.value )} className="pi" 
-                      />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-25">
-                      <label className="pn">Product Price</label>
-                </div>
-                <div class="col-75">
-                      <input type="text" value={price} onChange={(e) => setprice(e.target.value )} className="pi" />
+      const fileChangeHandler = (e) => {
+            setFileData(e.target.files[0]);
+          };
         
-                </div>
-            </div>
-            <div class="row">
-                      <div class="col-25">
-                      <label className="pn">Product Details</label>
-            </div>
-            <div class="col-75">
-                      <textarea value={details} onChange={(e) => setdetails(e.target.value )} className="pi" rows="10" cols="50"></textarea>
-       
-            </div>
-            </div> 
-            <div class="row">
-            <div class="col-25">
-                  <label className="pn">Product Description</label>
-            </div>
-            <div class="col-75">
-                  <textarea value={description} onChange={(e) => setdescription(e.target.value )} className="pi" rows="10" cols="50"></textarea>
-            </div>
-      </div> 
-  
-      
-      <div class="row">
-      <div class="col-25">
-              <label className="pn" >Product image</label>
-             
-             
-      </div>
-      
-      </div>
-      <div class="col-75">
+          const onSubmitHandler = (e) => {
+            // e.preventDefault();
         
-          
-          
-      </div>
+            const data = new FormData();
+        
+            data.append("image", fileData);
+        
+            fetch("http://localhost:3025/images", {
+                  method: "POST",
+                  body: data,
+            })
+              .then((result) => {
+                console.log("File sent successfully");
+              })
+              .catch((err) => {
+                console.log(err.message);
+              });
+          };
+  return (
 
-      <div class="row">
-          {/* <form action="/images" method="POST"
-           encType="multipart/form-data"> */}
-           
-            <input type="file" name="image"  onChange={(e) => setimage(e.target.value )} /> 
-            
-            <button type="submit" className="btn" onClick={(e) => { 
-                            e.preventDefault(); addNewProduct(name,price,details,description,image,user_id)}} >Submit</button>
-           
-                           
-         
-      </div>
-     
-     
 
-      </div>
-      </form> 
-    </>
+      // <form onSubmit={onSubmitHandler}>
+      <form >
+            <input 
+                  placeholder='Product Name'
+                  value={productName}
+                  onChange={(e) => setProductName(e.target.value)}
+            />
+            <input 
+                  placeholder='Product Price'
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+            />
+            <textarea 
+                  placeholder='Product Details'
+                  value={details}
+                  onChange={(e) => setDetails(e.target.value)}
+            />
+            <textarea 
+                  placeholder='Product Description'
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+            />
+            <DropZone images={images} setImages={setImages}/>
+            {/* <div className="box__input">
+                  <input
+                        className="box__file"
+                        type="file"
+                        onChange={fileChangeHandler}
+                  /> */}
+                  <button className="box__button" type="submit" onClick={(e) => {
+                        e.preventDefault();
+                        postItem(productName, price, details, description, images, user_id)
+                        // setFileData(images[0]);
+                        // console.log(images[0])
+                        // onSubmitHandler();
+                  }}>
+                        Submit
+                  </button>
+            {/* </div> */}
+      </form>
   )
 }
 
