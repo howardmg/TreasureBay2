@@ -25,6 +25,10 @@
     cursor: pointer;
 }
 
+.active {
+    background-color: hsl(205, 100%, 53%, .8);
+}
+
 .conversation-name {
     align-self: flex-start;
     width: fit-content;

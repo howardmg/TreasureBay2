@@ -18,7 +18,15 @@ import UserContext from './context/UserProvider';
 function App() {
   const { user, setUser } = useContext(UserContext);
   const { loading, setLoading } = useContext(LoadingContext);
- 
+
+  useEffect(() => {
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser !== null) {
+      setUser(JSON.parse(currentUser));
+    }
+  }, [])
+
+
 
   return (
     <div className="App">

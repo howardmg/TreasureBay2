@@ -1,40 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import { React, useContext, useState, useEffect, useRef } from 'react';
 import Footer from '../Footer/Footer'
 import Header from '../Header/Header'
-import axios from "axios";
+import UserContext from '../../context/UserProvider'
 
 function HomePage() {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    fetchImages();
-  }, [])
-
-  const fetchImages = async () => {
-    try{
-      const response = await axios.get(`http://localhost:3025/images`)
-      .then((response) => setImages(response))
-      setLoading(false)
-    }catch(error){
-
-    }
-    
-  }
-
-  if(loading){
-    return <h1>Loading..</h1>
-  } else {
-    return (
-      <div className='homepage'>
-            Home Page
-            <img src={images.data[6].image_url}></img>
-      </div>
-    )
-
-  }
-
-
+  const { user, setUser } = useContext(UserContext)
+  console.log(user)
+  return (
+    <div className='homepage'>
+      Home Page
+      {user && <h1>{user[0].first_name}</h1>}
+    </div>
+  )
 }
 
 export default HomePage
