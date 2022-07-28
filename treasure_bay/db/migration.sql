@@ -17,7 +17,8 @@ CREATE TABLE users(
     state VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL,
     uuid TEXT,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    avatar TEXT
 );
 
 CREATE TABLE products(

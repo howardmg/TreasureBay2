@@ -5,6 +5,7 @@ import axios, { AxiosError } from 'axios';
 import Check from './images/checkmark.png';
 import Xmark from './images/xmark.png';
 import Info from "./images/info.svg.png"
+import DropZone from '../DropZone/DropZone';
 
 
 // const EMAIL_REGEX = /^[a-z0-9.]{1,64}@[a-z0-9.]{1,64}$/i;
@@ -43,17 +44,8 @@ function SignUpPage() {
   //state for error and success messages
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
-
-
-
-  //focus on username input when component loads and only once
-  // useEffect(() => {
-  //   userRef.current.focus();
-  // }, [])
-  //checking to see if email field is valid
-  // useEffect(() => {
-  //   setValidEmail(EMAIL_REGEX.test(email));
-  // }, [email])
+  //avatar drop zone
+  const [images, setImages] = useState([])
 
   //checking to see if password field and the validate password field match
   useEffect(() => {
@@ -69,10 +61,8 @@ function SignUpPage() {
   }, [email, password, matchPassword])
 
 
-  const signUp = async (firstName, lastName, city, state, zipcode, email, password) => {
-    let intZipcode = parseInt(zipcode)
-    console.log(typeof zipcode)
-    console.log(typeof intZipcode)
+  const signUp = async (firstName, lastName, city, state, zipcode, email, password, file) => {
+
     try {
       const response = await axios.get(`http://localhost:3025/login/${email}`)
       if (response.data.length === 0) {
@@ -81,7 +71,7 @@ function SignUpPage() {
         formData.append("last_name", lastName);
         formData.append("city", city);
         formData.append("state", state);
-        formData.append("zipcode", intZipcode)
+        formData.append("zipcode", zipcode)
         formData.append("email", email);
         formData.append("password", password);
         console.log(formData)
@@ -157,7 +147,7 @@ function SignUpPage() {
                   required
                 />
               </InputContainer>
-              <InputContainer>
+              {/* <InputContainer>
                 <Label>State</Label>
                 <Input
                   type="text"
@@ -169,31 +159,21 @@ function SignUpPage() {
               <InputContainer>
                 <Label>Zipcode</Label>
                 <Input
-                  type="number"
+                  type="text"
                   onChange={(e) => setZipcode(e.target.value)}
                   value={zipcode}
                   required
 
                 />
-              </InputContainer>
+              </InputContainer> */}
               <InputContainer>
                 <Label>Email
-                  {/* <Span className={validEmail ? "valid" : "hide"}>
-                    <CheckMark src={Check}></CheckMark>
-                  </Span>
-                  <Span className={validEmail || !email ? "hide" : "invalid"}>
-                    <XMark src={Xmark}></XMark>
-                  </Span> */}
                 </Label>
                 <Input
                   type="text"
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                   required
-                // aria-invalid={validEmail ? "false" : "true"}
-                // aria-describedby="emailnote"
-                // onFocus={() => setEmailFocus(true)}
-                // onBlur={() => setEmailFocus(false)}
                 />
               </InputContainer>
               <Div>
@@ -254,6 +234,10 @@ function SignUpPage() {
                   onBlur={() => setMatchFocus(false)}
                 />
               </InputContainer>
+              <InputContainer>
+                <Label>Avatar</Label>
+                <DropZone images={images} setImages={setImages} />
+              </InputContainer>
               <Div>
                 <P id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "hide"}>
                   <InfoIcon src={Info}></InfoIcon> <br />
@@ -262,10 +246,10 @@ function SignUpPage() {
               </Div>
               <ButtonContainer>
                 <RegisterButton
-                  disabled={!email || !validPassword || !validMatch || !firstName || !lastName || !city || !state || !zipcode ? true : false}
+                  disabled={!email || !validPassword || !validMatch || !firstName || !lastName || !city || !state || !zipcode || !images ? true : false}
                   onClick={(e) => {
                     e.preventDefault();
-                    signUp(firstName, lastName, city, state, zipcode, email, password);
+                    signUp(firstName, lastName, city, state, zipcode, email, password, images[0]);
                     // console.log('success');
                   }}>Register</RegisterButton>
               </ButtonContainer>
@@ -297,6 +281,7 @@ const RegisterContainer = styled.div`
   border-radius: 25px;
   border: solid;
   border-color: rgba(13, 153, 255, .5);
+  width: 600px;
 `
 
 const RegisterHeader = styled.div`
@@ -319,6 +304,7 @@ const SignUpHeader = styled.h5`
 
 const RegisterForm = styled.form`
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -326,7 +312,8 @@ const RegisterForm = styled.form`
 const Label = styled.label`
   display: flex;
   font-size: 25px;
-  width: 30%;
+  flex: .3;
+  margin-left: 10px;
 `
 const InputContainer = styled.div`
   display: flex;
@@ -334,12 +321,25 @@ const InputContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
 `
+
+const DropZoneContainer = styled.div`
+  display: flex;
+  /* width: 100%; */
+  flex: .7;
+  justify-content: center;
+  align-items: center;
+  /* margin-left: -15px; */
+`
+
 
 const Input = styled.input`
   display: flex;
   height: 40px;
-  width: 400px;
+  /* width: 400px; */
+  flex: .7;
   margin: 5px;
   margin-right: 25px;
   margin-bottom: 7px;

@@ -1,5 +1,5 @@
 import { React, useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import UserContext from '../../context/UserProvider';
@@ -11,6 +11,7 @@ function LogInPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const logIn = async (e) => {
     // console.log(email, password)
@@ -31,6 +32,7 @@ function LogInPage() {
           JSON.stringify([returnedData.data])
         );
         setUser([returnedData.data]);
+        navigate('/');
       }
     } catch (error) {
       if (error) {

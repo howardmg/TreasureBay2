@@ -18,6 +18,7 @@ const bcrypt = require("bcrypt");
 const Strategy = require("./middleware/passport.js")
 
 
+
 const API_PORT = process.env.API_PORT;
 app.use(credentials);
 app.use(cors(corsOptions));
@@ -82,7 +83,7 @@ app.post(`/createprofile`, upload.single("file"), async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     console.log(req.body)
     await db.query(
-      `INSERT INTO users (first_name, last_name, city, state, zipcode, email, password) VALUES ('${req.body.first_name}', '${req.body.last_name}', '${req.body.city}', '${req.body.state}', '${req.body.zipcode}', '${req.body.email}', '${hashedPassword}');`
+      `INSERT INTO users (first_name, last_name, city, state, zipcode, email, password, avatar) VALUES ('${req.body.first_name}', '${req.body.last_name}', '${req.body.city}', '${req.body.state}', '${req.body.zipcode}', '${req.body.email}', '${hashedPassword}');`
     );
     res.json("Success");
   } catch (error) {
