@@ -82,7 +82,7 @@ app.post(`/createprofile`, upload.single("file"), async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     console.log(req.body)
     await db.query(
-      `INSERT INTO users (first_name, last_name, city, state, email, password) VALUES ('${req.body.first_name}', '${req.body.last_name}', '${req.body.city}', '${req.body.state}', '${req.body.email}', '${hashedPassword}');`
+      `INSERT INTO users (first_name, last_name, city, state, zipcode, email, password) VALUES ('${req.body.first_name}', '${req.body.last_name}', '${req.body.city}', '${req.body.state}', '${req.body.zipcode}', '${req.body.email}', '${hashedPassword}');`
     );
     res.json("Success");
   } catch (error) {

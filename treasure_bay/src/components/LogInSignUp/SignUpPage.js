@@ -27,6 +27,7 @@ function SignUpPage() {
   const [lastName, setLastName] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
+  const [zipcode, setZipcode] = useState('');
   //email hooks
   const [email, setEmail] = useState('');
   const [validEmail, setValidEmail] = useState(false);
@@ -42,6 +43,8 @@ function SignUpPage() {
   //state for error and success messages
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
+
+
 
   //focus on username input when component loads and only once
   // useEffect(() => {
@@ -66,8 +69,10 @@ function SignUpPage() {
   }, [email, password, matchPassword])
 
 
-  const signUp = async (firstName, lastName, city, state, email, password) => {
-    // console.log(firstName, lastName, city, state, email, password)
+  const signUp = async (firstName, lastName, city, state, zipcode, email, password) => {
+    let intZipcode = parseInt(zipcode)
+    console.log(typeof zipcode)
+    console.log(typeof intZipcode)
     try {
       const response = await axios.get(`http://localhost:3025/login/${email}`)
       if (response.data.length === 0) {
@@ -76,6 +81,7 @@ function SignUpPage() {
         formData.append("last_name", lastName);
         formData.append("city", city);
         formData.append("state", state);
+        formData.append("zipcode", intZipcode)
         formData.append("email", email);
         formData.append("password", password);
         console.log(formData)
@@ -158,6 +164,16 @@ function SignUpPage() {
                   onChange={(e) => setState(e.target.value)}
                   value={state}
                   required
+                />
+              </InputContainer>
+              <InputContainer>
+                <Label>Zipcode</Label>
+                <Input
+                  type="number"
+                  onChange={(e) => setZipcode(e.target.value)}
+                  value={zipcode}
+                  required
+
                 />
               </InputContainer>
               <InputContainer>
@@ -246,10 +262,10 @@ function SignUpPage() {
               </Div>
               <ButtonContainer>
                 <RegisterButton
-                  disabled={!email || !validPassword || !validMatch || !firstName || !lastName || !city || !state ? true : false}
+                  disabled={!email || !validPassword || !validMatch || !firstName || !lastName || !city || !state || !zipcode ? true : false}
                   onClick={(e) => {
                     e.preventDefault();
-                    signUp(firstName, lastName, city, state, email, password);
+                    signUp(firstName, lastName, city, state, zipcode, email, password);
                     // console.log('success');
                   }}>Register</RegisterButton>
               </ButtonContainer>

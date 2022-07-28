@@ -1,7 +1,7 @@
-INSERT INTO users (first_name, last_name, city, state, email, password) 
+INSERT INTO users (first_name, last_name, zipcode, city, state, email, uuid, password) 
 VALUES 
-('John', 'Smith', 'Austin', 'Texas', 'jsmith@test.com', 'test123'),
-('Steve', 'Baker', 'Austin', 'Texas', 'sbaker@test.com', 'test321');
+('John', 'Smith', 73301, 'Austin', 'Texas', 'jsmith@test.com', 'needtoadd', 'test123'),
+('Steve', 'Baker', 73301, 'Austin', 'Texas', 'sbaker@test.com', 'needtoadd', 'test321');
 
 INSERT INTO products (name, price, description, details, image_url, user_id)
 VALUES
