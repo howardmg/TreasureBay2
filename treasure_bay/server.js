@@ -85,12 +85,16 @@ app.get("/messages", async (req, res) => {
 });
 
 //=======================================Profile Routes Start===============================================================================================
+
 app.post(`/createprofile`, upload.single("file"), async (req, res, next) => {
   try {
+    const avatar = req.file;
+    const result = await uploadFile(avatar)
+    const imageURL = result.Location;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     console.log(req.body);
     await db.query(
-      `INSERT INTO users (first_name, last_name, city, state, zipcode, email, password, avatar) VALUES ('${req.body.first_name}', '${req.body.last_name}', '${req.body.city}', '${req.body.state}', '${req.body.zipcode}', '${req.body.email}', '${hashedPassword}');`
+      `INSERT INTO users (first_name, last_name, city, state, zipcode, email, password, avatar) VALUES ('${req.body.first_name}', '${req.body.last_name}', '${req.body.city}', '${req.body.state}', '${req.body.zipcode}', '${req.body.email}', '${hashedPassword}', '${imageURL}');`
     );
     res.json("Success");
   } catch (error) {
@@ -156,13 +160,30 @@ app.get("/images/:key", (req, res) => {
 });
 
 // Upload single image to S3 bucket
+// app.post("/images", upload.single("image"), async (req, res) => {
+//   const file = req.file;
+//   const result = await uploadFile(file);
+//   await unlinkFile(file.path);
+//   const description = req.body.description;
+//   console.log("result: ", result);
+//   res.send({ imagePath: `/images/${result.Key}` });
+// });
+
 app.post("/images", upload.single("image"), async (req, res) => {
-  const file = req.file;
-  const result = await uploadFile(file);
-  await unlinkFile(file.path);
-  const description = req.body.description;
-  console.log("result: ", result);
-  res.send({ imagePath: `/images/${result.Key}` });
+  try {
+    const file = req.file;
+    const result = await uploadFile(file);
+    const imageURL = result.Location
+    console.log(imageURL)
+    // await unlinkFile(file.path);
+    const description = req.body.description;
+    console.log("result: ", result);
+    // res.send("ok");
+    res.send({ imagePath: `/images/${result.Key}` });
+
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
 });
 
 // Upload multiple images to S3 bucket

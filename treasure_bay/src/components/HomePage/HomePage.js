@@ -9,7 +9,7 @@ function HomePage() {
   return (
     <div className='homepage'>
       Home Page
-      {user && <h1>{user[0].first_name}</h1>}
+
     </div>
   )
 }

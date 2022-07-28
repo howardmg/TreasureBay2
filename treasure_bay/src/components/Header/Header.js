@@ -1,33 +1,35 @@
-import React from 'react';
+import { React, useContext, useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import TreasureBay from './images/treasure.jpg' 
+import TreasureBay from './images/treasure.jpg'
 import UserAvatar from './images/user.jpg'
+import UserContext from '../../context/UserProvider';
 import Message from './images/message.png'
 import Search from './SearchBar';
 import AddIcon from './images/addicon.png'
 import { Link } from 'react-router-dom';
 
 function Header() {
-  return (
-    <div className='header'>
-          <Link to='/'>
-               <HeaderLogoContainer>
-                    <TreasureBayLogo src={TreasureBay}/>
-                    <HeaderTitle>Treasure Bay</HeaderTitle>
-               </HeaderLogoContainer>
-          </Link>
+     const { user, setUser } = useContext(UserContext)
+     return (
+          <div className='header'>
+               <Link to='/'>
+                    <HeaderLogoContainer>
+                         <TreasureBayLogo src={TreasureBay} />
+                         <HeaderTitle>Treasure Bay</HeaderTitle>
+                    </HeaderLogoContainer>
+               </Link>
 
-          <SearchBarContainer>
-               <Search />
-          </SearchBarContainer>
-          <HeaderOptionsContainer>
-               <Link to='/postanitem'><PostIcon src={AddIcon}></PostIcon></Link>
-               <Link to='/messages'><MessageIcon src={Message}></MessageIcon></Link>
-               <Link to='/profile'><Avatar src={UserAvatar}></Avatar></Link>
-          </HeaderOptionsContainer>
-          
-    </div>
-  )
+               <SearchBarContainer>
+                    <Search />
+               </SearchBarContainer>
+               <HeaderOptionsContainer>
+                    <Link to='/postanitem'><PostIcon src={AddIcon}></PostIcon></Link>
+                    <Link to='/messages'><MessageIcon src={Message}></MessageIcon></Link>
+                    {user && <Link to='/profile'><Avatar src={user[0].avatar}></Avatar></Link>}
+               </HeaderOptionsContainer>
+
+          </div>
+     )
 }
 
 export default Header;

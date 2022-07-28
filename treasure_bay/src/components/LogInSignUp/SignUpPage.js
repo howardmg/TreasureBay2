@@ -23,7 +23,6 @@ function SignUpPage() {
   //hooks
   // const { user, setUser } = useContext(UserContext);
   //state for user input
-  const [userFocus, setUserFocus] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [city, setCity] = useState('');
@@ -47,6 +46,7 @@ function SignUpPage() {
   //avatar drop zone
   const [images, setImages] = useState([])
 
+
   //checking to see if password field and the validate password field match
   useEffect(() => {
     setValidPassword(PWD_REGEX.test(password));
@@ -65,6 +65,7 @@ function SignUpPage() {
 
     try {
       const response = await axios.get(`http://localhost:3025/login/${email}`)
+      // console.log(response)
       if (response.data.length === 0) {
         const formData = new FormData();
         formData.append("first_name", firstName);
@@ -74,12 +75,12 @@ function SignUpPage() {
         formData.append("zipcode", zipcode)
         formData.append("email", email);
         formData.append("password", password);
-        console.log(formData)
+        formData.append("file", file)
+        for (const value of formData.values()) {
+          console.log(value);
+        }
         try {
-          const response = await axios.post("http://localhost:3025/createprofile", formData, {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true
-          });
+          const response = await axios.post("http://localhost:3025/createprofile", formData)
           console.log(response)
           setSuccess(true);
           console.log('user created')
@@ -100,7 +101,6 @@ function SignUpPage() {
       console.log(err);
     }
   }
-
 
   return (
     <>
@@ -147,7 +147,7 @@ function SignUpPage() {
                   required
                 />
               </InputContainer>
-              {/* <InputContainer>
+              <InputContainer>
                 <Label>State</Label>
                 <Input
                   type="text"
@@ -163,9 +163,8 @@ function SignUpPage() {
                   onChange={(e) => setZipcode(e.target.value)}
                   value={zipcode}
                   required
-
                 />
-              </InputContainer> */}
+              </InputContainer>
               <InputContainer>
                 <Label>Email
                 </Label>
@@ -249,6 +248,7 @@ function SignUpPage() {
                   disabled={!email || !validPassword || !validMatch || !firstName || !lastName || !city || !state || !zipcode || !images ? true : false}
                   onClick={(e) => {
                     e.preventDefault();
+
                     signUp(firstName, lastName, city, state, zipcode, email, password, images[0]);
                     // console.log('success');
                   }}>Register</RegisterButton>
@@ -401,34 +401,34 @@ const RegisterButton = styled.button`
 `
 
 const P = styled.p`
-     font-family: 'Oswald', sans-serif;
-     font-size: 15px;
-     width: 350px;
-     margin-left: 15px;
-     margin-bottom: 10px;
-     margin-top: -5px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 15px;
+  width: 350px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+  margin-top: -5px;
 `
 
 const Span = styled.span`
 `
 
 const CheckMark = styled.img`
-     height: 30px;
-     margin-right: -5px;
+  height: 30px;
+  margin-right: -5px;
 `
 
 const XMark = styled.img`
-     height: 20px;
-     margin-right: 3px;
+  height: 20px;
+  margin-right: 3px;
 `
 
 const InfoIcon = styled.img`
-     height: 20px;
+  height: 20px;
 `
 
 const Div = styled.div`
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
 `
