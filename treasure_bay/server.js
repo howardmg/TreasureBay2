@@ -81,6 +81,8 @@ app.post("/createproducts", async (req, res) => {
   }
 });
 
+
+
 // Get images from S3 bucket
 app.get("/images/:key", (req, res) => {
   const key = req.params.key;
@@ -89,16 +91,72 @@ app.get("/images/:key", (req, res) => {
   readStream.pipe(res);
 });
 
-// Upload/post image to S3 bucket
+// get images from db
+app.get("/images", async (req, res) => {
+  try{
+    await db.query("SELECT * FROM images", (error, results) => {
+      res.status(200).json(results.rows);
+    })
+  }catch(error){
+    res.status(400).json(error.message);
+  }
+})
+
 app.post("/images", upload.single("image"), async (req, res) => {
-  const file = req.file;
-  const result = await uploadFile(file);
-  await unlinkFile(file.path);
-  const description = req.body.description;
-  console.log("result: ", result);
-  // res.send("ok");
-  res.send({ imagePath: `/images/${result.Key}` });
+  try{
+    const file = req.file;
+    console.log(file)
+    const result = await uploadFile(file);
+    const imageURL = result.Location
+    console.log(imageURL)
+    // await unlinkFile(file.path);
+    const description = req.body.description;
+    const addImage = await pool.query(
+      "INSERT INTO images (image_url) VALUES ($1);" , [imageURL] 
+    );
+    console.log("result: ", result);
+    // res.send("ok");
+    res.send({ imagePath: `/images/${result.Key}` });
+
+  } catch(error){
+    res.status(400).json(error.message);
+  }
 });
+
+app.post("/postitem", upload.single('images'), async (req, res) => {
+  try {
+    const {productName, price, details, description, user_id} = req.body
+    // console.log("product name: ", productName)
+    const parseUser = parseInt(user_id)
+    const parsePrice = parseInt(price)
+    // console.log("parsed price", parsePrice)
+    // console.log("body data: ", req.body)
+    const file = req.file;
+    // console.log("file: ", file)
+    const result = await uploadFile(file);
+    // console.log("result: ", result)
+    const imageURL = result.Location
+    // console.log("s3 image url: ", imageURL)
+    const addProduct = await pool.query(
+      "INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, ARRAY[$5], $6);",
+      [productName, parsePrice, description, details, imageURL, parseUser]
+    );
+    res.status(200).json(addProduct.rows);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+// Upload/post image to S3 bucket
+// app.post("/images", upload.single("image"), async (req, res) => {
+//   const file = req.file;
+//   const result = await uploadFile(file);
+//   await unlinkFile(file.path);
+//   const description = req.body.description;
+//   console.log("result: ", result);
+//   // res.send("ok");
+//   res.send({ imagePath: `/images/${result.Key}` });
+// });
 
 //========================= Messages Table ===================================//
 
