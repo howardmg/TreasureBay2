@@ -18,12 +18,12 @@ CREATE TABLE users(
     email VARCHAR(150) NOT NULL,
     uuid TEXT,
     password TEXT NOT NULL,
-    avatar TEXT
+    avatar VARCHAR(256)
 );
 
 CREATE TABLE products(
     product_id SERIAL PRIMARY KEY,
-    name VARCHAR(256),
+    name text,
     price MONEY NOT NULL,
     description TEXT NOT NULL,
     details TEXT,

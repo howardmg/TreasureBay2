@@ -138,12 +138,22 @@ app.get("/login/:email", async (req, res) => {
 //=================== Products Routes ==============================//
 
 // Post product info
-app.post("/createproducts", async (req, res) => {
+app.post("/postitem", upload.array("images"), async (req, res) => {
   try {
-    await pool.connect();
+    const { productName, price, details, description, user_id } = req.body;
+    const parseUser = parseInt(user_id);
+    const parsePrice = parseInt(price);
+    const files = req.files;
+    const imgkey = files[0].filename;
+    const imageURL = `https://treasure-bay-images.s3.amazonaws.com/${imgkey}`;
+
+    // Uploads file(s) to S3 bucket
+    const result = await uploadFile(files);
+
+    // Adds post item info to the database
     const addProduct = await pool.query(
-      "INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, $5, $6);",
-      [name, price, description, details, image_url, user_id]
+      "INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, ARRAY[$5], $6);",
+      [productName, parsePrice, description, details, imageURL, parseUser]
     );
     res.status(200).json(addProduct.rows);
   } catch (error) {
@@ -170,33 +180,24 @@ app.get("/images/:key", (req, res) => {
 // });
 
 app.post("/images", upload.single("image"), async (req, res) => {
-  try {
-    const file = req.file;
-    const result = await uploadFile(file);
-    const imageURL = result.Location
-    console.log(imageURL)
-    // await unlinkFile(file.path);
-    const description = req.body.description;
-    console.log("result: ", result);
-    // res.send("ok");
-    res.send({ imagePath: `/images/${result.Key}` });
-
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
+  const file = req.file;
+  const result = await uploadFile(file);
+  await unlinkFile(file.path);
+  console.log("result: ", result);
+  res.send({ imagePath: `/images/${result.Key}` });
 });
 
 // Upload multiple images to S3 bucket
 app.post("/multiple", upload.array("images"), async (req, res) => {
   console.log("req.files ", req.files);
-  // try {
-  //   const results = await uploadFile(req.files);
-  //   console.log("backend results ", results);
-  //   res.json({ status: "success" });
-  // } catch (error) {
-  //   console.log(error);
-  //   res.send(error.message);
-  // }
+  try {
+    const results = await uploadFile(req.files);
+    console.log("backend results ", results);
+    res.json({ status: "success" });
+  } catch (error) {
+    console.log(error);
+    res.send(error.message);
+  }
   //await unlinkFile(file.path);
 });
 

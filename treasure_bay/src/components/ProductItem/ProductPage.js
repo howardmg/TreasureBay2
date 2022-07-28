@@ -40,6 +40,8 @@ function ProductPage() {
       details={data.details}
       image_url={data.image_url}
       avatar={data.avatar}
+      fname={data.first_name}
+      lname={data.last_name}
       />
       
     ))}
