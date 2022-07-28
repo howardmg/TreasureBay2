@@ -1,21 +1,26 @@
 import React from 'react'
 import MessagingInput from './MessagingInput'
 import './Messages.css'
+import { useConversations } from '../../context/ConversationsProvider'
 
 function Messages() {
 
-  const messageSent = ['hello my name is aaron']
-  const MessagesSent = messageSent.map((message, index) => {
-    return (
+  const { selectedConversationIndex, messages } = useConversations()
 
-      <p key={index} className='from-me'>{message}</p>
+  const formatMessages = messages.filter(
+    msg => msg.sender_id === selectedConversationIndex
+  ).map((message, index) => {
+    return (
+      <div className='message-sent'>
+        <p key={index} className='from-me'>{message.message}</p>
+      </div>
     )
   })
 
   return (
     <div className='messaging-container-test'>
       <div className='messages-wrapper'>
-        <div className='message-sent'>{MessagesSent}</div>
+        {formatMessages}
       </div>
       <div className='typing-container'>
         <MessagingInput />
