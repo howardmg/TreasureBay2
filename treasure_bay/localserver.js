@@ -11,6 +11,9 @@ const multerS3 = require("multer-s3");
 const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
 const pool = require("./db/conn");
+const upload = multer();
+const { uploadFile, getFileStream } = require("./s3");
+
 
 const API_PORT = process.env.API_PORT;
 
@@ -47,7 +50,7 @@ app.get("/users", async (req, res) => {
 // Get product info
 app.get("/all", async (_, res) => {
   try {
-      await db.query('SELECT * FROM products INNER JOIN users ON products.user_id = users.user_id', (error, results) => {
+      await db.query('SELECT * FROM products INNER JOIN users ON products.user_id = users.user_id ORDER BY product_id DESC', (error, results) => {
         res.status(200).json(results.rows)
       })
   } catch (error) {
@@ -69,7 +72,7 @@ app.get("/product/:id", async (req, res) => {
   const id = req.params.id
   console.log(req.params.id)
   try {
-      await db.query('SELECT * FROM products WHERE id = $1',  [id], (error, results) => {
+      await db.query('SELECT * FROM products WHERE product_id = $1',  [id], (error, results) => {
           
           res.status(200).json(results.rows)
       })
@@ -80,20 +83,78 @@ app.get("/product/:id", async (req, res) => {
 
 
 // Post product info
-app.post("/createproducts", async (req, res) => {
-  const { name, price, description, details, picture, user_id} = req.body;
-  try {
-       await pool.connect()
-       const addProduct = await pool.query('INSERT INTO products (name, price, description, details, picture,user_id) VALUES ($1, $2, $3, $4, $5, $6);',
-       [name,price,description, details, picture,user_id])
-        res.status(200).json(addProduct.rows);
+// app.post("/createproducts", upload.single("image"),async (req, res) => {
+//   console.log(req)
+//     const file = req.file;
+//     const result = await uploadFile(file);
+//     await unlinkFile(file.path);
+    
+//     console.log("result: ", result);
+    // res.send("ok");
+    // res.send({ imagePath: `/images/${result.Key}` });
+ 
+
+    // const { name, price, description, details, image_url, user_id} = req.body;
+    // try {
+    //      await pool.connect()
+    //      const addProduct = await pool.query(`INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, ${result.Location}, $6);`,
+    //      [name,price,description, details, image_url,user_id])
+    //       res.status(200).json(addProduct.rows);
+       
+       
+    //     } 
+    //     catch (error) {
+    //       res.status(400).json(error.message);
+    //     }
+    //   });
+ 
+   
+    app.post("/testcreateproducts",async (req, res) => {
+
+    const { name, price, description, details, image_url, user_id} = req.body;
+    try {
+         await pool.connect()
+         const addProduct = await pool.query(`INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, $5, $6);`,
+         [name,price,description, details, image_url,user_id])
+          res.status(200).json(addProduct.rows);
+       
+       
+        } 
+        catch (error) {
+          res.status(400).json(error.message);
+        }
+      });
+
+
+
+    app.post("/createproducts", upload.single("file"), async function (req, res, next) {
+      
+      try {
+        // console.log('This is file data' + req.file)
+        // console.log(req.body, req.file) 
+        // // const fileName = req.file.originalname
+        const fileName = `productimage${Math.floor(Math.random() * 100000)}${req.file.originalname}`
+        req.file.originalname = fileName;
+        const parsedUserId = parseInt(req.body.user_id)
+        // uploadFile(req.file.originalname, req.file.buffer);
+        // console.log(fileName)
+
      
-     
-      } 
-      catch (error) {
-        res.status(400).json(error.message);
+        
+    
+       
+        const returnedURL = `https://treasure-bay-images.s3.amazonaws.com/${req.file.originalname}` 
+        console.log(`returnUrl is ${returnURL}`)
+        await db.query(`INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ('${req.body.name}', '${req.body.price}', '${req.body.description}', '${req.body.details}, '${returnedURL}', '${parsedUserId});`);
+        res.json('Success')
+        
+      } catch (error) {
+        if (error) {
+          res.json(error)
+        }
       }
-    });
+    }
+    );
     
 //=========================End Post Product ===================================//
 

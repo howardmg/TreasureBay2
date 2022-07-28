@@ -94,6 +94,7 @@ const DropZoneContainer = styled.section`
   border: 2px  black dotted;
   color: black;
   background-color: gray;
+  height: 200px;
 `
 
 const Dropzone = styled.div`
