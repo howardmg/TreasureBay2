@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PicCarousel from './PicCarousel';
+import avatar2 from './joshua.png'
 
 function ProductItem({
     product_name,
@@ -8,7 +9,9 @@ function ProductItem({
     description,
     details,
     image_url,
-    avatar
+    avatar,
+    lname,
+    fname
 }) {
   return (
     <ProductItemContainer>
@@ -28,8 +31,8 @@ function ProductItem({
       <ProductPrice>{price}</ProductPrice>
       <BuyButton>Buy Now</BuyButton>
       <Message>Message Seller</Message>
-      <UserProfile>UserProfile
-        <UserProfileImg src={avatar}/>
+      <UserProfile>
+        <UserProfileImg src={avatar2}/> {fname} {lname} 
         <UserInfo></UserInfo>
       </UserProfile>
     </ProductAction>
@@ -42,6 +45,7 @@ export default ProductItem
 const ProductItemContainer = styled.div`
 display: flex;
 flex-direction: row;
+margin-top: 50px;
 /* width: 900px; */
 
 `
@@ -84,11 +88,13 @@ padding: 10px;
 `
 const ProductName = styled.div`
 font-size: 35px;
-font-weight: 500px
+font-weight: 500px;
+color: black;
 `
 const ProductPrice = styled.div`
 font-size: 35px;
-font-weight: 500px
+font-weight: 500px;
+color: black;
 `
 const BuyButton = styled.button`
 width: 100px;
@@ -106,6 +112,21 @@ padding: 5px;
 color: #0d99ff;
 border-color: #0d99ff;
 `
-const UserProfile = styled.div``
-const UserProfileImg = styled.img``
+const UserProfile = styled.div`
+color: black;
+margin-top : 30px;
+
+`
+const UserProfileImg = styled.img`
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 100%;
+  height: 60px;
+  margin-right: 4px;
+  vertical-align: middle;
+  justify-content: left;
+  width: 60px;
+  background-color: #0D99FF;
+`
 const UserInfo = styled.div``

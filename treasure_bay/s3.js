@@ -15,7 +15,7 @@ const s3 = new S3({
   secretAccessKey,
 });
 
-// uploads multiple files to S3
+//uploads multiple files to S3
 const uploadFile = async (files) => {
   const s3client = new S3Client({ region, accessKeyId, secretAccessKey });
 
