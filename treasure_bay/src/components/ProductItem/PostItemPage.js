@@ -2,6 +2,7 @@ import React from 'react'
 import PostItem from './Postitem.css'
 
 
+
 import { useState } from 'react';
 import DropZone from '../DropZone/DropZone';
 
@@ -18,15 +19,26 @@ function PostItemPage() {
       const postItem = async (productName, price, details, description, images, user_id) => {
 
             const formData = new FormData();
+            if (images) {
+                  for (let i = 0; i < images.length; i++) {
+                    formData.append("images", images[i]);
+                  }
+            }
+
                   formData.append("productName", productName);
                   formData.append("price", price);
                   formData.append("details", details);
                   formData.append("description", description);
-                  formData.append("images", images[0]);
+                  // formData.append("images", images[0]);
                   formData.append("user_id", user_id);
-            
+                  
             console.log(JSON.stringify(formData))
             console.log(images[0])
+
+           
+              
+                    
+            
             await fetch("http://localhost:3025/postitem", {
                   method: 'POST',
                   body: formData,
@@ -40,7 +52,7 @@ function PostItemPage() {
             });
           };
 
-      const fileChangeHandler = (e) => {
+          const fileChangeHandler = (e) => {
             setFileData(e.target.files[0]);
           };
         
@@ -63,30 +75,52 @@ function PostItemPage() {
               });
           };
   return (
-
-
-      // <form onSubmit={onSubmitHandler}>
-      <form >
-            <input 
-                  placeholder='Product Name'
-                  value={productName}
-                  onChange={(e) => setProductName(e.target.value)}
-            />
-            <input 
-                  placeholder='Product Price'
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-            />
-            <textarea 
-                  placeholder='Product Details'
-                  value={details}
-                  onChange={(e) => setDetails(e.target.value)}
-            />
-            <textarea 
-                  placeholder='Product Description'
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-            />
+       <>
+        <form>
+        <div class="container">
+            <div class="row">
+                <div class="col-25">
+                      <label className="pn" >Product Name</label>
+                </div>
+                <div class="col-75">
+                      <input type="text" value={productName} onChange={(e) => setProductName(e.target.value )} className="pi"
+                      />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                      <label className="pn">Product Price</label>
+                </div>
+                <div class="col-75">
+                      <input type="text" value={price} onChange={(e) => setPrice(e.target.value )} className="pi" />
+                </div>
+            </div>
+            <div class="row">
+                      <div class="col-25">
+                      <label className="pn">Product Details</label>
+            </div>
+            <div class="col-75">
+                      <textarea value={details} onChange={(e) => setDetails(e.target.value )} className="pi" rows="10" cols="50"></textarea>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-25">
+                  <label className="pn">Product Description</label>
+            </div>
+            <div class="col-75">
+                  <textarea value={description} onChange={(e) => setDescription(e.target.value )} className="pi" rows="10" cols="50"></textarea>
+            </div>
+      </div>
+      <div class="row">
+      <div class="col-25">
+              <label className="pn" >Product image</label>
+      </div>
+      </div>
+      <div class="col-75">
+      </div>
+      <div class="row">
+      
+      
             <DropZone images={images} setImages={setImages}/>
             {/* <div className="box__input">
                   <input
@@ -103,8 +137,10 @@ function PostItemPage() {
                   }}>
                         Submit
                   </button>
-            {/* </div> */}
+            </div>
+            </div>
       </form>
+      </>
   )
 }
 

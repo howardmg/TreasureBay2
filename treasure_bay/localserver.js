@@ -67,19 +67,20 @@ app.get("/products", async (req, res) => {
   }
 });
 
-app.post("/postitem", upload.single('images'), async (req, res) => {
+app.post("/postitem", upload.array('images'), async (req, res) => {
   try {
     const {productName, price, details, description, user_id} = req.body
     // console.log("product name: ", productName)
     const parseUser = parseInt(user_id)
     const parsePrice = parseInt(price)
     // console.log("parsed price", parsePrice)
-    // console.log("body data: ", req.body)
-    const file = req.file;
-    // console.log("file: ", file)
-    const result = await uploadFile(file);
-    // console.log("result: ", result)
-    const imageURL = result.Location
+     console.log("body data: ", req.body)
+    const files = req.files;
+    console.log("file: ", files)
+    const result = await uploadFile(files);
+     console.log("result: ", result)
+     const imgkey=files[0].filename
+    const imageURL = `https://treasure-bay-images.s3.amazonaws.com/${imgkey}`
     // console.log("s3 image url: ", imageURL)
     const addProduct = await pool.query(
       "INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, ARRAY[$5], $6);",
@@ -91,9 +92,6 @@ app.post("/postitem", upload.single('images'), async (req, res) => {
   }
 });
 
-
-
-    
     
 //=========================End Post Product ===================================//
 
