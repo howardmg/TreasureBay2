@@ -18,7 +18,7 @@ CREATE TABLE users(
     email VARCHAR(150) NOT NULL,
     uuid TEXT,
     password TEXT NOT NULL,
-    avatar text
+    avatar VARCHAR(256)
 );
 
 CREATE TABLE products(

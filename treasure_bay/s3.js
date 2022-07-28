@@ -22,8 +22,6 @@ const uploadFile = async (files) => {
   const uploadParams = files.map((file) => {
     let fileStream = fs.createReadStream(file.path);
 
-    console.log(files)
-
     return {
       Bucket: bucketName,
       Key: path.basename(file.path),
