@@ -15,20 +15,6 @@ const s3 = new S3({
   secretAccessKey,
 });
 
-// uploads single file to s3
-// const uploadFile = (file) => {
-//   console.log("File Path ", file.path);
-//   const fileStream = fs.createReadStream(file.path);
-
-//   const uploadParams = {
-//     Bucket: bucketName,
-//     Body: fileStream,
-//     Key: file.filename,
-//   };
-
-//   return s3.upload(uploadParams).promise();
-// };
-
 // uploads multiple files to S3
 const uploadFile = async (files) => {
   const s3client = new S3Client({ region, accessKeyId, secretAccessKey });
