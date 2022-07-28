@@ -17,12 +17,13 @@ CREATE TABLE users(
     state VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL,
     uuid TEXT,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    avatar VARCHAR(256)
 );
 
 CREATE TABLE products(
     product_id SERIAL PRIMARY KEY,
-    name VARCHAR(256),
+    name text,
     price MONEY NOT NULL,
     description TEXT NOT NULL,
     details TEXT,
