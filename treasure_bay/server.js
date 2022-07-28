@@ -4,10 +4,8 @@ const app = express();
 const path = require("path");
 const db = require("./db/conn");
 const cors = require("cors");
-const AWS = require("aws-sdk");
 const fs = require("fs");
 const multer = require("multer");
-const multerS3 = require("multer-s3");
 const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
 const pool = require("./db/conn");
@@ -16,17 +14,30 @@ const passport = require("passport");
 const expressSession = require("express-session");
 const bcrypt = require("bcrypt");
 const Strategy = require("./middleware/passport.js");
+const util = require("util");
 
+/*===================================================
+Global Constants
+===================================================*/
 const API_PORT = process.env.API_PORT;
+
+const { uploadFile, getFileStream } = require("./s3");
+//const { send } = require("process");
+const unlinkFile = util.promisify(fs.unlink);
+const upload = multer({ dest: "uploads/" });
+
+/*===================================================
+Middleware
+===================================================*/
+passport.use(Strategy);
+
 app.use(credentials);
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
-const upload = multer();
 app.use(passport.initialize());
 //referencing passport.js in middleware directory for authorization strategy
-passport.use(Strategy);
 app.use(cookieParser("secret"));
 app.use(
   expressSession({
@@ -35,8 +46,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-// app.use(express.static(path.join(__dirname, 'build')));
-// app.use(express.static("public"));
 
 // app.get('/', function (req, res) {
 //     res.sendFile(path.join("./my-app/public"));
@@ -146,7 +155,7 @@ app.get("/images/:key", (req, res) => {
   readStream.pipe(res);
 });
 
-// Upload/post image to S3 bucket
+// Upload single image to S3 bucket
 app.post("/images", upload.single("image"), async (req, res) => {
   const file = req.file;
   const result = await uploadFile(file);
@@ -154,6 +163,20 @@ app.post("/images", upload.single("image"), async (req, res) => {
   const description = req.body.description;
   console.log("result: ", result);
   res.send({ imagePath: `/images/${result.Key}` });
+});
+
+// Upload multiple images to S3 bucket
+app.post("/multiple", upload.array("images"), async (req, res) => {
+  console.log("req.files ", req.files);
+  // try {
+  //   const results = await uploadFile(req.files);
+  //   console.log("backend results ", results);
+  //   res.json({ status: "success" });
+  // } catch (error) {
+  //   console.log(error);
+  //   res.send(error.message);
+  // }
+  //await unlinkFile(file.path);
 });
 
 //=================== Listening on Port ==============================//
