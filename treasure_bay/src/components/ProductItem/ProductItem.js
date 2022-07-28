@@ -32,8 +32,8 @@ function ProductItem({
       <BuyButton>Buy Now</BuyButton>
       <Message>Message Seller</Message>
       <UserProfile>
-        <UserProfileImg src={avatar2}/> {fname} {lname} 
-        <UserInfo></UserInfo>
+        <UserProfileImg src={avatar2}/> 
+        <UserInfo>{fname} {lname} </UserInfo>
       </UserProfile>
     </ProductAction>
     </ProductItemContainer>
@@ -45,13 +45,14 @@ export default ProductItem
 const ProductItemContainer = styled.div`
 display: flex;
 flex-direction: row;
-margin-top: 50px;
+margin: 50px;
 /* width: 900px; */
+height: auto;
 
 `
 const ProductDescription = styled.div`
 text-align: left;
-width: 700px;
+width: 600px;
 `
 const ProductAction = styled.div`
 display: flex;
@@ -64,6 +65,7 @@ width: auto;
 height: auto;
 /* text-align:center; */
 /* border-radius: 25px;  */
+
 `
 const ProductEach = styled.div`
 display: flex;
@@ -81,7 +83,7 @@ align-items: center;
 `
 
 const ProductDetails = styled.div`
-width: auto;
+width: 600px;
 text-align: left;
 margin: 10px;
 padding: 10px;
@@ -115,6 +117,10 @@ border-color: #0d99ff;
 const UserProfile = styled.div`
 color: black;
 margin-top : 30px;
+display: flex;
+align-items: center;
+
+
 
 `
 const UserProfileImg = styled.img`
@@ -129,4 +135,6 @@ const UserProfileImg = styled.img`
   width: 60px;
   background-color: #0D99FF;
 `
-const UserInfo = styled.div``
+const UserInfo = styled.div`
+font-size: 23px;
+`
