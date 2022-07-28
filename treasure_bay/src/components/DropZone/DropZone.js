@@ -92,6 +92,7 @@ const DropZoneContainer = styled.section`
   height:200px;
   margin: 10px auto;
   margin-bottom: 10px;
+  margin-left:150px;
   border: 2px  black dotted;
   color: black;
   background-color: gray;

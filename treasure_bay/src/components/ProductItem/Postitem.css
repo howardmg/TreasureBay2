@@ -21,7 +21,7 @@
   border-radius: 4px;
   cursor: pointer;
   margin-top: 2%;
-  margin-left: 65%;
+  margin-left: 35%;
   border-radius: 12px;
 
 }
@@ -31,25 +31,26 @@
 }
 
 .container {
-  display: flex;
+
   justify-content: center;
   border-radius: 10px;
   background-color: white;
-  height: 100vh;
+  
   /* padding: 150px; */
   float: center;
+  height: 1000px;
 }
 
 .col-25 {
   float: left;
-  width: 35%;
+  width: 20%;
   margin-top: 12px;
-  /* margin-left: 100px; */
+  margin-left: 200px; 
 }
 
 .col-75 {
   float: left;
-  width: 50%;
+  width: 30%;
   margin-top: 30px;
 }
 
@@ -74,17 +75,3 @@
 }
 
 
-.box {
-
-
-  margin-left: 50%;
-
-  width: 80%
-}
-
-.box__dragndrop,
-.box__uploading,
-.box__success,
-.box__error {
-  display: none;
-}
