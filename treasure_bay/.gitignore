@@ -25,4 +25,6 @@ localserver.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+sev.js
 localserver.js

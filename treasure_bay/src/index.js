@@ -5,17 +5,20 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { UserProvider } from './context/UserProvider';
 import { LoadingProvider } from './context/LoadingProvider';
+import { ConversationsProvider } from './context/ConversationsProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <UserProvider>
       <LoadingProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <ConversationsProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ConversationsProvider>
       </LoadingProvider>
-    </UserProvider>  
+    </UserProvider>
   </React.StrictMode>
 );
 
