@@ -168,14 +168,14 @@ app.post("/images", upload.single("image"), async (req, res) => {
 // Upload multiple images to S3 bucket
 app.post("/multiple", upload.array("images"), async (req, res) => {
   console.log("req.files ", req.files);
-  // try {
-  //   const results = await uploadFile(req.files);
-  //   console.log("backend results ", results);
-  //   res.json({ status: "success" });
-  // } catch (error) {
-  //   console.log(error);
-  //   res.send(error.message);
-  // }
+  try {
+    const results = await uploadFile(req.files);
+    console.log("backend results ", results);
+    res.json({ status: "success" });
+  } catch (error) {
+    console.log(error);
+    res.send(error.message);
+  }
   //await unlinkFile(file.path);
 });
 
