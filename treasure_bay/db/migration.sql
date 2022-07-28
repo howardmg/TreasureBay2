@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS treasure_bay;
+-- DROP DATABASE IF EXISTS treasure_bay;
 
-CREATE DATABASE treasure_bay;
-\c treasure_bay
+-- CREATE DATABASE treasure_bay;
+-- \c treasure_bay
 
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS products CASCADE;
@@ -39,4 +39,4 @@ CREATE TABLE messages(
     receiver_id INT REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-\i db/seed.sql
+-- \i seed.sql
