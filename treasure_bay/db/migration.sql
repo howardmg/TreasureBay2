@@ -12,11 +12,17 @@ CREATE TABLE users(
     user_id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(150) NOT NULL,
+    zipcode INT,
     city TEXT NOT NULL,
     state VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL,
+<<<<<<< HEAD
     password VARCHAR(16) NOT NULL,
     avatar TEXT
+=======
+    uuid TEXT,
+    password TEXT NOT NULL
+>>>>>>> main
 );
 
 CREATE TABLE products(
@@ -38,4 +44,8 @@ CREATE TABLE messages(
     receiver_id INT REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+<<<<<<< HEAD
 -- \i seed.sql
+=======
+\i db/seed.sql
+>>>>>>> main
