@@ -233,22 +233,21 @@ function SignUpPage() {
                   onBlur={() => setMatchFocus(false)}
                 />
               </InputContainer>
-              <InputContainer>
-                <Label>Avatar</Label>
-                <DropZone images={images} setImages={setImages} />
-              </InputContainer>
               <Div>
                 <P id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "hide"}>
                   <InfoIcon src={Info}></InfoIcon> <br />
                   Must match desired password above.
                 </P>
               </Div>
+              <InputContainer>
+                <Label>Avatar</Label>
+                <DropZone images={images} setImages={setImages} />
+              </InputContainer>
               <ButtonContainer>
                 <RegisterButton
                   disabled={!email || !validPassword || !validMatch || !firstName || !lastName || !city || !state || !zipcode || !images ? true : false}
                   onClick={(e) => {
                     e.preventDefault();
-
                     signUp(firstName, lastName, city, state, zipcode, email, password, images[0]);
                     // console.log('success');
                   }}>Register</RegisterButton>

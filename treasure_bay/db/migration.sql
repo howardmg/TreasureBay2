@@ -16,9 +16,9 @@ CREATE TABLE users(
     city TEXT NOT NULL,
     state VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL,
-    uuid TEXT,
+    --uuid TEXT,
     password TEXT NOT NULL,
-    avatar VARCHAR(256)
+    avatar TEXT
 );
 
 CREATE TABLE products(
