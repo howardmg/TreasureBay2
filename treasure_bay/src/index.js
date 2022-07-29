@@ -6,18 +6,21 @@ import { BrowserRouter } from 'react-router-dom';
 import { UserProvider } from './context/UserProvider';
 import { LoadingProvider } from './context/LoadingProvider';
 import { ConversationsProvider } from './context/ConversationsProvider';
+import { SingleProductProvider } from './context/ProductProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <UserProvider>
-      <LoadingProvider>
-        <ConversationsProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </ConversationsProvider>
-      </LoadingProvider>
+      <SingleProductProvider>
+        <LoadingProvider>
+          <ConversationsProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ConversationsProvider>
+        </LoadingProvider>
+      </SingleProductProvider>
     </UserProvider>
   </React.StrictMode>
 );
