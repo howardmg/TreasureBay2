@@ -1,122 +1,153 @@
-import React from 'react'
-import styled from 'styled-components'
-import PicCarousel from './PicCarousel';
-import avatar2 from './joshua.png'
+import React, { useContext, useEffect } from "react";
+import styled from "styled-components";
+import PicCarousel from "./PicCarousel";
+import avatar2 from "./joshua.png";
+import SingleProductContext from "../../context/ProductProvider";
 
-function ProductItem({
-    product_name,
-    price,
-    description,
-    details,
-    image_url,
-    avatar,
-    lname,
-    fname
-}) {
+function ProductItem() {
+  const { singleProduct, setSingleProduct} = useContext(SingleProductContext);
+  // useEffect(() => {
+  //   const currentProduct = localStorage.getItem("currentProduct");
+  //   if (currentProduct !== null) {
+  //     setSingleProduct(JSON.parse(currentProduct));
+  //   }
+  // }, [singleProduct]);
+  // localStorage.setItem("currentProduct", JSON.stringify([singleProduct]) )
+  console.log(singleProduct);
+
+  // const currentProduct = localStorage.getItem("currentProduct");
+  //   if (currentProduct !== null) {
+  //     setSingleProduct(JSON.parse(currentProduct));
+  //   }
+
   return (
-    <ProductItemContainer>
-    <ProductEach>
-    <PicCarousel  image_url={image_url}/>
-    
-      <ProductDetails>
-        <div>Details</div>
-        {details}</ProductDetails>
-      
-      <ProductDescription>
-      <div>Description</div>
-      {description}</ProductDescription>
-    </ProductEach>
-    <ProductAction>
-      <ProductName>{product_name}</ProductName>
-      <ProductPrice>{price}</ProductPrice>
-      <BuyButton>Buy Now</BuyButton>
-      <Message>Message Seller</Message>
-      <UserProfile>
-        <UserProfileImg src={avatar2}/> {fname} {lname} 
-        <UserInfo></UserInfo>
-      </UserProfile>
-    </ProductAction>
-    </ProductItemContainer>
-  )
+    <>
+      {!singleProduct ? (
+        <div>
+          <h1>Loading</h1>
+        </div>
+      ) : (
+        <ProductItemContainer className="productsingle">
+          <ProductEach>
+            <PicCarousel image_url={singleProduct[0].image_url} />
+
+            
+          </ProductEach>
+          <ProductAction>
+          <UserProfile>
+              <UserProfileImg src={avatar2} />
+              <UserInfo>
+                {singleProduct[0].first_name} {singleProduct[0].last_name}{" "}
+              </UserInfo>
+            </UserProfile>
+            <ProductName>{singleProduct[0].product_name}</ProductName>
+            <ProductPrice>{singleProduct[0].price}</ProductPrice>
+            <BuyButton>Buy Now</BuyButton>
+            <Message>Message Seller</Message>
+            
+            <ProductDescription>
+              <h3>Description</h3>
+              {singleProduct[0].description}
+            </ProductDescription>
+            
+            <ProductDetails>
+              <h3>Details</h3>
+              {singleProduct[0].details}
+            </ProductDetails>
+
+            
+          </ProductAction>
+        </ProductItemContainer>
+      )}
+    </>
+  );
 }
 
-export default ProductItem
+export default ProductItem;
 
 const ProductItemContainer = styled.div`
-display: flex;
-flex-direction: row;
-margin-top: 50px;
-/* width: 900px; */
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  /* width: 900px; */
+  height: 100vh;
+  margin-bottom: 30px;
 
 `
 const ProductDescription = styled.div`
-text-align: left;
-width: 700px;
-`
+  text-align: left;
+  width: 600px;
+  margin-top: 10px;
+`;
 const ProductAction = styled.div`
-display: flex;
-flex-direction: column;
-/* background-color: #393939; */
-/* color: white; */
-margin-top: 20px;
-margin-right: 40px;
-width: auto;
-height: auto;
-/* text-align:center; */
-/* border-radius: 25px;  */
-`
+  display: flex;
+  flex-direction: column;
+  /* background-color: #393939; */
+  /* color: white; */
+  margin-top: 20px;
+  margin-right: 40px;
+  width: auto;
+  height: auto;
+  /* text-align:center; */
+  /* border-radius: 25px;  */
+`;
 const ProductEach = styled.div`
-display: flex;
-flex-direction: column;
-/* background-color: #393939; */
-/* color: white; */
-margin-top: 20px;
-margin-right: 40px;
-width: 750px;
-height: auto;
-/* text-align:center; */
-/* border-radius: 25px;  */
-justify-content: center;
-align-items: center;
-`
+  display: flex;
+  flex-direction: column;
+  /* background-color: #393939; */
+  /* color: white; */
+  margin-top: 20px;
+  margin-right: 40px;
+  width: 750px;
+  height: auto;
+  /* text-align:center; */
+  /* border-radius: 25px;  */
+  justify-content: center;
+  align-items: center;
+`;
 
 const ProductDetails = styled.div`
-width: auto;
-text-align: left;
-margin: 10px;
-padding: 10px;
-`
+  text-align: left;
+  width: 600px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  
+`;
 const ProductName = styled.div`
-font-size: 35px;
-font-weight: 500px;
-color: black;
-`
+  font-size: 35px;
+  font-weight: 500px;
+  color: black;
+`;
 const ProductPrice = styled.div`
-font-size: 35px;
-font-weight: 500px;
-color: black;
-`
+  font-size: 35px;
+  font-weight: 500px;
+  color: black;
+`;
 const BuyButton = styled.button`
-width: 100px;
-background-color: #0D99FF;
-border-radius: 10px;
-padding: 5px;
-color: white;
-margin-bottom: 10px;
-`
+  width: 150px;
+  height: 30px;
+  background-color: #0d99ff;
+  border-radius: 10px;
+  padding: 5px;
+  color: white;
+  margin-bottom: 10px;
+  border: none;
+`;
 const Message = styled.button`
-width: 150px;
-background-color: #fff;
-border-radius: 10px;
-padding: 5px;
-color: #0d99ff;
-border-color: #0d99ff;
-`
+  width: 150px;
+  height: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 5px;
+  color: #0d99ff;
+  border-color: #0d99ff;
+`;
 const UserProfile = styled.div`
-color: black;
-margin-top : 30px;
-
-`
+  color: black;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+`;
 const UserProfileImg = styled.img`
   margin: 0;
   padding: 0;
@@ -127,6 +158,8 @@ const UserProfileImg = styled.img`
   vertical-align: middle;
   justify-content: left;
   width: 60px;
-  background-color: #0D99FF;
-`
-const UserInfo = styled.div``
+  background-color: #0d99ff;
+`;
+const UserInfo = styled.div`
+  font-size: 23px;
+`;
