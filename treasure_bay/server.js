@@ -171,6 +171,37 @@ app.post("/postitem", upload.array("images"), async (req, res) => {
   }
 });
 
+app.get("/product/:id", async (req, res) => {
+  const id = req.params.id;
+  console.log(req.params.id);
+  try {
+    await db.query(
+      "SELECT * FROM products INNER JOIN users ON products.user_id = users.user_id WHERE product_id = $1 ORDER BY product_id DESC",
+      [id],
+      (error, results) => {
+        res.status(200).json(results.rows);
+      }
+    );
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
+app.delete("/product/delete/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    await db.query(
+      "DELETE FROM products WHERE product_id = $1",
+      [id],
+      (err, results) => {
+        res.status(200).send(`product was deleted`);
+      }
+    );
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
 // Get images from S3 bucket
 app.get("/images/:key", (req, res) => {
   const key = req.params.key;
