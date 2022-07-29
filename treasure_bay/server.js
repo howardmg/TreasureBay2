@@ -74,6 +74,20 @@ app.get("/products", async (req, res) => {
   }
 });
 
+// Get product info with user join table
+app.get("/all", async (_, res) => {
+  try {
+    await db.query(
+      "SELECT * FROM products INNER JOIN users ON products.user_id = users.user_id ORDER BY product_id DESC",
+      (error, results) => {
+        res.status(200).json(results.rows);
+      }
+    );
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
 // Get message info
 app.get("/messages", async (req, res) => {
   try {

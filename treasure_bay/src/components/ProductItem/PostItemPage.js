@@ -128,7 +128,7 @@ function PostItemPage() {
                         type="file"
                         onChange={fileChangeHandler}
                   /> */}
-                  <button className="box__button" type="submit" onClick={(e) => {
+                  <button className="btn" type="submit" onClick={(e) => {
                         e.preventDefault();
                         postItem(productName, price, details, description, images, user_id)
                         // setFileData(images[0]);
