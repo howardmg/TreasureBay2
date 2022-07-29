@@ -23,5 +23,5 @@ export default PicCarousel
 
 const CaroPics = styled.div`
 width:400px;
-height: auto;
+height: 800px;
 `
