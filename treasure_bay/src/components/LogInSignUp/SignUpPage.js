@@ -68,6 +68,11 @@ function SignUpPage() {
       // console.log(response)
       if (response.data.length === 0) {
         const formData = new FormData();
+        if (file) {
+          for (let i = 0; i < file.length; i++) {
+            formData.append("file", file[i]);
+          }
+        }
         formData.append("first_name", firstName);
         formData.append("last_name", lastName);
         formData.append("city", city);
@@ -75,12 +80,9 @@ function SignUpPage() {
         formData.append("zipcode", zipcode)
         formData.append("email", email);
         formData.append("password", password);
-        formData.append("file", file)
-        for (const value of formData.values()) {
-          console.log(value);
-        }
+
         try {
-          const response = await axios.post("http://localhost:3025/createprofile", formData)
+          const response = await axios.post("http://localhost:3025/createprofile", formData);
           console.log(response)
           setSuccess(true);
           console.log('user created')
@@ -233,23 +235,22 @@ function SignUpPage() {
                   onBlur={() => setMatchFocus(false)}
                 />
               </InputContainer>
-              <InputContainer>
-                <Label>Avatar</Label>
-                <DropZone images={images} setImages={setImages} />
-              </InputContainer>
               <Div>
                 <P id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "hide"}>
                   <InfoIcon src={Info}></InfoIcon> <br />
                   Must match desired password above.
                 </P>
               </Div>
+              <InputContainer>
+                <Label>Avatar</Label>
+                <DropZone images={images} setImages={setImages} />
+              </InputContainer>
               <ButtonContainer>
                 <RegisterButton
                   disabled={!email || !validPassword || !validMatch || !firstName || !lastName || !city || !state || !zipcode || !images ? true : false}
                   onClick={(e) => {
                     e.preventDefault();
-
-                    signUp(firstName, lastName, city, state, zipcode, email, password, images[0]);
+                    signUp(firstName, lastName, city, state, zipcode, email, password, images);
                     // console.log('success');
                   }}>Register</RegisterButton>
               </ButtonContainer>

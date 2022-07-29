@@ -6,8 +6,6 @@ name: CICD for Main branch
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
   
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -26,4 +24,3 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
-    - run: npm test

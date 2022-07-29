@@ -16,14 +16,14 @@ CREATE TABLE users(
     city TEXT NOT NULL,
     state VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL,
-    uuid TEXT,
+    --uuid TEXT,
     password TEXT NOT NULL,
     avatar TEXT
 );
 
 CREATE TABLE products(
     product_id SERIAL PRIMARY KEY,
-    name VARCHAR(256),
+    name text,
     price MONEY NOT NULL,
     description TEXT NOT NULL,
     details TEXT,

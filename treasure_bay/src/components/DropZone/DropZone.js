@@ -88,13 +88,15 @@ const DropZoneContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 200px;
-  width: 375px;
+  width: 350px;
+  height:200px;
   margin: 10px auto;
   margin-bottom: 10px;
+  margin-left:150px;
   border: 2px  black dotted;
   color: black;
   background-color: gray;
+  height: 200px;
 `
 
 const Dropzone = styled.div`
