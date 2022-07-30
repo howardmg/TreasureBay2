@@ -59,7 +59,7 @@ function ProductMainCards({
           <UserProfile id={id}>
             {" "}
             Seller:
-            <UserProfileImg id={id} src={avatar2} />
+            <UserProfileImg id={id} src={avatar} />
             <UserInfo id={id}>
               {fname} {lname}{" "}
             </UserInfo>
@@ -119,11 +119,13 @@ const ProductName = styled.div`
   font-size: 25px;
   font-weight: 500px;
   color: black;
+  text-align: center;
 `;
 const ProductPrice = styled.div`
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 500px;
   color: black;
+  margin-top: 5px;
 `;
 const BuyButton = styled.button`
   width: 100px;
@@ -143,7 +145,7 @@ const Message = styled.button`
 `;
 const UserProfile = styled.div`
   color: black;
-  margin-top: 30px;
+  margin-top: 10px;
   display: flex;
   align-items: center;
   margin-bottom: 10px;
