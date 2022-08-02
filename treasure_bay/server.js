@@ -160,16 +160,22 @@ app.post("/postitem", upload.array("images"), async (req, res) => {
     const parseUser = parseInt(user_id);
     const parsePrice = parseInt(price);
     const files = req.files;
-    const imgkey = files[0].filename;
-    const imageURL = `https://treasure-bay-images.s3.amazonaws.com/${imgkey}`;
+    const imageArray = [];
+    files.map((files) => {
+      const imgkey = files.filename;
+      const imageURL = `https://treasure-bay-images.s3.amazonaws.com/${imgkey}`;
+      imageArray.push(imageURL);
+    });
+
+    console.log(files, imageArray);
 
     // Uploads file(s) to S3 bucket
     const result = await uploadFile(files);
 
     // Adds post item info to the database
     const addProduct = await pool.query(
-      "INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, ARRAY[$5], $6);",
-      [productName, parsePrice, description, details, imageURL, parseUser]
+      "INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, $5, $6);",
+      [productName, parsePrice, description, details, imageArray, parseUser]
     );
     res.status(200).json(addProduct.rows);
   } catch (error) {
@@ -238,8 +244,6 @@ app.post("/multiple", upload.array("images"), async (req, res) => {
   }
   //await unlinkFile(file.path);
 });
-
-
 
 //=================== Listening on Port ==============================//
 app.listen(API_PORT, () => {
