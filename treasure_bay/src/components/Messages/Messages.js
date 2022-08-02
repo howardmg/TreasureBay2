@@ -5,14 +5,14 @@ import { useConversations } from '../../context/ConversationsProvider'
 
 function Messages() {
 
-  const { selectedConversationIndex, messages } = useConversations()
+  const { selectedConversationID, messages } = useConversations()
 
   const formatMessages = messages.filter(
-    msg => msg.sender_id === selectedConversationIndex
+    msg => msg.reciever_id === selectedConversationID
   ).map((message, index) => {
     return (
       <div className='message-sent'>
-        <p key={index} className='from-me'>{message.message}</p>
+        <p key={index} className='from-me'>{message.text}</p>
       </div>
     )
   })
