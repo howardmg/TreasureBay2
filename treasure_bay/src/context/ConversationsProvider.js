@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState, useCallback } from 'react'
+import { useSocket } from './SocketProvider'
 
 const ConversationsContext = React.createContext()
 
@@ -7,6 +8,8 @@ export function useConversations() {
 }
 
 export function ConversationsProvider({ children }) {
+
+    const socket = useSocket()
 
     const [conversations, setConversations] = useState(
         [{
@@ -25,8 +28,35 @@ export function ConversationsProvider({ children }) {
         }]
     )
 
-    const [selectedConversationIndex, setSelectedConversationIndex] = useState(1)
+    const [selectedConversationID, setSelectedConversationID] = useState(1)
+    const [selectedConversation, setSelectedConversation] = useState(conversations[selectedConversationID])
     const [messages, setMessages] = useState([])
+
+    const addMessageToConversations = useCallback((message) => {
+        setMessages((prevMessages) => {
+            return [...prevMessages, message]
+        })
+    }, [setMessages])
+
+    useEffect(() => {
+        if (!socket) {
+            return
+        }
+        socket.on('recieve-message', addMessageToConversations)
+        return () => socket.off('recieve-message')
+    }, [socket, addMessageToConversations])
+
+    const sendMessage = (user_id, reciever_id, text) => {
+
+        const message = {
+            user_id,
+            reciever_id,
+            text
+        }
+
+        socket.emit('send-message', { message })
+        addMessageToConversations(message)
+    }
 
     function createConversation(id, name) {
         setConversations(prevConversation => {
@@ -35,7 +65,7 @@ export function ConversationsProvider({ children }) {
     }
 
     return (
-        <ConversationsContext.Provider value={{ conversations, setConversations, createConversation, setSelectedConversationIndex, selectedConversationIndex, messages, setMessages }}>
+        <ConversationsContext.Provider value={{ conversations, setConversations, createConversation, setSelectedConversationID, selectedConversationID, messages, sendMessage }}>
             {children}
         </ConversationsContext.Provider>
     )
