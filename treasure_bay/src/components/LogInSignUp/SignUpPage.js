@@ -6,6 +6,7 @@ import Check from './images/checkmark.png';
 import Xmark from './images/xmark.png';
 import Info from "./images/info.svg.png"
 import DropZone from '../DropZone/DropZone';
+import Chest from './images/chest.gif';
 
 
 // const EMAIL_REGEX = /^[a-z0-9.]{1,64}@[a-z0-9.]{1,64}$/i;
@@ -109,6 +110,7 @@ function SignUpPage() {
       {success ? (
         <SignUpPageContainer>
           <SuccessHeader>Welcome aboard Matey!</SuccessHeader>
+          <StyledImage src={Chest}></StyledImage>
           <Link to='/login'><Button>Return to Log In Page</Button></Link>
         </SignUpPageContainer>
       ) : (
@@ -435,4 +437,10 @@ const Div = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
+`
+
+const StyledImage = styled.img`
+  margin-top: 40px;
+  height: 300px;
+  width: 300px;
 `

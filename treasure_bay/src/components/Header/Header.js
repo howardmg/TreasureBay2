@@ -1,4 +1,5 @@
 import { React, useContext, useState, useEffect, useRef } from 'react';
+import DropDown from './DropDown';
 import styled from 'styled-components';
 import TreasureBay from './images/treasure.jpg'
 import UserAvatar from './images/user.jpg'
@@ -10,7 +11,9 @@ import { Link } from 'react-router-dom';
 
 function Header() {
      const { user, setUser } = useContext(UserContext)
+
      return (
+
           <div className='header'>
                <Link to='/'>
                     <HeaderLogoContainer>
@@ -18,16 +21,25 @@ function Header() {
                          <HeaderTitle>Treasure Bay</HeaderTitle>
                     </HeaderLogoContainer>
                </Link>
-
                <SearchBarContainer>
                     <Search />
                </SearchBarContainer>
                <HeaderOptionsContainer>
                     <Link to='/postanitem'><PostIcon src={AddIcon}></PostIcon></Link>
                     <Link to='/messages'><MessageIcon src={Message}></MessageIcon></Link>
-                    {user && <Link to='/profile'><Avatar src={user[0].avatar}></Avatar></Link>}
-               </HeaderOptionsContainer>
 
+                    {user ? (
+                         <>
+                              {user && <DropDown></DropDown>}
+                         </>
+                    ) : (
+                         <>
+                              <StyledLink to="/login">Login/Signup</StyledLink>
+                         </>
+                    )}
+
+
+               </HeaderOptionsContainer>
           </div>
      )
 }
@@ -74,13 +86,7 @@ const HeaderOptionsContainer = styled.div`
      flex: .1;
 `
 
-const Avatar = styled.img`
-     height: 50px;
-     border-radius: 999px;
-     :hover{
-          transform: scale(1.1);
-     }
-`
+
 
 const MessageIcon = styled.img`
      height: 40px;
@@ -99,12 +105,5 @@ const PostIcon = styled.img`
 `
 
 const StyledLink = styled(Link)`
-    color: white;
-    position: relative;
-    margin-top: 15px;
-    cursor: pointer;
-    :hover {
-        color: #FF0000;
-        cursor: pointer;
-    }
+     color: rgba(13, 153, 255);
 `
