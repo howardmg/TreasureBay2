@@ -13,7 +13,7 @@ function PostItemPage() {
       const [price, setPrice] = useState(0)
       const [details, setDetails] = useState('')
       const [description, setDescription] = useState('')
-      const [user_id, setUser_id] = useState(3)
+      const [user_id, setUser_id] = useState(1)
       const [images, setImages] = useState([])
 
       const postItem = async (productName, price, details, description, images, user_id) => {
