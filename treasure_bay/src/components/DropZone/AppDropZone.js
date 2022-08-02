@@ -3,10 +3,12 @@ import ShowImage from './ShowImage';
 import DropBox from './DropBox';
 
 
-function AppDropZone({images, setImages}) {
+function AppDropZone({images, setImages, setImageSent }) {
 //   const [images, setImages] = useState([]);
+
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.map((file, index) => {
+      setImageSent((prevState) => [...prevState, file])
       const reader = new FileReader();
       reader.onload = function (e) {
         setImages((prevState) => [
@@ -18,9 +20,10 @@ function AppDropZone({images, setImages}) {
       return file;
     });
   }, []);
+
   return (
     <div className="AppDropZone">
-          <DropBox onDrop={onDrop} />
+          <DropBox onDrop={onDrop} setImageSent={setImageSent}  />
           <ShowImage images={images} />
     </div>
   );

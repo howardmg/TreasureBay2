@@ -15,7 +15,13 @@ const borderColor = (props) => {
 };
 
 
-function DropBox({ onDrop }) {
+function DropBox({ onDrop, setImageSent }) {
+
+  const handleFile = (e) => {
+    console.log(e)
+    setImageSent(e.target.files[0]);
+  }
+
   const {
     getRootProps,
     getInputProps,
@@ -43,7 +49,7 @@ function DropBox({ onDrop }) {
           className="dropbox"
           {...getRootProps({ isDragAccept, isFocused, isDragReject })}
         >
-          <input {...getInputProps()} />
+          <input {...getInputProps({})} />
           <P>Drag & drop some images here</P>
           <P>or</P>
           <button type="button" className="btn" onClick={open}>
