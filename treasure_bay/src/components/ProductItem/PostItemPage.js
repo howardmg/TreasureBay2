@@ -5,6 +5,7 @@ import PostItem from './Postitem.css'
 
 import { useState } from 'react';
 import DropZone from '../DropZone/DropZone';
+import AppDropZone from '../DropZone/AppDropZone';
 
 function PostItemPage() {
 
@@ -21,7 +22,7 @@ function PostItemPage() {
             const formData = new FormData();
             if (images) {
                   for (let i = 0; i < images.length; i++) {
-                    formData.append("images", images[i]);
+                    formData.append("images", images[i].src);
                   }
             }
 
@@ -33,7 +34,7 @@ function PostItemPage() {
                   formData.append("user_id", user_id);
                   
             console.log(JSON.stringify(formData))
-            console.log(images[0])
+            console.log(images[0].src[0])
 
            
               
@@ -100,7 +101,7 @@ function PostItemPage() {
                       <label className="pn">Product Details</label>
             </div>
             <div class="col-75">
-                      <textarea value={details} onChange={(e) => setDetails(e.target.value )} className="pi" rows="10" cols="50"></textarea>
+                      <textarea value={details} onChange={(e) => setDetails(e.target.value )} className="pi" rows="7" cols="50"></textarea>
             </div>
             </div>
             <div class="row">
@@ -108,26 +109,15 @@ function PostItemPage() {
                   <label className="pn">Product Description</label>
             </div>
             <div class="col-75">
-                  <textarea value={description} onChange={(e) => setDescription(e.target.value )} className="pi" rows="10" cols="50"></textarea>
+                  <textarea value={description} onChange={(e) => setDescription(e.target.value )} className="pi" rows="7" cols="50"></textarea>
             </div>
       </div>
       <div class="row">
-      <div class="col-25">
-              <label className="pn" >Product image</label>
-      </div>
-      </div>
-      <div class="col-75">
-      </div>
-      <div class="row">
-      
-      
-            <DropZone images={images} setImages={setImages}/>
-            {/* <div className="box__input">
-                  <input
-                        className="box__file"
-                        type="file"
-                        onChange={fileChangeHandler}
-                  /> */}
+            <div class="col-25">
+                  <label className="pn" >Product Image</label>
+            </div>
+            <div class="col-75">
+                  <AppDropZone images={images} setImages={setImages}/>
                   <button className="btn" type="submit" onClick={(e) => {
                         e.preventDefault();
                         postItem(productName, price, details, description, images, user_id)
@@ -137,6 +127,20 @@ function PostItemPage() {
                   }}>
                         Submit
                   </button>
+            </div>
+      </div>
+      <div class="row">
+      
+      
+            {/* <DropZone images={images} setImages={setImages}/> */}
+            
+            {/* <div className="box__input">
+                  <input
+                        className="box__file"
+                        type="file"
+                        onChange={fileChangeHandler}
+                  /> */}
+
             </div>
             </div>
       </form>
