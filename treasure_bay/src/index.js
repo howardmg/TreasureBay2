@@ -7,20 +7,23 @@ import { UserProvider } from './context/UserProvider';
 import { LoadingProvider } from './context/LoadingProvider';
 import { ConversationsProvider } from './context/ConversationsProvider';
 import { SocketProvider } from './context/SocketProvider';
+import { SingleProductProvider } from './context/ProductProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <UserProvider>
-      <LoadingProvider>
+      <SingleProductProvider>
         <SocketProvider>
-          <ConversationsProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </ConversationsProvider>
+          <LoadingProvider>
+            <ConversationsProvider>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </ConversationsProvider>
+          </LoadingProvider>
         </SocketProvider>
-      </LoadingProvider>
+      </SingleProductProvider>
     </UserProvider>
   </React.StrictMode>
 );

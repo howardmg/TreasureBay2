@@ -1,127 +1,154 @@
 import React from 'react'
 import PostItem from './Postitem.css'
-import Dropzone, { useDropzone } from 'react-dropzone';
+
+
 
 import { useState } from 'react';
+import DropZone from '../DropZone/DropZone';
+import AppDropZone from '../DropZone/AppDropZone';
 
 function PostItemPage() {
 
-      const [name, setname] = useState('test')
-      const [price, setprice] = useState(100.00)
-      const [details, setdetails] = useState('test')
-      const [description, setdescription] = useState('test')
-      const [image, setimage] = useState(['https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg',
-            'https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg', 'https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg',
-            'https://cdn.britannica.com/33/4833-004-828A9A84/Flag-United-States-of-America.jpg'])
+      const [fileData, setFileData] = useState([])
+      const [productName, setProductName] = useState('')
+      const [price, setPrice] = useState(0)
+      const [details, setDetails] = useState('')
+      const [description, setDescription] = useState('')
+      const [user_id, setUser_id] = useState(1)
+      const [images, setImages] = useState([])
+      const [imageSent, setImageSent] = useState([]);
 
 
-      function addNewProduct() {
+      const postItem = async (productName, price, details, description, images, user_id) => {
 
-            let obj = {
-                  name: name,
-                  price: price,
-                  details: details,
-                  description: description,
-                  image_url: image,
-                  user_id: 1
-
+            const formData = new FormData();
+            console.log(imageSent)
+            if (images) {
+                  for (let i = 0; i < images.length; i++) {
+                    formData.append("images", images[i]);
+                  }
             }
 
-            fetch("http://localhost:3025/createproducts", {
-                  method: "POST",
-                  headers: {
-                        "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(obj),
+                  formData.append("productName", productName);
+                  formData.append("price", price);
+                  formData.append("details", details);
+                  formData.append("description", description);
+                  // formData.append("images", images[0]);
+                  formData.append("user_id", user_id);
+                  
+            console.log(JSON.stringify(formData))
+            console.log(images)
+
+           
+              
+                    
+            
+            await fetch("http://localhost:3025/postitem", {
+                  method: 'POST',
+                  body: formData,
             })
-                  .then((res) => res.json())
-                  .then((data) => {
-                        console.log(data);
+            .then((result) => {
+                  console.log("File sent successfully")
+                  console.log(result)
+            })
+            .catch((err) => {
+                  console.log(err.message)
+            });
+          };
 
-                  });
-      };
+          const fileChangeHandler = (e) => {
+            setFileData(e.target.files[0]);
+          };
+        
+          const onSubmitHandler = (e) => {
+            // e.preventDefault();
+        
+            const data = new FormData();
+        
+            data.append("image", fileData);
+        
+            fetch("http://localhost:3025/images", {
+                  method: "POST",
+                  body: data,
+            })
+              .then((result) => {
+                console.log("File sent successfully");
+              })
+              .catch((err) => {
+                console.log(err.message);
+              });
+          };
+  return (
+       <>
+        <form>
+        <div class="container">
+            <div class="row">
+                <div class="col-25">
+                      <label className="pn" >Product Name</label>
+                </div>
+                <div class="col-75">
+                      <input type="text" value={productName} onChange={(e) => setProductName(e.target.value )} className="pi"
+                      />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                      <label className="pn">Product Price</label>
+                </div>
+                <div class="col-75">
+                      <input type="text" value={price} onChange={(e) => setPrice(e.target.value )} className="pi" />
+                </div>
+            </div>
+            <div class="row">
+                      <div class="col-25">
+                      <label className="pn">Product Details</label>
+            </div>
+            <div class="col-75">
+                      <textarea value={details} onChange={(e) => setDetails(e.target.value )} className="pi" rows="7" cols="50"></textarea>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-25">
+                  <label className="pn">Product Description</label>
+            </div>
+            <div class="col-75">
+                  <textarea value={description} onChange={(e) => setDescription(e.target.value )} className="pi" rows="7" cols="50"></textarea>
+            </div>
+      </div>
+      <div class="row">
+            <div class="col-25">
+                  <label className="pn" >Product Image</label>
+            </div>
+            <div class="col-75">
+                  <AppDropZone images={images} setImages={setImages} setImageSent={setImageSent}/>
+                  <button className="btn" type="submit" onClick={(e) => {
+                        e.preventDefault();
+                        postItem(productName, price, details, description, imageSent, user_id)
+                        // setFileData(images[0]);
+                        // console.log(images[0])
+                        // onSubmitHandler();
+                  }}>
+                        Submit
+                  </button>
+            </div>
+      </div>
+      <div class="row">
+      
+      
+            {/* <DropZone images={images} setImages={setImages}/> */}
+            
+            {/* <div className="box__input">
+                  <input
+                        className="box__file"
+                        type="file"
+                        onChange={fileChangeHandler}
+                  /> */}
 
-      return (
-            <>
-
-                  <div class="container">
-                        <form className='form'>
-                              <div class="row">
-                                    <div class="col-25">
-                                          <label className="pn" >Product Name</label>
-                                    </div>
-                                    <div class="col-75">
-                                          <input type="text" name="name" className="pi" ></input>
-                                    </div>
-                              </div>
-                              <div class="row">
-                                    <div class="col-25">
-                                          <label className="pn">Product Price</label>
-                                    </div>
-                                    <div class="col-75">
-                                          <input type="text" name="price" className="pi"></input>
-
-                                    </div>
-                              </div>
-                              <div class="row">
-                                    <div class="col-25">
-                                          <label className="pn">Product Details</label>
-                                    </div>
-                                    <div class="col-75">
-                                          <textarea name="detail" className="pi" rows="10" cols="50"></textarea>
-
-                                    </div>
-                              </div>
-                              <div class="row">
-                                    <div class="col-25">
-                                          <label className="pn">Product Description</label>
-                                    </div>
-                                    <div class="col-75">
-                                          <textarea name="description" className="pi" rows="10" cols="50"></textarea>
-                                    </div>
-                              </div>
-
-
-                              <div class="row">
-                                    <div class="col-25">
-                                          <label className="pn" >Product image</label>
-
-                                    </div>
-
-                              </div>
-                              <div class="col-75">
-                                    {/* <img src="upload.png" alt="upload file" width="100px" height="100px"></img> */}
-
-                                    <form class="box" method="post" action="" encType="multipart/form-data"  >
-                                          {/* <DropZone/> */}
-                                          <div class="box__input"  >
-
-                                                <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
-
-                                                <span class="box__dragndrop"> or drag it here</span>
-                                                <button class="box__button" type="submit">Upload</button>
-                                          </div>
-                                          <div class="box__uploading">Uploading…</div>
-                                          <div class="box__success">Done!</div>
-                                          <div class="box__error">Error! <span></span>.</div>
-                                    </form>
-                              </div>
-
-                              <div class="row">
-                                    <button className="btn" onClick={addNewProduct}>Submit</button>
-                              </div>
-
-
-                        </form>
-                  </div>
-
-
-
-
-
-
-            </>
-      )
+            </div>
+            </div>
+      </form>
+      </>
+  )
 }
 
 export default PostItemPage;

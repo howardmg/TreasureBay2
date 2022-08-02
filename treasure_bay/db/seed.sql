@@ -1,7 +1,8 @@
-INSERT INTO users (first_name, last_name, city, state, email, password) 
+INSERT INTO users (first_name, last_name, city, state, zipcode, email, password, avatar) 
 VALUES 
-('John', 'Smith', 'Austin', 'Texas', 'jsmith@test.com', 'test123'),
-('Steve', 'Baker', 'Austin', 'Texas', 'sbaker@test.com', 'test321');
+('John', 'Smith', 'Austin', 'Texas', '12345', 'jsmith@test.com', 'test123', 'https://pixabay.com/get/g64087ae177a5db5b30d4a55e74ee43347c86b0a3637c671aadbb620f5814214807effcc711ac88c8c71c543c1ab52af3_1920.jpg'),
+('Steve', 'Baker', 'Austin', 'Texas', '12345', 'sbaker@test.com', 'test321', 'https://pixabay.com/get/g5711da399285486c38d711b496067624a855671ca73a12b5326b17a178dfae93ad82595828f659bfb6d1979b2712df811c532274664aee44d244ae28b5048e35_1920.jpg');
+
 
 INSERT INTO products (name, price, description, details, image_url, user_id)
 VALUES

@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS treasure_bay;
+-- DROP DATABASE IF EXISTS treasure_bay;
 
-CREATE DATABASE treasure_bay;
-\c treasure_bay
+-- CREATE DATABASE treasure_bay;
+-- \c treasure_bay
 
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS products CASCADE;
@@ -16,13 +16,14 @@ CREATE TABLE users(
     city TEXT NOT NULL,
     state VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL,
-    uuid TEXT,
-    password TEXT NOT NULL
+    --uuid TEXT,
+    password TEXT NOT NULL,
+    avatar TEXT
 );
 
 CREATE TABLE products(
     product_id SERIAL PRIMARY KEY,
-    name VARCHAR(256),
+    name text,
     price MONEY NOT NULL,
     description TEXT NOT NULL,
     details TEXT,
@@ -38,5 +39,10 @@ CREATE TABLE messages(
     sender_id INT REFERENCES users(user_id) ON DELETE CASCADE,
     receiver_id INT REFERENCES users(user_id) ON DELETE CASCADE
 );
+
+CREATE TABLE images(
+    image_id SERIAL PRIMARY KEY,
+    image_url TEXT
+)
 
 \i db/seed.sql

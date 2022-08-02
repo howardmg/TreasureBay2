@@ -2,28 +2,34 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
 name: CICD for Main branch
+description: 'Builds app upon new pushes and pull requests to main'
+author: 'Mike Howard
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
   
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  build-ui:
+  build:
+    name: Build UI
 
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
     
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        node-version: v18.1.0
+#         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
-    - run: npm test
+
