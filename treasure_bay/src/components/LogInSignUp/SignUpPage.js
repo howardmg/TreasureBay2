@@ -399,6 +399,9 @@ const RegisterButton = styled.button`
   align-items: center;
   justify-content: center;
   margin-right: 25px;
+  :hover{
+    cursor: pointer;
+  }
 `
 
 const P = styled.p`

@@ -40,4 +40,9 @@ CREATE TABLE messages(
     receiver_id INT REFERENCES users(user_id) ON DELETE CASCADE
 );
 
--- \i seed.sql
+CREATE TABLE images(
+    image_id SERIAL PRIMARY KEY,
+    image_url TEXT
+)
+
+\i db/seed.sql
