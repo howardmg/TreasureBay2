@@ -74,6 +74,20 @@ app.get("/products", async (req, res) => {
   }
 });
 
+// Get product info with user join table
+app.get("/all", async (_, res) => {
+  try {
+    await db.query(
+      "SELECT * FROM products INNER JOIN users ON products.user_id = users.user_id ORDER BY product_id DESC",
+      (error, results) => {
+        res.status(200).json(results.rows);
+      }
+    );
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
 // Get message info
 app.get("/messages", async (req, res) => {
   try {
@@ -85,12 +99,18 @@ app.get("/messages", async (req, res) => {
 });
 
 //=======================================Profile Routes Start===============================================================================================
-app.post(`/createprofile`, upload.single("file"), async (req, res, next) => {
+app.post(`/createprofile`, upload.array("file"), async (req, res, next) => {
   try {
+    const avatar = req.files;
+    const result = await uploadFile(avatar);
+    console.log(avatar);
+    const imgKey = avatar[0].filename;
+    const imageURL = `https://treasure-bay-images.s3.amazonaws.com/${imgKey}`;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    console.log(req.file);
     console.log(req.body);
     await db.query(
-      `INSERT INTO users (first_name, last_name, city, state, email, password) VALUES ('${req.body.first_name}', '${req.body.last_name}', '${req.body.city}', '${req.body.state}', '${req.body.email}', '${hashedPassword}');`
+      `INSERT INTO users (first_name, last_name, city, state, zipcode, email, password, avatar) VALUES ('${req.body.first_name}', '${req.body.last_name}', '${req.body.city}', '${req.body.state}', '${req.body.zipcode}', '${req.body.email}', '${hashedPassword}', '${imageURL}');`
     );
     res.json("Success");
   } catch (error) {
@@ -157,7 +177,36 @@ app.post("/postitem", upload.array("images"), async (req, res) => {
   }
 });
 
+app.get("/product/:id", async (req, res) => {
+  const id = req.params.id;
+  console.log(req.params.id);
+  try {
+    await db.query(
+      "SELECT * FROM products INNER JOIN users ON products.user_id = users.user_id WHERE product_id = $1 ORDER BY product_id DESC",
+      [id],
+      (error, results) => {
+        res.status(200).json(results.rows);
+      }
+    );
+  } catch (error) {
+    console.error(error.message);
+  }
+});
 
+app.delete("/product/delete/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    await db.query(
+      "DELETE FROM products WHERE product_id = $1",
+      [id],
+      (err, results) => {
+        res.status(200).send(`product was deleted`);
+      }
+    );
+  } catch (error) {
+    console.error(error.message);
+  }
+});
 
 // Get images from S3 bucket
 app.get("/images/:key", (req, res) => {
@@ -189,6 +238,8 @@ app.post("/multiple", upload.array("images"), async (req, res) => {
   }
   //await unlinkFile(file.path);
 });
+
+
 
 //=================== Listening on Port ==============================//
 app.listen(API_PORT, () => {
