@@ -4,19 +4,18 @@ import './Conversations.css'
 
 function Conversations() {
 
-    const { conversations, setSelectedConversationIndex, selectedConversationIndex } = useConversations()
+    const { conversations, setSelectedConversationID, selectedConversationID } = useConversations()
 
-    console.log(selectedConversationIndex)
-    let formatConversations = conversations.map((contact, index) => {
+    let formatConversations = conversations.map((conversation, index) => {
         return (
-            <div className={selectedConversationIndex === contact.id ? 'active conversation' : 'conversation'} key={index}
-                onClick={() => setSelectedConversationIndex(contact.id)}
+            <div className={selectedConversationID === conversation.id ? 'active conversation' : 'conversation'} key={index}
+                onClick={() => setSelectedConversationID(conversation.id)}
             >
                 <div className='sender-profile'>
-                    <img alt='pfp' src={contact.picture} style={{ borderRadius: '50%' }} />
-                    <h3 className='conversation-name'>{contact.name}</h3>
+                    <img alt='pfp' src={conversation.picture} style={{ borderRadius: '50%' }} />
+                    <h3 className='conversation-name'>{conversation.name}</h3>
                 </div>
-                <p className='message'>{contact.message} {contact.time}</p>
+                <p className='message'>{conversation.message} {conversation.time}</p>
             </div>
         )
     })
