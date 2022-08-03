@@ -11,7 +11,6 @@ import MessagingPage from './components/MessagingPage/MessagingPage';
 import PostItemPage from './components/ProductItem/PostItemPage';
 import ProductItem from './components/ProductItem/ProductItem';
 import ProductPage from './components/ProductItem/ProductPage';
-import UserProducts from './components/ProductItem/UserProducts';
 import ProfilePage from './components/ProfilePage/ProfilePage';
 import LoadingContext from './context/LoadingProvider';
 import UserContext from './context/UserProvider';
@@ -43,7 +42,7 @@ function App() {
         <Route path='/postanitem' element={<PostItemPage />} />
         <Route path='/messages' element={<MessagingPage />} />
         <Route path='/onlineshoppingtips' element={<OnlineShoppingTips />} />
-        <Route path='/profileproduct' element={<UserProducts />} />
+        
       </Routes>
       <Footer />
 

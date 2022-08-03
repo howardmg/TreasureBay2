@@ -39,6 +39,7 @@ function ProductMainCards({
       .then((data) => setSingleProduct(data)) 
       .then(navigate('/productitem'))
       setLoading(false)
+      
      
   };
   
@@ -83,7 +84,9 @@ const ProductItemContainer = styled.div`
 const ProductCard = styled.div``;
 const PicImg = styled.img`
   width: 250px;
-  height: 300px;
+  height: 250px;
+  border: #0D99FF 3px solid;
+  border-radius: 10px;
 `;
 const ProductDescription = styled.div`
   text-align: center;
@@ -100,7 +103,7 @@ const ProductEach = styled.div`
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.1);
   align-items: center;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
   transition: 0.3s;
   border-radius: 10px;
   :hover {

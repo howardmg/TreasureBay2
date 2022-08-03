@@ -6,7 +6,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 function PicCarousel({ image_url, key }) {
   console.log(image_url)
   return (
-    <CaroPics className="pricingCarouselContainer">
+    <CaroPicsContainer className="pricingCarouselContainer">
       <Carousel className="pic" showIndicators={false} showStatus={false}>
         {image_url.map((images) => (
 
@@ -15,14 +15,21 @@ function PicCarousel({ image_url, key }) {
           </div>
         ))}
       </Carousel>
-    </CaroPics>
+    </CaroPicsContainer>
   )
 }
 
 export default PicCarousel
 
-const CaroPics = styled.div`
+const CaroPicsContainer = styled.div`
 display: flex;
 width:360px;
 height: 800px;
+
+`
+const CaroPics = styled.div`
+  /* border: #0D99FF 3px solid;
+  border-radius: 10px;
+  width:100px;
+  height: 100px; */
 `
