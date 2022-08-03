@@ -1,5 +1,6 @@
-import React from 'react'
+import {React, useContext} from 'react'
 import PostItem from './Postitem.css'
+import UserContext from '../../context/UserProvider'
 
 
 
@@ -14,13 +15,16 @@ function PostItemPage() {
       const [price, setPrice] = useState(0)
       const [details, setDetails] = useState('')
       const [description, setDescription] = useState('')
-      const [user_id, setUser_id] = useState(1)
+      
       const [images, setImages] = useState([])
       const [imageSent, setImageSent] = useState([]);
+      const { user, setUser } = useContext(UserContext)
+      const [user_id, setUser_id] = useState(1)
 
+     
 
       const postItem = async (productName, price, details, description, images, user_id) => {
-
+            user_id = user[0].user_id
             const formData = new FormData();
             console.log(imageSent)
             if (images) {

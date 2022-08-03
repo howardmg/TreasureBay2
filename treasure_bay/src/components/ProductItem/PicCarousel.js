@@ -22,6 +22,7 @@ function PicCarousel({ image_url, key }) {
 export default PicCarousel
 
 const CaroPics = styled.div`
-width:400px;
+display: flex;
+width:360px;
 height: 800px;
 `
