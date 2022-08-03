@@ -91,20 +91,4 @@ const MessageIcon = styled.img`
 const PostIcon = styled.img`
      height: 30px;
      border-radius: 999px;
-     margin-right: 15px;
-     margin-top: 6px;
-     :hover{
-          transform: scale(1.1);
-     }
-`
-
-const StyledLink = styled(Link)`
-    color: white;
-    position: relative;
-    margin-top: 15px;
-    cursor: pointer;
-    :hover {
-        color: #FF0000;
-        cursor: pointer;
-    }
-`
+     `

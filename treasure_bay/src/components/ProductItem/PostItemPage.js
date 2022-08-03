@@ -1,5 +1,6 @@
-import React from 'react'
-import PostItem from './Postitem.css'
+import React, { useContext, useEffect } from 'react';
+import PostItem from './Postitem.css';
+import UserContext from '../../context/UserProvider';
 
 
 
@@ -9,6 +10,7 @@ import AppDropZone from '../DropZone/AppDropZone';
 
 function PostItemPage() {
 
+      const { user, setUser } = useContext(UserContext);
       const [fileData, setFileData] = useState([])
       const [productName, setProductName] = useState('')
       const [price, setPrice] = useState(0)

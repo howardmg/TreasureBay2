@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
+import AboutPage from './components/Footer/AboutPage';
 import Footer from './components/Footer/Footer';
 import OnlineShoppingTips from './components/Footer/OnlineShoppingTips';
 import Header from './components/Header/Header';
@@ -42,6 +43,7 @@ function App() {
         <Route path='/postanitem' element={<PostItemPage />} />
         <Route path='/messages' element={<MessagingPage />} />
         <Route path='/onlineshoppingtips' element={<OnlineShoppingTips />} />
+        <Route path='/about' element={<AboutPage />}/>
       </Routes>
       <Footer />
 

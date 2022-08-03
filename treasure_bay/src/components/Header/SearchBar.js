@@ -20,6 +20,7 @@ const SearchBar  = styled.input`
      height: 30px;
      border-radius: 999px;
      border-color: #0D99FF;
+     border: solid 2.1px;
      color: #0D99FF;
      font-size: 17px;
      font-family: 'Kanit', sans-serif;
