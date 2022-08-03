@@ -2,8 +2,8 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
 name: CICD for Main branch
-description: 'Builds app upon new pushes and pull requests to main'
-author: 'Mike Howard
+# description: Builds app upon new pushes and pull requests to main
+# author: Mike Howard
 
 on:
   push:
@@ -18,10 +18,7 @@ jobs:
   build:
     name: Build UI
 
-    runs-on: ${{matrix.os}}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+    runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v3
@@ -29,6 +26,5 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: v18.1.0
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
+    - run: npm install --prefix ./treasure_bay
+    - run: npm run --prefix ./treasure_bay build --if-present
