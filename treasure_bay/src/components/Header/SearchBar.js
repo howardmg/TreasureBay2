@@ -24,8 +24,9 @@ const SearchBar  = styled.input`
      color: #0D99FF;
      font-size: 17px;
      font-family: 'Kanit', sans-serif;
+     text-indent: 5px;
      :focus-within{
-    box-shadow: 0 0px 3px 1px #0D99FF;
-    outline: 0;
-}
+          box-shadow: 0 0px 3px 1px #0D99FF;
+          outline: 0;
+     }
 `
