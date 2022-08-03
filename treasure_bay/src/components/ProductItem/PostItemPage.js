@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 import PostItem from './Postitem.css'
-
+import UserContext from '../../context/UserProvider'
+import Footer from '../Footer/Footer'
+import Header from '../Header/Header'
 
 
 import { useState } from 'react';
@@ -8,19 +10,20 @@ import DropZone from '../DropZone/DropZone';
 import AppDropZone from '../DropZone/AppDropZone';
 
 function PostItemPage() {
+      // const { user } = UserContext()
 
       const [fileData, setFileData] = useState([])
       const [productName, setProductName] = useState('')
       const [price, setPrice] = useState(0)
       const [details, setDetails] = useState('')
       const [description, setDescription] = useState('')
-      const [user_id, setUser_id] = useState(1)
+      const [user_id,setUser_id] = useState(3)
       const [images, setImages] = useState([])
       const [imageSent, setImageSent] = useState([]);
 
 
       const postItem = async (productName, price, details, description, images, user_id) => {
-
+            // user_id=user[0].user_id
             const formData = new FormData();
             console.log(imageSent)
             if (images) {
