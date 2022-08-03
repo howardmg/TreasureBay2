@@ -186,6 +186,21 @@ app.post("/postitem", upload.array("images"), async (req, res) => {
   }
 });
 
+app.get("/profileproducts/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    await db.query(
+      "SELECT * FROM products INNER JOIN users ON users.user_id = products.user_id WHERE users.user_id = $1 ORDER BY product_id DESC",
+      [id],
+      (error, results) => {
+        res.status(200).json(results.rows);
+      }
+    );
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
 app.get("/product/:id", async (req, res) => {
   const id = req.params.id;
   console.log(req.params.id);
