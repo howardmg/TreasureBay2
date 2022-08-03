@@ -86,7 +86,10 @@ app.get("/all", async (_, res) => {
   } catch (error) {
     console.error(error.message);
   }
+
 });
+
+
 
 // Get message info
 app.get("/messages", async (req, res) => {
