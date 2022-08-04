@@ -4,7 +4,7 @@ import PicCarousel from "./PicCarousel";
 import avatar2 from "./joshua.png";
 import { useNavigate } from "react-router-dom";
 import ProductItem from "./ProductItem";
-import { useState, useContext, useEffect } from 'react'
+import { useState, useContext, useEffect } from "react";
 import SingleProductContext from "../../context/ProductProvider";
 
 function ProductMainCards({
@@ -18,10 +18,9 @@ function ProductMainCards({
   fname,
   id,
 }) {
-
-  const {singleProduct, setSingleProduct} = useContext(SingleProductContext)
-  const [loading, setLoading] = useState(true)
-  const [loadingMessage, setLoadingMessage] = useState("")
+  const { singleProduct, setSingleProduct } = useContext(SingleProductContext);
+  const [loading, setLoading] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState("");
   let navigate = useNavigate();
 
   // useEffect(() => {
@@ -32,52 +31,46 @@ function ProductMainCards({
   // }, [singleProduct]);
 
   const handleSingleProduct = (e) => {
-    e.preventDefault()
-    setLoadingMessage('Products are loading')
+    e.preventDefault();
+    setLoadingMessage("Products are loading");
     fetch(`http://localhost:3025/product/${e.target.id}`)
       .then((response) => response.json())
-      .then((data) => setSingleProduct(data)) 
-      .then(navigate('/productitem'))
-      setLoading(false)
-      
-     
+      .then((data) => setSingleProduct(data))
+      .then(navigate("/productitem"));
+    setLoading(false);
   };
-  
-// console.log(singleProduct);
 
+  // console.log(singleProduct);
 
   return (
-<div className="mainproductpage">
-    <ProductItemContainer id={id} className="productcontainer">
-      <ProductCard>
-        <ProductEach id={id} onClick={handleSingleProduct}>
-          <ProductName id={id}>{product_name}</ProductName>
-          
-          <PicImg id={id} src={image_url[0]} />
-          <ProductPrice id={id}>{price}</ProductPrice>
+    <div className="mainproductpage">
+      <ProductItemContainer id={id} className="productcontainer">
+        <ProductCard>
+          <ProductEach id={id} onClick={handleSingleProduct}>
+            <ProductName id={id}>{product_name}</ProductName>
 
-          
-          <UserProfile id={id}>
-            {" "}
-            Seller:
-            <UserProfileImg id={id} src={avatar} />
-            <UserInfo id={id}>
-              {fname} {lname}{" "}
-            </UserInfo>
-          </UserProfile>
-        </ProductEach>
-      </ProductCard>
-    </ProductItemContainer>
+            <PicImg id={id} src={image_url[0]} />
+            <ProductPrice id={id}>{price}</ProductPrice>
+
+            <UserProfile id={id}>
+              {" "}
+              Seller:
+              <UserProfileImg id={id} src={avatar} />
+              <UserInfo id={id}>
+                {fname} {lname}{" "}
+              </UserInfo>
+            </UserProfile>
+          </ProductEach>
+        </ProductCard>
+      </ProductItemContainer>
     </div>
-    
   );
-  
 }
 
 export default ProductMainCards;
 
 const ProductItemContainer = styled.div`
-/* height: 100vh; */
+  /* height: 100vh; */
   margin-bottom: 40px;
 `;
 
@@ -85,7 +78,7 @@ const ProductCard = styled.div``;
 const PicImg = styled.img`
   width: 250px;
   height: 250px;
-  border: #0D99FF 3px solid;
+  border: #0d99ff 3px solid;
   border-radius: 10px;
 `;
 const ProductDescription = styled.div`
@@ -123,7 +116,7 @@ const ProductName = styled.div`
   font-weight: 500px;
   color: black;
   text-align: center;
- `;
+`;
 const ProductPrice = styled.div`
   font-size: 25px;
   font-weight: 500px;
