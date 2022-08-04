@@ -86,9 +86,7 @@ app.get("/all", async (_, res) => {
   } catch (error) {
     console.error(error.message);
   }
-
 });
-
 
 // Get message info
 app.get("/messages", async (req, res) => {
@@ -100,7 +98,8 @@ app.get("/messages", async (req, res) => {
   }
 });
 
-//=======================================Profile Routes Start===============================================================================================
+//====================== Profile Routes ======================//
+
 app.post(`/createprofile`, upload.array("file"), async (req, res, next) => {
   try {
     const avatar = req.files;
@@ -151,9 +150,8 @@ app.get("/login/:email", async (req, res) => {
     console.log(error.message);
   }
 });
-//=======================================Profile Routes End===============================================================================================
 
-//=================== Products Routes ==============================//
+//=================== Products Routes ======================//
 
 //search functionality to find products
 app.get("/search/:searchvalue", async (req, res) => {
@@ -193,6 +191,19 @@ app.post("/postitem", upload.array("images"), async (req, res) => {
     res.status(200).json(addProduct.rows);
   } catch (error) {
     res.status(400).json(error.message);
+  }
+});
+
+//search functionality to find products
+app.get("/search/:searchvalue", async (req, res) => {
+  const searchValue = req.params.searchvalue;
+  try {
+    const data = await db.query(
+      `SELECT * FROM products INNER JOIN users ON products.user_id = users.user_id WHERE LOWER(name) LIKE LOWER('%${searchValue}%')`
+    );
+    res.send(data.rows);
+  } catch (error) {
+    console.log(error.message);
   }
 });
 
