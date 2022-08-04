@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-
-import ProductItem from './ProductItem';
 import ProductMainCards from './ProductMainCards';
 
 
 function ProductPage() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
-  const [loadingMessage, setLoadingMessage] = useState("")
+  const [loadingMessage, setLoadingMessage] = useState("Products are loading")
   
 
 
@@ -19,7 +17,6 @@ function ProductPage() {
   },[])
 
   function getProducts (){
-    setLoadingMessage('Products are loading')
     fetch('http://localhost:3025/all')
     .then((response) => response.json())
     .then((data) => setProducts(data))
@@ -30,7 +27,15 @@ function ProductPage() {
 
   
   return (
-
+    <>
+    {loading ? (
+      <div>
+      <h1>{loadingMessage}</h1>
+    </div>
+    )
+  :
+  
+(
     <ProductContainer className='productitempage'>
     {products.map((data) => (
       <ProductMainCards 
@@ -50,7 +55,10 @@ function ProductPage() {
 
     
     </ProductContainer>
+    )}
+    </>
   )
+
 }
 
 export default ProductPage;

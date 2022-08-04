@@ -86,7 +86,9 @@ app.get("/all", async (_, res) => {
   } catch (error) {
     console.error(error.message);
   }
+
 });
+
 
 // Get message info
 app.get("/messages", async (req, res) => {
@@ -180,6 +182,21 @@ app.post("/postitem", upload.array("images"), async (req, res) => {
     res.status(200).json(addProduct.rows);
   } catch (error) {
     res.status(400).json(error.message);
+  }
+});
+
+app.get("/profileproducts/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    await db.query(
+      "SELECT * FROM products INNER JOIN users ON users.user_id = products.user_id WHERE users.user_id = $1 ORDER BY product_id DESC",
+      [id],
+      (error, results) => {
+        res.status(200).json(results.rows);
+      }
+    );
+  } catch (error) {
+    console.error(error.message);
   }
 });
 
