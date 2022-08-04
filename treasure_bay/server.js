@@ -155,6 +155,17 @@ app.get("/login/:email", async (req, res) => {
 
 //=================== Products Routes ==============================//
 
+//search functionality to find products
+app.get("/search/:searchvalue", async (req, res) => {
+  const searchValue = req.params.searchvalue;
+  try {
+    const data = await db.query(`SELECT * FROM products INNER JOIN users ON products.user_id = users.user_id WHERE LOWER(name) LIKE LOWER('%${searchValue}%')`);
+    res.send(data.rows);
+  } catch (error) {
+    console.log(error.message)
+  }
+})
+
 // Post product info
 app.post("/postitem", upload.array("images"), async (req, res) => {
   try {

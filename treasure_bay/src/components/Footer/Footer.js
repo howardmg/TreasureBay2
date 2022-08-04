@@ -4,18 +4,18 @@ import copyright from './images/copyright-symbol.png'
 import { Link } from 'react-router-dom'
 
 function Footer() {
-  return (
-    <div className='footer'>
-     <CopyRightContainer>
-          <CopyRight src={copyright} />
-          <Header>Treasure Bay LLC.</Header>
-     </CopyRightContainer>
-     <ShoppingTipsContainer>
-          <Link to='/onlineshoppingtips'><Header>Online Shopping Safety Tips</Header></Link>
-     </ShoppingTipsContainer>
-     
-    </div>
-  )
+     return (
+          <div className='footer'>
+               <CopyRightContainer>
+                    <CopyRight src={copyright} />
+                    <Header>Treasure Bay LLC.</Header>
+               </CopyRightContainer>
+               <ShoppingTipsContainer>
+                    <Link to='/onlineshoppingtips'><Header>Online Shopping Safety Tips</Header></Link>
+               </ShoppingTipsContainer>
+
+          </div>
+     )
 }
 
 export default Footer;
