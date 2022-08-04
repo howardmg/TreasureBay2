@@ -123,7 +123,7 @@ const ProductName = styled.div`
   font-weight: 500px;
   color: black;
   text-align: center;
-`;
+ `;
 const ProductPrice = styled.div`
   font-size: 25px;
   font-weight: 500px;
