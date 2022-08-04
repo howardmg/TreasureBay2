@@ -44,9 +44,9 @@ function ProfilePage() {
                   <p className="name">
                     {user[0].first_name + " " + user[0].last_name}
                   </p>
-                  <p>{user[0].zipcode}</p>
-                  <p>{user[0].city}</p>
-                  <p>{user[0].state}</p>
+                  <p>{user[0].city}, {user[0].state} {user[0].zipcode}</p>
+                  {/* <p>{user[0].state}</p> */}
+                  {/* <p>{user[0].zipcode}</p> */}
                 </div>
               </div>
               <div className="title">
