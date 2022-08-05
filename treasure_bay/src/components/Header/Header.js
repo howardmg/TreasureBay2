@@ -14,32 +14,47 @@ function Header() {
 
      return (
 
+
+
           <div className='header'>
-               <Link to='/'>
-                    <HeaderLogoContainer>
-                         <TreasureBayLogo src={TreasureBay} />
-                         <HeaderTitle>Treasure Bay</HeaderTitle>
-                    </HeaderLogoContainer>
-               </Link>
-               <SearchBarContainer>
-                    <Search />
-               </SearchBarContainer>
-               <HeaderOptionsContainer>
-                    <Link to='/postanitem'><PostIcon src={AddIcon}></PostIcon></Link>
-                    <Link to='/messages'><MessageIcon src={Message}></MessageIcon></Link>
 
-                    {user ? (
-                         <>
+
+               {user ? (
+                    <>
+                         <Link to='/'>
+                              <HeaderLogoContainer>
+                                   <TreasureBayLogo src={TreasureBay} />
+                                   <HeaderTitle>Treasure Bay</HeaderTitle>
+                              </HeaderLogoContainer>
+                         </Link>
+                         <SearchBarContainer>
+                              <Search />
+                         </SearchBarContainer>
+                         <HeaderOptionsContainer>
+                              <Link to='/postanitem'><PostIcon src={AddIcon}></PostIcon></Link>
+                              <Link to='/messages'><MessageIcon src={Message}></MessageIcon></Link>
                               {user && <DropDown></DropDown>}
-                         </>
-                    ) : (
-                         <>
+                         </HeaderOptionsContainer>
+                    </>
+               ) : (
+                    <>
+                         <Link to='/'>
+                              <HeaderLogoContainer>
+                                   <TreasureBayLogo src={TreasureBay} />
+                                   <HeaderTitle>Treasure Bay</HeaderTitle>
+                              </HeaderLogoContainer>
+                         </Link>
+                         <SearchBarContainer>
+                              <Search />
+                         </SearchBarContainer>
+                         <HeaderOptionsContainer>
                               <StyledLink to="/login">Login/Signup</StyledLink>
-                         </>
-                    )}
+                         </HeaderOptionsContainer>
+                    </>
+               )}
 
 
-               </HeaderOptionsContainer>
+
           </div>
      )
 }
