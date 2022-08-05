@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useContext, useEffect, useState, useCallback } from 'react'
 import { useSocket } from './SocketProvider'
 
@@ -11,51 +12,56 @@ export function ConversationsProvider({ children }) {
 
     const socket = useSocket()
 
-    const [conversations, setConversations] = useState(
-        [{
-            id: 1,
-            name: "John Doe",
-            message: "This is the message",
-            picture: "https://picsum.photos/50",
-            time: "3:13pm"
-        },
-        {
-            id: 2,
-            name: "Jane Doe",
-            message: "This is another message",
-            picture: "https://picsum.photos/50",
-            time: "3:13pm"
-        }]
-    )
+    const [conversations, setConversations] = useState([])
 
-    const [selectedConversationID, setSelectedConversationID] = useState(1)
-    const [selectedConversation, setSelectedConversation] = useState(conversations[selectedConversationID])
-    const [messages, setMessages] = useState([])
+    const [selectedConversationIndex, setSelectedConversationIndex] = useState()
+    const [selectedConversation, setSelectedConversation] = useState()
 
-    const addMessageToConversations = useCallback((message) => {
+    const [messages, setMessages] = useState([''])
+
+    const addMessageToConversations = useCallback(({ receiver_id, sender_id, message }) => {
+        console.log('hey')
+        const messageInfo = {
+            receiver_id,
+            sender_id,
+            message
+        }
+
         setMessages((prevMessages) => {
-            return [...prevMessages, message]
+            return [...prevMessages, messageInfo]
         })
-    }, [setMessages])
+
+    })
 
     useEffect(() => {
-        if (!socket) {
-            return
-        }
-        socket.on('recieve-message', addMessageToConversations)
+        if (socket == false) return
+
+
+        //console.log(socket)
+        socket.on('receive-message',
+            addMessageToConversations, console.log('hellllllll'))
         return () => socket.off('recieve-message')
-    }, [socket, addMessageToConversations])
+    }, [socket,
+        addMessageToConversations])
 
-    const sendMessage = (user_id, reciever_id, text) => {
+    const sendMessage = (sender_id, receiver_id, message) => {
+        console.log(sender_id, receiver_id, message)
+        axios.post('http://localhost:3025/api/sendmessage', { message, sender_id, receiver_id })
+        // .then((response) => {
+        //     setMessages((prevMessages) => {
+        //         return [...prevMessages, response.data]
+        //     })
+        // })
 
-        const message = {
-            user_id,
-            reciever_id,
-            text
-        }
+        // const messageInfo = {
+        //     sender_id,
+        //     receiver_id,
+        //     message
+        // }
 
-        socket.emit('send-message', { message })
-        addMessageToConversations(message)
+        socket.emit('send-message', ({ receiver_id, sender_id, message }))
+        //{ messageInfo })
+        addMessageToConversations({ receiver_id, sender_id, message })
     }
 
     function createConversation(id, name) {
@@ -65,7 +71,7 @@ export function ConversationsProvider({ children }) {
     }
 
     return (
-        <ConversationsContext.Provider value={{ conversations, setConversations, createConversation, setSelectedConversationID, selectedConversationID, messages, sendMessage }}>
+        <ConversationsContext.Provider value={{ conversations, setConversations, createConversation, setSelectedConversationIndex, selectedConversationIndex, messages, sendMessage, setMessages, selectedConversation, setSelectedConversation }}>
             {children}
         </ConversationsContext.Provider>
     )
