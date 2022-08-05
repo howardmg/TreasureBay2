@@ -26,9 +26,9 @@ const CaroPicsContainer = styled.div`
   width: 360px;
   height: 800px;
 `;
-const CaroPics = styled.div`
-  /* border: #0D99FF 3px solid;
-  border-radius: 10px;
-  width:100px;
-  height: 100px; */
-`;
+//  Carousel = styled.div`
+//   border: #0D99FF 3px solid;
+//   border-radius: 10px;
+//   width:100px;
+//   height: 100px;
+// `;

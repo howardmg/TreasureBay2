@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import PicCarousel from "./PicCarousel";
-import avatar2 from "./joshua.png";
+import avatar2 from "./images/joshua.png";
 import SingleProductContext from "../../context/ProductProvider";
 
 function ProductItem() {

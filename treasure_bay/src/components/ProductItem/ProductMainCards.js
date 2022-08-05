@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PicCarousel from "./PicCarousel";
-import avatar2 from "./joshua.png";
+import avatar2 from "./images/joshua.png";
 import { useNavigate } from "react-router-dom";
 import ProductItem from "./ProductItem";
 import { useState, useContext, useEffect } from "react";

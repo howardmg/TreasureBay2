@@ -1,10 +1,12 @@
 import { React, useContext } from "react";
 import PostItem from "./Postitem.css";
 import UserContext from "../../context/UserProvider";
-
+import { Link } from 'react-router-dom';
 import { useState } from "react";
 import DropZone from "../DropZone/DropZone";
 import AppDropZone from "../DropZone/AppDropZone";
+import styled from "styled-components";
+import Success from './images/PostSuccess.gif';
 
 function PostItemPage() {
   const [fileData, setFileData] = useState([]);
@@ -83,10 +85,14 @@ function PostItemPage() {
   };
   return (
     <>
-      {success ? (
-        <div>
-          <h1>Success</h1>
-        </div>
+      {success === true ? (
+        <PostPageContainer>
+        <SuccessHeader>Your item has been posted!</SuccessHeader>
+        <StyledImage src={Success}></StyledImage>
+        <Link to='/postanitem'>Post another item</Link>
+        <Link to='/'>Return Home</Link>
+        
+      </PostPageContainer>
       ) : (
         <form>
           <div class="container">
@@ -158,7 +164,7 @@ function PostItemPage() {
                   className="btn"
                   type="submit"
                   onClick={(e) => {
-                    // e.preventDefault();
+                    e.preventDefault();
                     postItem(
                       productName,
                       price,
@@ -194,3 +200,44 @@ function PostItemPage() {
 }
 
 export default PostItemPage;
+
+
+const SuccessHeader = styled.h1`
+  color: #0D99FF;
+`
+
+const StyledImage = styled.img`
+  margin-top: 40px;
+  height: 600px;
+  width: 800px;
+`
+
+const PostPageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 100px;
+`
+
+// Link = styled.link`
+//   display: flex;
+//   box-shadow: 0px 5px 17px -7px rgba(0, 0, 0, 0.75);
+//   height: 40px;
+//   width: 350px;
+//   justify-content: center;
+//   align-items: center;
+//   align-content: center;
+//   margin: auto;
+//   font-family: "Pacifico", cursive;
+//   font-size: 25px;
+//   border: transparent;
+//   background-color: white;
+//   border-radius: 999px;
+//   margin: 50px;
+//   :hover {
+//       background-color: #0D99FF;
+//       color: white;
+//       border-radius: 999px;
+//       cursor: pointer;
+//     }
+// `
