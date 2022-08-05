@@ -284,6 +284,15 @@ app.post("/multiple", upload.array("images"), async (req, res) => {
   //await unlinkFile(file.path);
 });
 
+app.get("/conversations", async (req, res) => {
+  try {
+    const result = await db.query("SELECT * FROM messages INNER JOIN users ON users.user_id=1;")
+    res.json(result.rows)
+  } catch (error) {
+    console.error(error.message)
+  }
+})
+
 //=================== Listening on Port ==============================//
 app.listen(API_PORT, () => {
   console.log(`Server is listening on port: ${API_PORT}`);
