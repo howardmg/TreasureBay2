@@ -27,7 +27,10 @@ function ProductItem() {
           <h1>Loading</h1>
         </div>
       ) : (
+
+        
         <ProductItemContainer className="productsingle">
+          
           <ProductEach>
             <PicCarousel image_url={singleProduct[0].image_url} />
 
@@ -35,7 +38,7 @@ function ProductItem() {
           </ProductEach>
           <ProductAction>
           <UserProfile>
-              <UserProfileImg src={avatar2} />
+              <UserProfileImg src={singleProduct[0].avatar} />
               <UserInfo>
                 {singleProduct[0].first_name} {singleProduct[0].last_name}{" "}
               </UserInfo>
@@ -59,6 +62,7 @@ function ProductItem() {
           </ProductAction>
         </ProductItemContainer>
       )}
+      
     </>
   );
 }

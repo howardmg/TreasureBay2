@@ -6,6 +6,7 @@ import Check from './images/checkmark.png';
 import Xmark from './images/xmark.png';
 import Info from "./images/info.svg.png"
 import DropZone from '../DropZone/DropZone';
+import Chest from './images/chest.gif';
 
 
 // const EMAIL_REGEX = /^[a-z0-9.]{1,64}@[a-z0-9.]{1,64}$/i;
@@ -62,10 +63,8 @@ function SignUpPage() {
 
 
   const signUp = async (firstName, lastName, city, state, zipcode, email, password, file) => {
-
     try {
       const response = await axios.get(`http://localhost:3025/login/${email}`)
-      // console.log(response)
       if (response.data.length === 0) {
         const formData = new FormData();
         if (file) {
@@ -80,7 +79,6 @@ function SignUpPage() {
         formData.append("zipcode", zipcode)
         formData.append("email", email);
         formData.append("password", password);
-
         try {
           const response = await axios.post("http://localhost:3025/createprofile", formData);
           console.log(response)
@@ -109,6 +107,7 @@ function SignUpPage() {
       {success ? (
         <SignUpPageContainer>
           <SuccessHeader>Welcome aboard Matey!</SuccessHeader>
+          <StyledImage src={Chest}></StyledImage>
           <Link to='/login'><Button>Return to Log In Page</Button></Link>
         </SignUpPageContainer>
       ) : (
@@ -435,4 +434,10 @@ const Div = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
+`
+
+const StyledImage = styled.img`
+  margin-top: 40px;
+  height: 300px;
+  width: 300px;
 `

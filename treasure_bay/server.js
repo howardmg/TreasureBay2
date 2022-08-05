@@ -98,7 +98,8 @@ app.get("/messages", async (req, res) => {
   }
 });
 
-//=======================================Profile Routes Start===============================================================================================
+//====================== Profile Routes ======================//
+
 app.post(`/createprofile`, upload.array("file"), async (req, res, next) => {
   try {
     const avatar = req.files;
@@ -149,9 +150,19 @@ app.get("/login/:email", async (req, res) => {
     console.log(error.message);
   }
 });
-//=======================================Profile Routes End===============================================================================================
 
-//=================== Products Routes ==============================//
+//=================== Products Routes ======================//
+
+//search functionality to find products
+app.get("/search/:searchvalue", async (req, res) => {
+  const searchValue = req.params.searchvalue;
+  try {
+    const data = await db.query(`SELECT * FROM products INNER JOIN users ON products.user_id = users.user_id WHERE LOWER(name) LIKE LOWER('%${searchValue}%')`);
+    res.send(data.rows);
+  } catch (error) {
+    console.log(error.message)
+  }
+})
 
 // Post product info
 app.post("/postitem", upload.array("images"), async (req, res) => {
@@ -160,20 +171,54 @@ app.post("/postitem", upload.array("images"), async (req, res) => {
     const parseUser = parseInt(user_id);
     const parsePrice = parseInt(price);
     const files = req.files;
-    const imgkey = files[0].filename;
-    const imageURL = `https://treasure-bay-images.s3.amazonaws.com/${imgkey}`;
+    const imageArray = [];
+    files.map((files) => {
+      const imgkey = files.filename;
+      const imageURL = `https://treasure-bay-images.s3.amazonaws.com/${imgkey}`;
+      imageArray.push(imageURL);
+    });
+
+    console.log(files, imageArray);
 
     // Uploads file(s) to S3 bucket
     const result = await uploadFile(files);
 
     // Adds post item info to the database
     const addProduct = await pool.query(
-      "INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, ARRAY[$5], $6);",
-      [productName, parsePrice, description, details, imageURL, parseUser]
+      "INSERT INTO products (name, price, description, details, image_url,user_id) VALUES ($1, $2, $3, $4, $5, $6);",
+      [productName, parsePrice, description, details, imageArray, parseUser]
     );
     res.status(200).json(addProduct.rows);
   } catch (error) {
     res.status(400).json(error.message);
+  }
+});
+
+//search functionality to find products
+app.get("/search/:searchvalue", async (req, res) => {
+  const searchValue = req.params.searchvalue;
+  try {
+    const data = await db.query(
+      `SELECT * FROM products INNER JOIN users ON products.user_id = users.user_id WHERE LOWER(name) LIKE LOWER('%${searchValue}%')`
+    );
+    res.send(data.rows);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+app.get("/profileproducts/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    await db.query(
+      "SELECT * FROM products INNER JOIN users ON users.user_id = products.user_id WHERE users.user_id = $1 ORDER BY product_id DESC",
+      [id],
+      (error, results) => {
+        res.status(200).json(results.rows);
+      }
+    );
+  } catch (error) {
+    console.error(error.message);
   }
 });
 
@@ -238,8 +283,6 @@ app.post("/multiple", upload.array("images"), async (req, res) => {
   }
   //await unlinkFile(file.path);
 });
-
-
 
 //=================== Listening on Port ==============================//
 app.listen(API_PORT, () => {

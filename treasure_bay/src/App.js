@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Footer from './components/Footer/Footer';
@@ -14,19 +14,24 @@ import ProductPage from './components/ProductItem/ProductPage';
 import ProfilePage from './components/ProfilePage/ProfilePage';
 import LoadingContext from './context/LoadingProvider';
 import UserContext from './context/UserProvider';
+import SearchResults from './components/SearchResults/SearchResults';
 
 
 
 function App() {
   const { user, setUser } = useContext(UserContext);
   const { loading, setLoading } = useContext(LoadingContext);
+  const [userproduct, setUserProduct] = useState([]);
 
   useEffect(() => {
     const currentUser = localStorage.getItem("currentUser");
     if (currentUser !== null) {
       setUser(JSON.parse(currentUser));
     }
+
   }, [])
+
+
 
 
 
@@ -37,11 +42,12 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/login' element={<LogInPage />} />
-        <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/profile' element={<ProfilePage userproduct={userproduct} />} />
         <Route path='/productitem' element={<ProductItem />} />
         <Route path='/postanitem' element={<PostItemPage />} />
         <Route path='/messages' element={<MessagingPage />} />
         <Route path='/onlineshoppingtips' element={<OnlineShoppingTips />} />
+        <Route path='/searchresults' element={<SearchResults />} />
       </Routes>
       <Footer />
 
