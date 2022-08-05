@@ -5,7 +5,7 @@ import avatar2 from "./joshua.png";
 import SingleProductContext from "../../context/ProductProvider";
 
 function ProductItem() {
-  const { singleProduct, setSingleProduct} = useContext(SingleProductContext);
+  const { singleProduct, setSingleProduct } = useContext(SingleProductContext);
   // useEffect(() => {
   //   const currentProduct = localStorage.getItem("currentProduct");
   //   if (currentProduct !== null) {
@@ -28,16 +28,16 @@ function ProductItem() {
         </div>
       ) : (
 
-        
+
         <ProductItemContainer className="productsingle">
-          
+
           <ProductEach>
             <PicCarousel image_url={singleProduct[0].image_url} />
 
-            
+
           </ProductEach>
           <ProductAction>
-          <UserProfile>
+            <UserProfile>
               <UserProfileImg src={singleProduct[0].avatar} />
               <UserInfo>
                 {singleProduct[0].first_name} {singleProduct[0].last_name}{" "}
@@ -47,22 +47,22 @@ function ProductItem() {
             <ProductPrice>{singleProduct[0].price}</ProductPrice>
             <BuyButton>Buy Now</BuyButton>
             <Message>Message Seller</Message>
-            
+
             <ProductDescription>
               <h3>Description</h3>
               {singleProduct[0].description}
             </ProductDescription>
-            
+
             <ProductDetails>
               <h3>Details</h3>
               {singleProduct[0].details}
             </ProductDetails>
 
-            
+
           </ProductAction>
         </ProductItemContainer>
       )}
-      
+
     </>
   );
 }
