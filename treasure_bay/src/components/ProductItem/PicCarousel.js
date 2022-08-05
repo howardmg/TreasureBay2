@@ -23,6 +23,7 @@ export default PicCarousel
 
 const CaroPicsContainer = styled.div`
 display: flex;
+justify-content: center;
 width:360px;
 height: 800px;
 

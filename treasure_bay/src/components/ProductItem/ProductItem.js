@@ -27,7 +27,10 @@ function ProductItem() {
           <h1>Loading</h1>
         </div>
       ) : (
+
+        
         <ProductItemContainer className="productsingle">
+          
           <ProductEach>
             <PicCarousel image_url={singleProduct[0].image_url} />
 
