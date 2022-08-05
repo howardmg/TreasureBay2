@@ -8,4 +8,5 @@
 
 .messaging {
     width: calc(100vw - 20rem);
+    overflow-x: hidden;
 }
