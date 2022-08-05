@@ -3,7 +3,7 @@ import { useConversations } from "../../context/ConversationsProvider";
 
 export default function MessagingInput() {
 
-    const { sendMessage } = useConversations()
+    const { sendMessage, selectedConversation } = useConversations()
     const [text, setText] = useState('')
     const [textHeight, setTextHeight] = useState('35px');
 
@@ -15,7 +15,11 @@ export default function MessagingInput() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        sendMessage(2, 1, text)
+        // window.scrollTo({ bottom: 0 })
+        let sender_id = selectedConversation.user_id === 1 ? 2 : 1
+        let receiver_id = selectedConversation.user_id
+        setTextHeight('30px')
+        sendMessage(sender_id, receiver_id, text)
         setText('')
     }
 
