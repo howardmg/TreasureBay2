@@ -157,3 +157,4 @@ const UserProfileImg = styled.img`
 const UserInfo = styled.div`
   font-size: 23px;
 `;
+

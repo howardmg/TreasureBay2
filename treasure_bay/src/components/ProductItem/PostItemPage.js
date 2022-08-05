@@ -1,7 +1,9 @@
 import { React, useContext } from "react";
 import PostItem from "./Postitem.css";
 import UserContext from "../../context/UserProvider";
+
 import { Link } from 'react-router-dom';
+
 import { useState } from "react";
 import DropZone from "../DropZone/DropZone";
 import AppDropZone from "../DropZone/AppDropZone";

@@ -74,7 +74,9 @@ const ProductItemContainer = styled.div`
   margin-bottom: 40px;
 `;
 
-const ProductCard = styled.div``;
+const ProductCard = styled.div`
+`;
+
 const PicImg = styled.img`
   width: 250px;
   height: 250px;

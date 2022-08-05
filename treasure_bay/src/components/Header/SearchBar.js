@@ -60,15 +60,25 @@ const SearchBar = styled.input`
      height: 30px;
      border-radius: 999px;
      border-color: #0D99FF;
+<<<<<<< HEAD
+     border: solid 2.1px;
+     color: #0D99FF;
+     font-size: 17px;
+     font-family: 'Kanit', sans-serif;
+     text-indent: 5px;
+=======
      border: 3px solid #0D99FF;
      color: #0D99FF;
      font-size: 17px;
      font-family: 'Kanit', sans-serif;
      padding-left: 10px;
+>>>>>>> 337c245fac2a60e6bdbbd67b95a70de30f3dfda3
      :focus-within{
           box-shadow: 0 0px 3px 1px #0D99FF;
           outline: 0;
      }
+<<<<<<< HEAD
+=======
 `
 
 const Form = styled.form`
@@ -79,4 +89,5 @@ const Form = styled.form`
 
 const Button = styled.input`
      visibility: hidden;
+>>>>>>> 337c245fac2a60e6bdbbd67b95a70de30f3dfda3
 `
