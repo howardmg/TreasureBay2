@@ -1,10 +1,3 @@
-.messaging-container-test {
-    height: 100%;
-    width: auto;
-    box-sizing: border-box;
-}
-
-
 .typing-container {
     width: calc(100vw - 20rem);
     min-height: 2.8rem;
@@ -25,7 +18,6 @@
     padding-top: 5px;
     padding-bottom: 5px;
     font-family: inherit;
-    overflow: visible;
 }
 
 .message-form {
@@ -49,21 +41,41 @@
 }
 
 .messages-wrapper {
-    height: 100%;
+    height: 80vh;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
     gap: 10px;
-    padding-right: 30px
+    padding-right: 30px;
+    margin-top: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-.message-sent {
+.messages-wrapper> :first-child {
+    margin-top: auto !important;
+}
+
+.sent {
     background-color: rgb(13, 153, 255);
     width: fit-content;
     color: white;
     padding: 5px 20px;
     border-radius: 15px;
-    position: relative;
     align-self: end;
-    bottom: calc(0px + 100px);
+    margin-right: 20px;
+    margin-left: 300px;
+    bottom: 0;
+}
+
+.received {
+    background-color: rgb(60, 60, 60);
+    width: fit-content;
+    color: white;
+    padding: 5px 20px;
+    margin-left: 20px;
+    margin-right: 300px;
+    border-radius: 15px;
+    align-self: flex-start;
+    bottom: 0
 }
