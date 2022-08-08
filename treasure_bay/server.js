@@ -273,7 +273,24 @@ app.post("/multiple", upload.array("images"), async (req, res) => {
   //await unlinkFile(file.path);
 });
 
-//=================== Listening on Port ==============================//
+//=================== Messages Routes =======================//
+
+app.get("/conversations/:id", async (req, res) => {
+  try {
+    const ID = req.params.id;
+    const result = await db.query(
+      `SELECT conversation_id, users.user_id, users.first_name, users.last_name, users.avatar FROM conversations INNER JOIN users ON conversations.sender_id = user_id WHERE receiver_id IN (SELECT receiver_id FROM conversations WHERE receiver_id=$1)
+       UNION ALL 
+       SELECT conversation_id, users.user_id, users.first_name, users.last_name, users.avatar FROM conversations INNER JOIN users ON conversations.receiver_id = user_id WHERE sender_id IN (SELECT sender_id FROM conversations WHERE sender_id=$1);`,
+      [ID]
+    );
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
+//=================== Listening on Port =======================//
 app.listen(API_PORT, () => {
   console.log(`Server is listening on port: ${API_PORT}`);
 });
