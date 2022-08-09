@@ -16,10 +16,11 @@ export default function MessagingInput() {
     const handleSubmit = (e) => {
         e.preventDefault()
         // window.scrollTo({ bottom: 0 })
+        // will be replaced with user id
         let sender_id = selectedConversation.user_id === 1 ? 2 : 1
         let receiver_id = selectedConversation.user_id
         setTextHeight('30px')
-        sendMessage(sender_id, receiver_id, text)
+        sendMessage(selectedConversation.conversation_id, sender_id, receiver_id, text)
         setText('')
     }
 
