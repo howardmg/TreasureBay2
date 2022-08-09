@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useConversations } from "../../context/ConversationsProvider";
-import { UserContext } from "../../context/UserProvider";
+import UserContext from "../../context/UserProvider";
 
 export default function MessagingInput() {
 

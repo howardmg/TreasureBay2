@@ -3,12 +3,12 @@ import Conversations from '../Conversations/Conversations';
 import Messages from '../Messages/Messages'
 import axios from 'axios';
 import { useConversations } from '../../context/ConversationsProvider';
-import { UserProvider } from '../../context/UserProvider';
+import UserContext from '../../context/UserProvider';
 import './MessagingPage.css'
 
 function MessagingPage() {
 
-    const { user } = createContext(UserProvider)
+    const { user } = createContext(UserContext)
 
     const { setMessages, setConversations } = useConversations()
 
