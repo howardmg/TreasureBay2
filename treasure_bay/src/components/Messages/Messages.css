@@ -79,3 +79,9 @@
     align-self: flex-start;
     bottom: 0
 }
+
+.empty-conversation-message {
+    display: grid;
+    justify-content: center;
+    transform: translateY(-22rem);
+}
