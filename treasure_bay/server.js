@@ -15,6 +15,9 @@ const expressSession = require("express-session");
 const bcrypt = require("bcrypt");
 const Strategy = require("./middleware/passport.js");
 const util = require("util");
+const { createServer } = require("http");
+const httpServer = createServer(app);
+const { Server } = require("socket.io");
 
 /*===================================================
 Global Constants
@@ -50,6 +53,38 @@ app.use(
 // app.get('/', function (req, res) {
 //     res.sendFile(path.join("./my-app/public"));
 //   });
+
+/************ SOCKETS ***************/
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: corsOptions,
+  },
+});
+
+io.on("connection", (socket) => {
+  socket.on("join-conversation", (conversation_id) => {
+    socket.join(conversation_id);
+  });
+
+  socket.on(
+    "send-message",
+    ({ conversation_id, sender_id, receiver_id, text }) => {
+      socket
+        .to(conversation_id)
+        .emit("receive-message", {
+          conversation_id,
+          sender_id,
+          receiver_id,
+          text,
+        });
+    }
+  );
+});
+
+httpServer.listen(process.env.API_PORT, () => {
+  console.log(`Server is listening on port: ${process.env.API_PORT}`);
+});
 
 /*===================================================
 Routes
@@ -287,6 +322,44 @@ app.get("/conversations/:id", async (req, res) => {
     res.status(200).json(result.rows);
   } catch (error) {
     console.error(error.message);
+  }
+});
+
+app.post("/addconversation", async (req, res) => {
+  try {
+    const { receiver_id, sender_id } = req.body;
+    let error = false;
+    let conversation;
+
+    const result = await db.query(
+      `SELECT * FROM conversations WHERE receiver_id IN (SELECT receiver_id FROM conversations WHERE receiver_id = $1)
+      UNION ALL
+      SELECT * FROM conversations WHERE sender_id IN (SELECT sender_id FROM conversations WHERE sender_id = $1);`,
+      [receiver_id]
+    );
+
+    result.rows.map((result) => {
+      if (result.sender_id === sender_id || result.receiver_id === sender_id) {
+        error = true;
+        conversation = result;
+        return;
+      }
+    });
+
+    if (!error) {
+      const createdConversation = await db.query(
+        "INSERT INTO conversations (sender_id, receiver_id) VALUES ($1, $2) RETURNING *;",
+        [sender_id, receiver_id]
+      );
+      res.status(200).send({ data: createdConversation.rows });
+    } else {
+      res
+        .status(409)
+        .send({ msg: "Conversation Already Exists", data: conversation });
+    }
+  } catch (err) {
+    res.status(500).json({ msg: "Internal Server Error", errMsg: err.message });
+    console.error(err.message);
   }
 });
 
