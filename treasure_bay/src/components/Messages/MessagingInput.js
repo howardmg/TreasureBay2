@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useConversations } from "../../context/ConversationsProvider";
+import UserContext from "../../context/UserProvider";
 
 export default function MessagingInput() {
 
-    const { setMessages } = useConversations()
+    const { sendMessage, selectedConversation } = useConversations()
+    const { user } = useContext(UserContext)
     const [text, setText] = useState('')
     const [textHeight, setTextHeight] = useState('35px');
 
@@ -13,20 +15,13 @@ export default function MessagingInput() {
         setTextHeight(height + "px")
     }
 
-    const handleText = (e) => {
-        setText(e.target.value)
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault()
-        let message = {
-            id: 2,
-            sender_id: 1,
-            message: text
-        }
-        setMessages((prevMessages) => {
-            return [...prevMessages, message]
-        })
+        // window.scrollTo({ bottom: 0 })
+        let sender_id = user.user_id
+        let receiver_id = selectedConversation.user_id
+        setTextHeight('30px')
+        sendMessage(selectedConversation.conversation_id, sender_id, receiver_id, text)
         setText('')
     }
 
@@ -48,7 +43,7 @@ export default function MessagingInput() {
                 type='text'
                 placeholder="Message"
                 value={text}
-                onChange={handleText}
+                onChange={(e) => setText(e.target.value)}
                 onInput={handleResize}>
             </textarea>
             <button

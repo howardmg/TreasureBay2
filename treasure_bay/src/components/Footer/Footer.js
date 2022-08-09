@@ -11,6 +11,7 @@ function Footer() {
           <Header>Treasure Bay LLC.</Header>
      </CopyRightContainer>
      <ShoppingTipsContainer>
+          <Link to='/about'><Header>About</Header></Link> |
           <Link to='/onlineshoppingtips'><Header>Online Shopping Safety Tips</Header></Link>
      </ShoppingTipsContainer>
      
@@ -25,6 +26,11 @@ const Header = styled.h3`
      font-size: 15px;
      margin-left: 10px;
      margin-right: 15px;
+     :hover{
+          cursor: pointer;
+          transform: scale(1.09);
+          color: #0D99FF;
+     }
 `
 const CopyRight = styled.img`
      height: 15px;
@@ -43,11 +49,11 @@ const ShoppingTipsContainer = styled.div`
      display: flex;
      justify-content: center;
      align-items: center;
-     :hover{
+     /* :hover{
           cursor: pointer;
           transform: scale(1.09);
           color: #0D99FF;
-     }
+     } */
      a{
           text-decoration: none !important;
      }

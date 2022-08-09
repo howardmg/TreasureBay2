@@ -60,7 +60,7 @@ function DropBox({ onDrop, setImageSent }) {
       <>
           {lists.length !== 0 ? (
                <aside>
-                    <h4>List</h4>
+                    <h4>Image Preview:</h4>
                     <ListContainer>
                          <p>{lists}</p>
                     </ListContainer>
