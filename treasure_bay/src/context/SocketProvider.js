@@ -8,16 +8,14 @@ export function useSocket() {
 }
 
 export function SocketProvider({ children }) {
-    const ID = localStorage.getItem('id')
-    console.log(ID)
+
     const [socket, setSocket] = useState('')
 
     useEffect(() => {
-        const newSocket = io('http://localhost:3025',
-            { query: { ID } })
+        const newSocket = io('http://localhost:3025')
         setSocket(newSocket)
         return () => newSocket.close()
-    }, [ID])
+    }, [])
 
     return (
         <SocketContext.Provider value={socket}>
