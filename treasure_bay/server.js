@@ -70,14 +70,12 @@ io.on("connection", (socket) => {
   socket.on(
     "send-message",
     ({ conversation_id, sender_id, receiver_id, text }) => {
-      socket
-        .to(conversation_id)
-        .emit("receive-message", {
-          conversation_id,
-          sender_id,
-          receiver_id,
-          text,
-        });
+      socket.to(conversation_id).emit("receive-message", {
+        conversation_id,
+        sender_id,
+        receiver_id,
+        text,
+      });
     }
   );
 });
@@ -187,6 +185,19 @@ app.get("/login/:email", async (req, res) => {
 });
 
 //=================== Products Routes ======================//
+
+//search functionality to find products
+app.get("/search/:searchvalue", async (req, res) => {
+  const searchValue = req.params.searchvalue;
+  try {
+    const data = await db.query(
+      `SELECT * FROM products INNER JOIN users ON products.user_id = users.user_id WHERE LOWER(name) LIKE LOWER('%${searchValue}%')`
+    );
+    res.send(data.rows);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
 
 // Post product info
 app.post("/postitem", upload.array("images"), async (req, res) => {
@@ -364,6 +375,20 @@ app.post("/addconversation", async (req, res) => {
 });
 
 //=================== Listening on Port =======================//
+
+app.get("/conversations", async (req, res) => {
+  try {
+    const result = await db.query(
+      "SELECT * FROM messages INNER JOIN users ON users.user_id=1;"
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
+//=================== Listening on Port ==============================//
+
 app.listen(API_PORT, () => {
   console.log(`Server is listening on port: ${API_PORT}`);
 });

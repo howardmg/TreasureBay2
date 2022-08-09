@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import PicCarousel from "./PicCarousel";
-import avatar2 from "./joshua.png";
+import avatar2 from "./images/joshua.png";
 import SingleProductContext from "../../context/ProductProvider";
 
 function ProductItem() {
-  const { singleProduct, setSingleProduct} = useContext(SingleProductContext);
+  const { singleProduct, setSingleProduct } = useContext(SingleProductContext);
   // useEffect(() => {
   //   const currentProduct = localStorage.getItem("currentProduct");
   //   if (currentProduct !== null) {
@@ -27,17 +27,12 @@ function ProductItem() {
           <h1>Loading</h1>
         </div>
       ) : (
-
-        
         <ProductItemContainer className="productsingle">
-          
           <ProductEach>
             <PicCarousel image_url={singleProduct[0].image_url} />
-
-            
           </ProductEach>
           <ProductAction>
-          <UserProfile>
+            <UserProfile>
               <UserProfileImg src={singleProduct[0].avatar} />
               <UserInfo>
                 {singleProduct[0].first_name} {singleProduct[0].last_name}{" "}
@@ -47,22 +42,19 @@ function ProductItem() {
             <ProductPrice>{singleProduct[0].price}</ProductPrice>
             <BuyButton>Buy Now</BuyButton>
             <Message>Message Seller</Message>
-            
+
             <ProductDescription>
               <h3>Description</h3>
               {singleProduct[0].description}
             </ProductDescription>
-            
+
             <ProductDetails>
               <h3>Details</h3>
               {singleProduct[0].details}
             </ProductDetails>
-
-            
           </ProductAction>
         </ProductItemContainer>
       )}
-      
     </>
   );
 }
@@ -76,8 +68,7 @@ const ProductItemContainer = styled.div`
   /* width: 900px; */
   height: 100vh;
   margin-bottom: 30px;
-
-`
+`;
 const ProductDescription = styled.div`
   text-align: left;
   width: 600px;
@@ -115,7 +106,6 @@ const ProductDetails = styled.div`
   width: 600px;
   margin-bottom: 10px;
   margin-top: 10px;
-  
 `;
 const ProductName = styled.div`
   font-size: 35px;
@@ -167,3 +157,4 @@ const UserProfileImg = styled.img`
 const UserInfo = styled.div`
   font-size: 23px;
 `;
+

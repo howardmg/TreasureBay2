@@ -1,6 +1,7 @@
-import React, { useContext, useEffect,useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
+import AboutPage from './components/Footer/AboutPage';
 import Footer from './components/Footer/Footer';
 import OnlineShoppingTips from './components/Footer/OnlineShoppingTips';
 import Header from './components/Header/Header';
@@ -14,6 +15,7 @@ import ProductPage from './components/ProductItem/ProductPage';
 import ProfilePage from './components/ProfilePage/ProfilePage';
 import LoadingContext from './context/LoadingProvider';
 import UserContext from './context/UserProvider';
+import SearchResults from './components/SearchResults/SearchResults';
 
 
 
@@ -27,11 +29,11 @@ function App() {
     if (currentUser !== null) {
       setUser(JSON.parse(currentUser));
     }
-   
+
   }, [])
 
 
-  
+
 
 
   return (
@@ -41,13 +43,12 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/login' element={<LogInPage />} />
-      
         <Route path='/profile' element={<ProfilePage userproduct={userproduct} />} />
         <Route path='/productitem' element={<ProductItem />} />
         <Route path='/postanitem' element={<PostItemPage />} />
         <Route path='/messages' element={<MessagingPage />} />
         <Route path='/onlineshoppingtips' element={<OnlineShoppingTips />} />
-        
+        <Route path='/searchresults' element={<SearchResults />} />
       </Routes>
       <Footer />
 
