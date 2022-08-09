@@ -80,10 +80,6 @@ io.on("connection", (socket) => {
   );
 });
 
-httpServer.listen(process.env.API_PORT, () => {
-  console.log(`Server is listening on port: ${process.env.API_PORT}`);
-});
-
 /*===================================================
 Routes
 ===================================================*/
@@ -389,8 +385,8 @@ app.get("/conversations", async (req, res) => {
 
 //=================== Listening on Port ==============================//
 
-app.listen(API_PORT, () => {
-  console.log(`Server is listening on port: ${API_PORT}`);
+httpServer.listen(process.env.API_PORT, () => {
+  console.log(`Server is listening on port: ${process.env.API_PORT}`);
 });
 
 // //Error handling
