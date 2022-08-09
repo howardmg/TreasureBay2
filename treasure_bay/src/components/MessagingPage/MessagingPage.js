@@ -13,7 +13,7 @@ function MessagingPage() {
     const { setMessages, setConversations } = useConversations()
 
     //will be replaced with user id
-    const ID = localStorage.getItem('id')
+    const ID = user.user_id
     useEffect(() => {
         axios.all([
             axios.get(`http://localhost:3025/conversations/${ID}`),
