@@ -50,7 +50,7 @@ export function ConversationsProvider({ children }) {
     const createConversation = (sender_id, receiver_id) => {
         axios.post('http://localhost:3025/addconversation', { sender_id, receiver_id })
             .then((response) => {
-                setSelectedConversationID(response.conversation_id)
+                setSelectedConversationID(response.data.conversation_id)
             })
     }
 
