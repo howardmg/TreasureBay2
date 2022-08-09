@@ -21,6 +21,7 @@ function PostItemPage() {
   const [imageSent, setImageSent] = useState([]);
   const { user, setUser } = useContext(UserContext);
   const [user_id, setUser_id] = useState(1);
+  const [sold, setSold] = useState(false)
 
   const postItem = async (
     productName,
@@ -28,7 +29,8 @@ function PostItemPage() {
     details,
     description,
     images,
-    user_id
+    user_id,
+    sold
   ) => {
     user_id = user[0].user_id;
     const formData = new FormData();
@@ -45,6 +47,8 @@ function PostItemPage() {
     formData.append("description", description);
     // formData.append("images", images[0]);
     formData.append("user_id", user_id);
+    formData.append("sold", sold);
+
 
     console.log(JSON.stringify(formData));
     console.log(images);
@@ -91,7 +95,7 @@ function PostItemPage() {
         <PostPageContainer>
         <SuccessHeader>Your item has been posted!</SuccessHeader>
         <StyledImage src={Success}></StyledImage>
-        <Link to='/postanitem'>Post another item</Link>
+        {/* <Link to='/postanitem'>Post another item</Link> */}
         <Link to='/'>Return Home</Link>
         
       </PostPageContainer>
@@ -173,7 +177,8 @@ function PostItemPage() {
                       details,
                       description,
                       imageSent,
-                      user_id
+                      user_id,
+                      sold
                     );
                     // setFileData(images[0]);
                     // console.log(images[0])
@@ -210,8 +215,8 @@ const SuccessHeader = styled.h1`
 
 const StyledImage = styled.img`
   margin-top: 40px;
-  height: 600px;
-  width: 800px;
+  height: 500px;
+  width: 700px;
 `
 
 const PostPageContainer = styled.div`

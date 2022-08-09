@@ -4,7 +4,7 @@ import Header from "../Header/Header";
 import UserContext from "../../context/UserProvider";
 import ProductPage from "../ProductItem/ProductPage";
 import Profile from "./profile.css";
-import ProductMainCards from "../ProductItem/ProductMainCards";
+import ProfileProductMainCards from "../ProductItem/ProfileProductMainCards";
 
 function ProfilePage() {
   const { user, setUser } = useContext(UserContext);
@@ -54,7 +54,7 @@ function ProfilePage() {
               </div>
               <div className="ppcontainer">
                 {userproduct.map((data) => (
-                  <ProductMainCards
+                  <ProfileProductMainCards
                     id={data.product_id}
                     product_name={data.name}
                     price={data.price}
