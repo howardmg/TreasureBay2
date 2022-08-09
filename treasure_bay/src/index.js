@@ -7,6 +7,7 @@ import { UserProvider } from './context/UserProvider';
 import { SearchProvider } from './context/SearchProvider';
 import { LoadingProvider } from './context/LoadingProvider';
 import { ConversationsProvider } from './context/ConversationsProvider';
+import { SocketProvider } from './context/SocketProvider';
 import { SingleProductProvider } from './context/ProductProvider';
 import Search from './components/Header/SearchBar';
 
@@ -17,11 +18,13 @@ root.render(
       <SearchProvider>
         <SingleProductProvider>
           <LoadingProvider>
-            <ConversationsProvider>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
-            </ConversationsProvider>
+            <SocketProvider>
+              <ConversationsProvider>
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </ConversationsProvider>
+            </SocketProvider>
           </LoadingProvider>
         </SingleProductProvider>
       </SearchProvider>

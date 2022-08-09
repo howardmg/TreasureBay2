@@ -1,31 +1,47 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import MessagingInput from './MessagingInput'
 import './Messages.css'
 import { useConversations } from '../../context/ConversationsProvider'
 
 function Messages() {
 
-  const { selectedConversationIndex, messages } = useConversations()
+  const { messages, selectedConversation, selectedConversationID } = useConversations()
 
-  const formatMessages = messages.filter(
-    msg => msg.sender_id === selectedConversationIndex
+  const messagesEndRef = useRef(null)
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages, selectedConversation]);
+
+  const formatMessages = () => messages.filter(
+    msg => msg.conversation_id === selectedConversationID
+    // (msg.receiver_id === selectedConversation.user_id) ||
+    // (msg.sender_id === selectedConversation.user_id)
   ).map((message, index) => {
     return (
-      <div className='message-sent'>
-        <p key={index} className='from-me'>{message.message}</p>
+      <div className={message.sender_id !== selectedConversation.user_id ? 'sent' : 'received'}>
+        <p key={index}>{message.message}</p>
       </div>
     )
   })
 
   return (
-    <div className='messaging-container-test'>
+    <>
       <div className='messages-wrapper'>
-        {formatMessages}
+        {selectedConversation ?
+          formatMessages() :
+          <div className='empty-conversation-message'>Please Select a Conversation</div>}
+        <div ref={messagesEndRef}></div>
       </div>
-      <div className='typing-container'>
-        <MessagingInput />
-      </div>
-    </div>
+      {selectedConversation &&
+        <div className='typing-container'>
+          <MessagingInput />
+        </div>}
+    </>
   )
 }
 
