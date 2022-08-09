@@ -5,7 +5,7 @@ import { useConversations } from '../../context/ConversationsProvider'
 
 function Messages() {
 
-  const { selectedConversationID, messages, selectedConversation } = useConversations()
+  const { messages, selectedConversation, selectedConversationID } = useConversations()
 
   const messagesEndRef = useRef(null)
 
@@ -15,14 +15,13 @@ function Messages() {
 
   useEffect(() => {
     scrollToBottom()
-  }, [messages]);
+  }, [messages, selectedConversation]);
 
-  //console.log(messages)
   const formatMessages = () => messages.filter(
-    msg => msg.receiver_id === selectedConversation.user_id || msg.sender_id === selectedConversation.user_id
+    msg => msg.conversation_id === selectedConversationID
+    // (msg.receiver_id === selectedConversation.user_id) ||
+    // (msg.sender_id === selectedConversation.user_id)
   ).map((message, index) => {
-    //console.log(message)
-    //console.log(selectedConversation.user_id)
     return (
       <div className={message.sender_id !== selectedConversation.user_id ? 'sent' : 'received'}>
         <p key={index}>{message.message}</p>
@@ -35,12 +34,13 @@ function Messages() {
       <div className='messages-wrapper'>
         {selectedConversation ?
           formatMessages() :
-          <div>Please Select a Conversation</div>}
+          <div className='empty-conversation-message'>Please Select a Conversation</div>}
         <div ref={messagesEndRef}></div>
       </div>
-      <div className='typing-container'>
-        <MessagingInput />
-      </div>
+      {selectedConversation &&
+        <div className='typing-container'>
+          <MessagingInput />
+        </div>}
     </>
   )
 }
