@@ -12,7 +12,7 @@ export function SocketProvider({ children }) {
     const [socket, setSocket] = useState('')
 
     useEffect(() => {
-        const newSocket = io('http://localhost:3025')
+        const newSocket = io('rds-postgres-blueocean.czfvuzdlopph.us-east-1.rds.amazonaws.com/')
         setSocket(newSocket)
         return () => newSocket.close()
     }, [])
