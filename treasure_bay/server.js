@@ -370,16 +370,26 @@ app.post("/addconversation", async (req, res) => {
   }
 });
 
-//=================== Listening on Port =======================//
-
-app.get("/conversations", async (req, res) => {
+app.get("/messages", async (req, res) => {
   try {
-    const result = await db.query(
-      "SELECT * FROM messages INNER JOIN users ON users.user_id=1;"
-    );
+    const result = await db.query("SELECT * FROM messages;");
     res.json(result.rows);
-  } catch (error) {
-    console.error(error.message);
+  } catch (err) {
+    res.status(500).json({ msg: "Internal Server Error", errMsg: err.message });
+    console.error(err.message);
+  }
+});
+
+app.post("/sendmessage", async (req, res) => {
+  try {
+    const { conversation_id, sender_id, receiver_id, text } = req.body;
+    await db.query(
+      "INSERT INTO messages (conversation_id, sender_id, receiver_id, message) VALUES ($1, $2, $3, $4)",
+      [conversation_id, sender_id, receiver_id, text]
+    );
+  } catch (err) {
+    res.status(500).json({ msg: "Internal Server Error", errMsg: err.message });
+    console.error(err.message);
   }
 });
 
