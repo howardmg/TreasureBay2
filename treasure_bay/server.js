@@ -22,7 +22,7 @@ const { Server } = require("socket.io");
 /*===================================================
 Global Constants
 ===================================================*/
-const API_PORT = process.env.API_PORT;
+
 
 const { uploadFile, getFileStream } = require("./s3");
 //const { send } = require("process");
@@ -395,9 +395,15 @@ app.post("/sendmessage", async (req, res) => {
 
 //=================== Listening on Port ==============================//
 
-httpServer.listen(process.env.API_PORT, () => {
-  console.log(`Server is listening on port: ${process.env.API_PORT}`);
+//local host
+// httpServer.listen(process.env.API_PORT, () => {
+//   console.log(`Server is listening on port: ${process.env.API_PORT}`);
+// });
+
+httpServer.listen(process.env.PORT, () => {
+  console.log(`Server is listening on port: ${process.env.PORT}`);
 });
+
 
 // //Error handling
 app.use((req, res) => {
