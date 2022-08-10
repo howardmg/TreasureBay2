@@ -7,6 +7,7 @@ import ProductItem from "./ProductItem";
 import { useState, useContext, useEffect } from "react";
 import SingleProductContext from "../../context/ProductProvider";
 import UserContext from "../../context/UserProvider";
+import UpdateProduct from "./UpdateProduct";
 
 function ProfileProductMainCards({
   product_name,
@@ -52,22 +53,31 @@ function ProfileProductMainCards({
     )
 }
 
-// const updateProduct = (e) => {
+const updateProduct = (e) => {
+console.log(e.target.id)
 
-//   fetch(`http://localhost:3025/product/delete/${e.target.id}`, {
-//       method: 'PUT',
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: taskData,
-//     })
-//   .then((response) => response.json())
-//   .then(() => {
-//     setLoading(false);
-//     window.location.reload();
-//   }
-//   )
-// }
+e.preventDefault();
+setLoadingMessage("Products are loading");
+fetch(`http://localhost:3025/product/${e.target.id}`)
+  .then((response) => response.json())
+  .then((data) => setSingleProduct(data))
+  .then(navigate("/updateproduct"));
+setLoading(false);
+
+  // fetch(`http://localhost:3025/product/${e.target.id}`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     // body: taskData,
+  //   })
+  // .then((response) => response.json())
+  // .then(() => {
+  //   setLoading(false);
+  //   window.location.reload();
+  // }
+  // )
+}
 
 
 
@@ -95,7 +105,8 @@ function ProfileProductMainCards({
             {/* <br></br> */}
               
           </ProductEach>
-          <ButtonDiv>
+          <ButtonDiv id={id}>
+          {/* <Updatebtn id={id} onClick={updateProduct}>Update</Updatebtn> */}
           <Deletebtn id={id} onClick={deleteProduct}>Sold</Deletebtn>
           </ButtonDiv>
         </ProductCard>
@@ -216,10 +227,27 @@ const Deletebtn=styled.button`
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
   }
+  border: none;
+`;
+
+const Updatebtn=styled.button`
+  height: 30px;
+  width: 70px;
+  background-color:orange;
+  font-size: 15px;
+  font-weight: bolder;
+  color:white;
+  margin: 15px;
+  border-radius: 5px;
+  :hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+  border: none;
 `;
 const ButtonDiv = styled.div`
 display: flex;
 justify-content: left;
-margin-left: 110px;
+margin-left: 100px;
 align-items: center;
 `
