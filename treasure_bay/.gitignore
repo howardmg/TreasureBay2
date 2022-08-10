@@ -30,3 +30,7 @@ yarn-error.log*
 sev.js
 localserver.js
 /uploads
+
+.dockerignore
+Dockerfile
+Dockerfile.prod

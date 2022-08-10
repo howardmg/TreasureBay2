@@ -9,11 +9,13 @@ import DropZone from "../DropZone/DropZone";
 import AppDropZone from "../DropZone/AppDropZone";
 import styled from "styled-components";
 import Success from './images/PostSuccess.gif';
+import SingleProductContext from "../../context/ProductProvider";
 
 function PostItemPage() {
+  const { singleProduct, setSingleProduct } = useContext(SingleProductContext);
   const [fileData, setFileData] = useState([]);
   const [productName, setProductName] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
   const [details, setDetails] = useState("");
   const [description, setDescription] = useState("");
   const [success, setSuccess] = useState(false);
@@ -21,7 +23,11 @@ function PostItemPage() {
   const [imageSent, setImageSent] = useState([]);
   const { user, setUser } = useContext(UserContext);
   const [user_id, setUser_id] = useState(1);
-  const [sold, setSold] = useState(false)
+  const [loadingMessage, setLoadingMessage] = useState("Products are loading");
+  
+  // console.log(singleProduct)
+
+
 
   const postItem = async (
     productName,
@@ -30,7 +36,7 @@ function PostItemPage() {
     description,
     images,
     user_id,
-    sold
+  
   ) => {
     user_id = user[0].user_id;
     const formData = new FormData();
@@ -40,21 +46,20 @@ function PostItemPage() {
         formData.append("images", images[i]);
       }
     }
-
+    
     formData.append("productName", productName);
     formData.append("price", price);
     formData.append("details", details);
     formData.append("description", description);
-    // formData.append("images", images[0]);
     formData.append("user_id", user_id);
-    formData.append("sold", sold);
+  
 
 
-    console.log(JSON.stringify(formData));
+    console.log(JSON.stringify(formData.images));
     console.log(images);
 
-    await fetch("http://localhost:3025/postitem", {
-      method: "POST",
+    await fetch(`http://localhost:3025/update/${singleProduct[0].product_id}`, {
+      method: "PUT",
       body: formData,
     })
       .then((result) => {
@@ -67,28 +72,7 @@ function PostItemPage() {
     setSuccess(true);
   };
 
-  const fileChangeHandler = (e) => {
-    setFileData(e.target.files[0]);
-  };
 
-  const onSubmitHandler = (e) => {
-    // e.preventDefault();
-
-    const data = new FormData();
-
-    data.append("image", fileData);
-
-    fetch("http://localhost:3025/images", {
-      method: "POST",
-      body: data,
-    })
-      .then((result) => {
-        console.log("File sent successfully");
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  };
   return (
     <>
       {success === true ? (
@@ -100,6 +84,14 @@ function PostItemPage() {
         
       </PostPageContainer>
       ) : (
+
+
+      <>
+          {!singleProduct ? (
+        <div>
+          <h1>{loadingMessage}</h1>
+        </div>
+      ) : (
         <form>
           <div class="container">
             <div class="row">
@@ -109,6 +101,7 @@ function PostItemPage() {
               <div class="col-75">
                 <input
                   type="text"
+                  placeholder={singleProduct[0].name}
                   value={productName}
                   onChange={(e) => setProductName(e.target.value)}
                   className="pi"
@@ -122,6 +115,7 @@ function PostItemPage() {
               <div class="col-75">
                 <input
                   type="text"
+                  placeholder={singleProduct[0].price}
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   className="pi"
@@ -130,12 +124,13 @@ function PostItemPage() {
             </div>
             <div class="row">
               <div class="col-25">
-                <label className="pn">Product Details</label>
+                <label className="pn">Product Description</label>
               </div>
               <div class="col-75">
                 <textarea
-                  value={details}
-                  onChange={(e) => setDetails(e.target.value)}
+                placeholder={singleProduct[0].description}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   className="pi"
                   rows="7"
                   cols="50"
@@ -144,12 +139,13 @@ function PostItemPage() {
             </div>
             <div class="row">
               <div class="col-25">
-                <label className="pn">Product Description</label>
+                <label className="pn">Product Details</label>
               </div>
               <div class="col-75">
                 <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                placeholder={singleProduct[0].details}
+                  value={details}
+                  onChange={(e) => setDetails(e.target.value)}
                   className="pi"
                   rows="7"
                   cols="50"
@@ -162,10 +158,22 @@ function PostItemPage() {
               </div>
               <div class="col-75">
                 <AppDropZone
+                
                   images={images}
                   setImages={setImages}
                   setImageSent={setImageSent}
                 />
+                <CurrentTitle>These are your current images</CurrentTitle>
+                <CurrentImgContainer> 
+                  
+                {singleProduct[0].image_url.map((currentimages,index) => (
+          <CurrentImgs id={index} alt="" src={currentimages} onClick={(e)=>{
+            console.log(e)
+          }}>
+        
+          </CurrentImgs>
+        ))}
+        </CurrentImgContainer>
                 <button
                   className="btn"
                   type="submit"
@@ -178,7 +186,7 @@ function PostItemPage() {
                       description,
                       imageSent,
                       user_id,
-                      sold
+                    
                     );
                     // setFileData(images[0]);
                     // console.log(images[0])
@@ -201,6 +209,8 @@ function PostItemPage() {
             </div>
           </div>
         </form>
+      )}
+      </>
       )}
     </>
   );
@@ -226,25 +236,14 @@ const PostPageContainer = styled.div`
   margin: 100px;
 `
 
-// Link = styled.link`
-//   display: flex;
-//   box-shadow: 0px 5px 17px -7px rgba(0, 0, 0, 0.75);
-//   height: 40px;
-//   width: 350px;
-//   justify-content: center;
-//   align-items: center;
-//   align-content: center;
-//   margin: auto;
-//   font-family: "Pacifico", cursive;
-//   font-size: 25px;
-//   border: transparent;
-//   background-color: white;
-//   border-radius: 999px;
-//   margin: 50px;
-//   :hover {
-//       background-color: #0D99FF;
-//       color: white;
-//       border-radius: 999px;
-//       cursor: pointer;
-//     }
-// `
+const CurrentImgContainer = styled.div`
+display: flex;
+justify-content: center;
+`
+const CurrentTitle = styled.h3`
+text-align: center;
+margin: 20px;
+`
+const CurrentImgs = styled.img`
+height: 200px;
+`
