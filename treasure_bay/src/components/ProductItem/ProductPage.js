@@ -12,7 +12,7 @@ function ProductPage() {
   }, []);
 
   function getProducts() {
-    fetch("http://localhost:3025/all")
+    fetch("http://rds-postgres-blueocean.czfvuzdlopph.us-east-1.rds.amazonaws.com/all")
       .then((response) => response.json())
       .then((data) => setProducts(data));
     setLoading(false);
