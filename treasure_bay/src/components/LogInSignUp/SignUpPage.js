@@ -65,7 +65,7 @@ function SignUpPage() {
   const signUp = async (firstName, lastName, city, state, zipcode, email, password, file) => {
     try {
       // const response = await axios.get(`http://localhost:3025/login/${email}`)
-      const response = await axios.get(`https://treasure-bay-blue-ocean.herokuapp.com/${email}`)
+      const response = await axios.get(`https://treasure-bay-blue-ocean.herokuapp.com/login/${email}`)
       if (response.data.length === 0) {
         const formData = new FormData();
         if (file) {
