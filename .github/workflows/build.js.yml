@@ -12,20 +12,20 @@ on:
     branches: [ main ]
   
   # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+#   workflow_dispatch:
 
-jobs:
-  build:
-    name: Build UI
+# jobs:
+#   build:
+#     name: Build UI
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
     
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+#     steps:
+#     - name: Checkout Repository
+#       uses: actions/checkout@v3
     # - name: Use Node.js 
     #   uses: actions/setup-node@v3
     #   with:
     #     node-version: v18.1.0
-    - run: npm install --prefix ./treasure_bay
-    - run: npm run --prefix ./treasure_bay build --if-present
+    # - run: npm install --prefix ./treasure_bay
+    # - run: npm run --prefix ./treasure_bay build --if-present
