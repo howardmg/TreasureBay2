@@ -81,7 +81,7 @@ function SignUpPage() {
         formData.append("email", email);
         formData.append("password", password);
         try {
-          const response = await axios.post("https://treasure-bay-blue-ocean.herokuapp.com/", formData);
+          const response = await axios.post("https://treasure-bay-blue-ocean.herokuapp.com/createprofile", formData);
           console.log(response)
           setSuccess(true);
           console.log('user created')
